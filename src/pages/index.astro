@@ -12,31 +12,33 @@ import DataCharts from '../components/DataCharts.astro';
 	<!-- Cover Slide -->
 	<section id="hero" class="hero-section">
 		<div class="container">
-			<div class="hero-content">
-				<h1 class="hero-title">JustCook<span class="accent">.app</span></h1>
-				<p class="hero-tagline">Where Cooking Meets Content</p>
-				<div class="hero-cta">
-					<CTAButton 
-						text="Learn More" 
-						href="#problem" 
-						variant="primary" 
-						size="large" 
-					/>
-					<CTAButton 
-						text="Contact Us" 
-						href="#contact" 
-						variant="outline" 
-						size="large" 
+			<div class="hero-grid">
+				<div class="hero-content">
+					<h1 class="hero-title">JustCook<span class="accent">.app</span></h1>
+					<p class="hero-tagline">Where Cooking Meets Content</p>
+					<div class="hero-cta">
+						<CTAButton 
+							text="Learn More" 
+							href="#problem" 
+							variant="primary" 
+							size="large" 
+						/>
+						<CTAButton 
+							text="Contact Us" 
+							href="#contact" 
+							variant="outline" 
+							size="large" 
+						/>
+					</div>
+				</div>
+				<div class="hero-image">
+					<img 
+						src="https://placehold.co/600x800/FF6B35/FFF?text=JustCook+App" 
+						alt="JustCook app interface showing engaging food videos" 
+						width="600" 
+						height="800"
 					/>
 				</div>
-			</div>
-			<div class="hero-image">
-				<img 
-					src="https://placehold.co/600x800/FF6B35/FFF?text=JustCook+App" 
-					alt="JustCook app interface showing engaging food videos" 
-					width="600" 
-					height="800"
-				/>
 			</div>
 		</div>
 		<div class="scroll-indicator">
@@ -932,9 +934,14 @@ export const RecipeScreen = () => {
 		padding: 6rem 0;
 	}
 	
+	.hero-grid {
+		display: grid;
+		gap: 2rem;
+		align-items: center;
+	}
+	
 	.hero-content {
 		max-width: 600px;
-		margin-bottom: 2rem;
 	}
 	
 	.hero-title {
@@ -958,11 +965,16 @@ export const RecipeScreen = () => {
 	.hero-image {
 		max-width: 600px;
 		margin: 0 auto;
+		display: flex;
+		justify-content: center;
 	}
 	
 	.hero-image img {
 		border-radius: 20px;
 		box-shadow: var(--shadow-lg);
+		max-height: 70vh;
+		width: auto;
+		object-fit: contain;
 	}
 	
 	.scroll-indicator {
@@ -987,6 +999,71 @@ export const RecipeScreen = () => {
 		}
 		60% {
 			transform: translateY(-5px) translateX(-50%);
+		}
+	}
+	
+	@media (min-width: 992px) {
+		.hero-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		
+		.hero-content {
+			margin-bottom: 0;
+		}
+		
+		.hero-image {
+			justify-content: flex-end;
+		}
+	}
+	
+	@media (max-width: 991px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+		
+		.hero-content {
+			text-align: center;
+			margin: 0 auto 3rem;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		
+		.hero-cta {
+			justify-content: center;
+		}
+		
+		.hero-image img {
+			max-height: 60vh;
+		}
+		
+		.hero-section {
+			padding-top: 9rem;
+			padding-bottom: 5rem;
+		}
+		
+		.hero-section .container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			padding: 0 1.5rem;
+		}
+	}
+	
+	@media (max-width: 768px) {
+		.hero-title {
+			margin-bottom: 1.5rem;
+			width: 100%;
+			text-align: center;
+		}
+		
+		.hero-tagline {
+			margin-bottom: 2.5rem;
+			width: 100%;
+			text-align: center;
 		}
 	}
 	
@@ -1167,7 +1244,7 @@ export const RecipeScreen = () => {
 	@media (max-width: 768px) {
 		.hero-section {
 			text-align: center;
-			padding: 4rem 0;
+			padding: 7rem 0 4rem;
 		}
 		
 		.hero-content {
