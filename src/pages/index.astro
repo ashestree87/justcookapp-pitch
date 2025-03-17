@@ -33,7 +33,7 @@ import DataCharts from '../components/DataCharts.astro';
 				</div>
 				<div class="hero-image">
 					<img 
-						src="https://placehold.co/600x800/06AFF0/FFF?text=JustCook+App" 
+						src="/images/cook.png" 
 						alt="JustCook app interface showing engaging food videos" 
 						width="600" 
 						height="800"
@@ -81,7 +81,7 @@ import DataCharts from '../components/DataCharts.astro';
 		<div class="solution-container grid grid-2">
 			<div class="solution-image">
 				<img 
-					src="https://placehold.co/400x800/2EC4B6/FFF?text=App+Mockup" 
+					src="/images/filter.png" 
 					alt="JustCook app interface" 
 					width="400" 
 					height="800"
@@ -131,16 +131,13 @@ import DataCharts from '../components/DataCharts.astro';
 				<div class="phone-mockup">
 					<div class="phone-screen">
 						<div class="app-screen active" id="screen1">
-							<img src="https://placehold.co/320x690/06AFF0/FFF?text=Browse" alt="Browse Screen" />
-							<div class="screen-caption">Browse trending recipes</div>
+							<img src="/images/browse.png" alt="Browse Screen" />
 						</div>
 						<div class="app-screen" id="screen2">
-							<img src="https://placehold.co/320x690/2EC4B6/FFF?text=Recipe" alt="Recipe Screen" />
-							<div class="screen-caption">View detailed recipes</div>
+							<img src="/images/parm.jpg" alt="Recipe Screen" />
 						</div>
 						<div class="app-screen" id="screen3">
-							<img src="https://placehold.co/320x690/FFBF69/333?text=Order" alt="Order Screen" />
-							<div class="screen-caption">Order ingredients with one tap</div>
+							<img src="/images/payment.jpg" alt="Order Screen" />
 						</div>
 					</div>
 				</div>
@@ -833,12 +830,12 @@ export const RecipeScreen = () => {
 		<div class="team-grid grid grid-3">
 			<div class="team-member card">
 				<div class="member-photo">
-					<img src="https://placehold.co/300x300/06AFF0/FFF?text=Ashley" alt="Ashley Lane" />
+					<img src="/images/ash.jfif" alt="Ashley Lane" />
 				</div>
 				<div class="member-info">
 					<h3>Ashley Lane</h3>
 					<p class="member-title">Co-Founder & CEO</p>
-					<p>A veteran food entrepreneur, Ashley founded JustCook in 2014, pioneering the meal kit concept in the Middle East.</p>
+					<p>A veteran food entrepreneur and technologist Ashley founded JustCook in 2014, pioneering the meal kit concept in the Middle East.</p>
 				</div>
 			</div>
 			
@@ -847,13 +844,13 @@ export const RecipeScreen = () => {
 					<img src="https://placehold.co/300x300/2EC4B6/FFF?text=CTO" alt="CTO" />
 				</div>
 				<div class="member-info">
-					<h3>Tech Lead</h3>
+					<h3>Jordan Lane</h3>
 					<p class="member-title">Co-Founder & CTO</p>
-					<p>With 10+ years in software development, our CTO specializes in building scalable consumer applications.</p>
+					<p>With 15+ years in software development, our CTO specializes in building scalable consumer applications.</p>
 				</div>
 			</div>
 			
-			<div class="team-member card">
+			<!-- <div class="team-member card">
 				<div class="member-photo">
 					<img src="https://placehold.co/300x300/FFBF69/333?text=Operations" alt="Operations Lead" />
 				</div>
@@ -862,7 +859,7 @@ export const RecipeScreen = () => {
 					<p class="member-title">Head of Operations</p>
 					<p>Formerly operations manager at a national catering company, with 15 years of experience managing kitchens and logistics.</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</PitchSlide>
 
@@ -879,7 +876,7 @@ export const RecipeScreen = () => {
 					<li>
 						<strong>Ashley Lane, CEO</strong><br>
 						<a href="mailto:ashley@justcook.app">ashley@justcook.app</a><br>
-						<a href="tel:+97156653507">+971 56 653 5507</a>
+						<a href="tel:+971551887924">+971 55 188 7924</a>
 					</li>
 					<li>
 						<strong>Tech Team</strong><br>
@@ -889,7 +886,7 @@ export const RecipeScreen = () => {
 				
 				<div class="funding-info mt-4">
 					<h3>Funding Opportunity</h3>
-					<p>We are raising $250,000 to fuel the next 18 months of development and growth. This seed investment will stabilize our operations and fund the rollout of JustCook.app.</p>
+					<p>We are raising $250,000 to fuel the next 18 months of development and growth. This seed investment will stabilize our current operations and fund the rollout of JustCook.app.</p>
 					<CTAButton 
 						text="Request Pitch Deck" 
 						href="mailto:ashley@justcook.app?subject=JustCook.app%20Pitch%20Deck%20Request" 
@@ -1369,17 +1366,8 @@ export const RecipeScreen = () => {
 	
 	.app-screen img {
 		width: 100%;
-		height: calc(100% - 40px);
+		height: calc(100%);
 		object-fit: cover;
-	}
-	
-	.screen-caption {
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #f8f8f8;
-		font-weight: 500;
 	}
 	
 	.app-demo-controls {
@@ -1652,14 +1640,17 @@ export const RecipeScreen = () => {
 	}
 
 	/* Data Visualization Section */
-	.chart-container {
-		height: 300px;
-		padding: 1.5rem;
-	}
-	
-	.chart {
-		height: 100%;
+	.data-viz-container {
 		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	@media (max-width: 768px) {
+		.data-viz-container .chart-row {
+			grid-template-columns: 1fr !important;
+			gap: 2rem;
+		}
 	}
 </style>
 
