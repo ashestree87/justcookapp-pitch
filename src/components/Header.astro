@@ -94,12 +94,11 @@
   // Dark Mode Toggle
   document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.querySelector('.theme-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     
-    // Check for saved theme preference or use the system preference
+    // Check for saved theme preference only, don't use system preference
     const savedTheme = localStorage.getItem('theme');
     
-    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+    if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark-mode');
     }
     

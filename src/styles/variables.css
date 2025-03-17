@@ -36,6 +36,7 @@
 }
 
 /* Dark mode variables (if needed) */
+/* Removing the automatic system preference detection
 @media (prefers-color-scheme: dark) {
   :root {
     --text-primary: #F0F0F0;
@@ -47,6 +48,7 @@
     --bg-card: #2A2A2A;
   }
 }
+*/
 
 /* Add these dark mode variables to your variables.css file */
 .dark-mode {
