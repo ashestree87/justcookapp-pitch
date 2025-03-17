@@ -1,0 +1,103 @@
+---
+export interface Props {
+  text: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'small' | 'medium' | 'large';
+  fullWidth?: boolean;
+}
+
+const { 
+  text, 
+  href, 
+  variant = 'primary',
+  size = 'medium',
+  fullWidth = false
+} = Astro.props;
+---
+
+<a 
+  href={href} 
+  class:list={[
+    'cta-button', 
+    `variant-${variant}`, 
+    `size-${size}`,
+    { 'full-width': fullWidth }
+  ]}
+>
+  {text}
+</a>
+
+<style>
+  .cta-button {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .variant-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: 2px solid var(--color-primary);
+  }
+  
+  .variant-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  }
+  
+  .variant-secondary {
+    background-color: var(--color-secondary);
+    color: white;
+    border: 2px solid var(--color-secondary);
+  }
+  
+  .variant-secondary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 196, 182, 0.3);
+  }
+  
+  .variant-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  
+  .variant-outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .size-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .size-medium {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .size-large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+  
+  .full-width {
+    display: block;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .size-large {
+      padding: 0.75rem 1.5rem;
+    }
+  }
+</style> 

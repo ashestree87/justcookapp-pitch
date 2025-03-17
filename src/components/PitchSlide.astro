@@ -1,0 +1,76 @@
+---
+export interface Props {
+  id: string;
+  title: string;
+  subtitle?: string;
+  bgColor?: string;
+  textColor?: string;
+  fullHeight?: boolean;
+}
+
+const { 
+  id, 
+  title, 
+  subtitle, 
+  bgColor = "var(--bg-primary)", 
+  textColor = "var(--text-primary)",
+  fullHeight = true
+} = Astro.props;
+---
+
+<section 
+  id={id} 
+  class={`slide ${fullHeight ? 'full-height' : ''}`}
+  style={`background-color: ${bgColor}; color: ${textColor};`}
+>
+  <div class="container">
+    <div class="slide-content">
+      <h2 class="slide-title">{title}</h2>
+      {subtitle && <p class="slide-subtitle">{subtitle}</p>}
+      <div class="slide-body">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .slide {
+    position: relative;
+    padding: 4rem 0;
+    scroll-margin-top: 80px;
+  }
+  
+  .full-height {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .slide-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .slide-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  
+  .slide-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 768px) {
+    .slide {
+      padding: 3rem 0;
+    }
+    
+    .full-height {
+      min-height: auto;
+    }
+  }
+</style> 

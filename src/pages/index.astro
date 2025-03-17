@@ -1,11 +1,639 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+import PitchSlide from '../components/PitchSlide.astro';
+import CTAButton from '../components/CTAButton.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout title="JustCook.app - Where Cooking Meets Content">
+	<!-- Cover Slide -->
+	<section id="hero" class="hero-section">
+		<div class="container">
+			<div class="hero-content">
+				<h1 class="hero-title">JustCook<span class="accent">.app</span></h1>
+				<p class="hero-tagline">Where Cooking Meets Content</p>
+				<div class="hero-cta">
+					<CTAButton 
+						text="Learn More" 
+						href="#problem" 
+						variant="primary" 
+						size="large" 
+					/>
+					<CTAButton 
+						text="Contact Us" 
+						href="#contact" 
+						variant="outline" 
+						size="large" 
+					/>
+				</div>
+			</div>
+			<div class="hero-image">
+				<img 
+					src="https://placehold.co/600x800/FF6B35/FFF?text=JustCook+App" 
+					alt="JustCook app interface showing engaging food videos" 
+					width="600" 
+					height="800"
+				/>
+			</div>
+		</div>
+		<div class="scroll-indicator">
+			<span>Scroll</span>
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</div>
+	</section>
+
+	<!-- Problem Statement -->
+	<PitchSlide 
+		id="problem" 
+		title="The Problem" 
+		subtitle="A disconnect between inspiration and action"
+		bgColor="var(--bg-secondary)"
+	>
+		<div class="problem-grid grid grid-3">
+			<div class="problem-card card">
+				<h3>Content Disconnect</h3>
+				<p>Consumers are bombarded with mouth-watering food content on platforms like Instagram and TikTok but lack a way to turn that inspiration into action.</p>
+			</div>
+			<div class="problem-card card">
+				<h3>Missed Monetization</h3>
+				<p>Food content creators struggle to monetize their work effectively, missing out on revenue opportunities from their engaging content.</p>
+			</div>
+			<div class="problem-card card">
+				<h3>Frustration</h3>
+				<p>Users experience frustration from not being able to order or cook the dishes they see, creating a gap between content consumption and practical food solutions.</p>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Solution -->
+	<PitchSlide 
+		id="solution" 
+		title="The Solution" 
+		subtitle="Bridging the gap between food content and cooking"
+	>
+		<div class="solution-container grid grid-2">
+			<div class="solution-image">
+				<img 
+					src="https://placehold.co/400x800/2EC4B6/FFF?text=App+Mockup" 
+					alt="JustCook app interface" 
+					width="400" 
+					height="800"
+				/>
+			</div>
+			<div class="solution-content">
+				<h3>JustCook.app Concept</h3>
+				<p>A hybrid platform where users can browse dynamic, portrait-oriented food content and seamlessly order meal kits to recreate the recipes at home.</p>
+				
+				<div class="features-list">
+					<div class="feature-item">
+						<div class="feature-icon">🛒</div>
+						<div class="feature-text">
+							<h4>Integrated Ordering</h4>
+							<p>Direct linkage from engaging food videos to purchasing fully prepared meal kits.</p>
+						</div>
+					</div>
+					
+					<div class="feature-item">
+						<div class="feature-icon">💰</div>
+						<div class="feature-text">
+							<h4>Creator Monetization</h4>
+							<p>A new revenue stream for food content creators via affiliate sales and commissions.</p>
+						</div>
+					</div>
+					
+					<div class="feature-item">
+						<div class="feature-icon">🌟</div>
+						<div class="feature-text">
+							<h4>Enhanced User Experience</h4>
+							<p>Combines the visual appeal of social media with the practicality of home-cooked meals.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Market Opportunity -->
+	<PitchSlide 
+		id="market" 
+		title="Market Opportunity" 
+		subtitle="Tapping into growing trends"
+		bgColor="var(--bg-secondary)"
+	>
+		<div class="market-content">
+			<div class="market-trends mb-5">
+				<h3>Industry Trends</h3>
+				<div class="trends-grid grid grid-2">
+					<div class="trend-card card">
+						<h4>Rising Demand for Meal Kits</h4>
+						<p>Consumers are increasingly seeking convenient, at-home cooking solutions that provide quality ingredients and recipes.</p>
+						<div class="trend-stat">
+							<span class="stat-number">35%</span>
+							<span class="stat-label">YoY Growth</span>
+						</div>
+					</div>
+					
+					<div class="trend-card card">
+						<h4>Content-Driven Engagement</h4>
+						<p>Social media continues to influence food trends and purchasing behavior, especially among millennials and Gen Z.</p>
+						<div class="trend-stat">
+							<span class="stat-number">68%</span>
+							<span class="stat-label">of users discover recipes on social media</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="market-expansion">
+				<h3>Regional Focus & Expansion</h3>
+				<div class="expansion-map">
+					<div class="expansion-phase">
+						<span class="phase-number">1</span>
+						<div class="phase-content">
+							<h4>Dubai & UAE</h4>
+							<p>Initial launch market with strong digital adoption and food culture</p>
+						</div>
+					</div>
+					
+					<div class="expansion-phase">
+						<span class="phase-number">2</span>
+						<div class="phase-content">
+							<h4>GCC Region</h4>
+							<p>Expansion to neighboring countries with similar demographics</p>
+						</div>
+					</div>
+					
+					<div class="expansion-phase">
+						<span class="phase-number">3</span>
+						<div class="phase-content">
+							<h4>Global Markets</h4>
+							<p>Strategic expansion to key international markets</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- How It Works -->
+	<PitchSlide 
+		id="how-it-works" 
+		title="How It Works" 
+		subtitle="A seamless journey from inspiration to plate"
+	>
+		<div class="process-flow">
+			<div class="process-steps grid grid-3">
+				<div class="process-step card">
+					<div class="step-number">1</div>
+					<div class="step-content">
+						<h4>Browsing</h4>
+						<p>Users scroll through a feed of engaging food videos in portrait mode.</p>
+					</div>
+				</div>
+				
+				<div class="process-step card">
+					<div class="step-number">2</div>
+					<div class="step-content">
+						<h4>Exploration</h4>
+						<p>Tapping a video reveals detailed recipes and meal kit information.</p>
+					</div>
+				</div>
+				
+				<div class="process-step card">
+					<div class="step-number">3</div>
+					<div class="step-content">
+						<h4>Ordering</h4>
+						<p>A seamless process to order the meal kit featuring all necessary ingredients.</p>
+					</div>
+				</div>
+				
+				<div class="process-step card">
+					<div class="step-number">4</div>
+					<div class="step-content">
+						<h4>Delivery</h4>
+						<p>Integrated with third-party last-mile providers ensuring efficient delivery.</p>
+					</div>
+				</div>
+				
+				<div class="process-step card">
+					<div class="step-number">5</div>
+					<div class="step-content">
+						<h4>Cooking</h4>
+						<p>Step-by-step recipes guide users through the cooking process.</p>
+					</div>
+				</div>
+				
+				<div class="process-step card">
+					<div class="step-number">6</div>
+					<div class="step-content">
+						<h4>Sharing</h4>
+						<p>Users can share their cooking results, creating a loop of organic content generation.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Team Section -->
+	<PitchSlide 
+		id="team" 
+		title="Our Team" 
+		subtitle="Experienced professionals with a passion for food and technology"
+		bgColor="var(--bg-secondary)"
+	>
+		<div class="team-grid grid grid-3">
+			<div class="team-member card">
+				<div class="member-photo">
+					<img src="https://placehold.co/300x300/FF6B35/FFF?text=Ashley" alt="Ashley Lane" />
+				</div>
+				<div class="member-info">
+					<h3>Ashley Lane</h3>
+					<p class="member-title">Co-Founder & CEO</p>
+					<p>A veteran food entrepreneur, Ashley founded JustCook in 2014, pioneering the meal kit concept in the Middle East.</p>
+				</div>
+			</div>
+			
+			<div class="team-member card">
+				<div class="member-photo">
+					<img src="https://placehold.co/300x300/2EC4B6/FFF?text=CTO" alt="CTO" />
+				</div>
+				<div class="member-info">
+					<h3>Tech Lead</h3>
+					<p class="member-title">Co-Founder & CTO</p>
+					<p>With 10+ years in software development, our CTO specializes in building scalable consumer applications.</p>
+				</div>
+			</div>
+			
+			<div class="team-member card">
+				<div class="member-photo">
+					<img src="https://placehold.co/300x300/FFBF69/333?text=Operations" alt="Operations Lead" />
+				</div>
+				<div class="member-info">
+					<h3>Operations Lead</h3>
+					<p class="member-title">Head of Operations</p>
+					<p>Formerly operations manager at a national catering company, with 15 years of experience managing kitchens and logistics.</p>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Contact Section -->
+	<PitchSlide 
+		id="contact" 
+		title="Get In Touch" 
+		subtitle="Join us in revolutionizing home cooking"
+	>
+		<div class="contact-container grid grid-2">
+			<div class="contact-info">
+				<h3>Contact Details</h3>
+				<ul class="contact-list">
+					<li>
+						<strong>Ashley Lane, CEO</strong><br>
+						<a href="mailto:ashley@justcook.app">ashley@justcook.app</a><br>
+						<a href="tel:+97156653507">+971 56 653 5507</a>
+					</li>
+					<li>
+						<strong>Tech Team</strong><br>
+						<a href="mailto:tech@justcook.app">tech@justcook.app</a>
+					</li>
+				</ul>
+				
+				<div class="funding-info mt-4">
+					<h3>Funding Opportunity</h3>
+					<p>We are raising $250,000 to fuel the next 18 months of development and growth. This seed investment will stabilize our operations and fund the rollout of JustCook.app.</p>
+					<CTAButton 
+						text="Request Pitch Deck" 
+						href="mailto:ashley@justcook.app?subject=JustCook.app%20Pitch%20Deck%20Request" 
+						variant="primary" 
+						size="medium" 
+					/>
+				</div>
+			</div>
+			
+			<div class="contact-form-container">
+				<form class="contact-form">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" id="name" name="name" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="message">Message</label>
+						<textarea id="message" name="message" rows="5" required></textarea>
+					</div>
+					
+					<button type="submit" class="btn">Send Message</button>
+				</form>
+			</div>
+		</div>
+	</PitchSlide>
+</MainLayout>
+
+<style>
+	/* Hero Section */
+	.hero-section {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		position: relative;
+		padding: 6rem 0;
+	}
+	
+	.hero-content {
+		max-width: 600px;
+		margin-bottom: 2rem;
+	}
+	
+	.hero-title {
+		font-size: clamp(3rem, 8vw, 5rem);
+		margin-bottom: 1rem;
+		line-height: 1.1;
+	}
+	
+	.hero-tagline {
+		font-size: clamp(1.5rem, 4vw, 2rem);
+		margin-bottom: 2rem;
+		opacity: 0.9;
+	}
+	
+	.hero-cta {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	
+	.hero-image {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+	
+	.hero-image img {
+		border-radius: 20px;
+		box-shadow: var(--shadow-lg);
+	}
+	
+	.scroll-indicator {
+		position: absolute;
+		bottom: 2rem;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		opacity: 0.7;
+		animation: bounce 2s infinite;
+	}
+	
+	@keyframes bounce {
+		0%, 20%, 50%, 80%, 100% {
+			transform: translateY(0) translateX(-50%);
+		}
+		40% {
+			transform: translateY(-10px) translateX(-50%);
+		}
+		60% {
+			transform: translateY(-5px) translateX(-50%);
+		}
+	}
+	
+	/* Problem Section */
+	.problem-card {
+		height: 100%;
+	}
+	
+	/* Solution Section */
+	.solution-container {
+		align-items: center;
+	}
+	
+	.solution-image img {
+		border-radius: 20px;
+		box-shadow: var(--shadow-lg);
+	}
+	
+	.features-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+	
+	.feature-item {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-start;
+	}
+	
+	.feature-icon {
+		font-size: 2rem;
+		flex-shrink: 0;
+	}
+	
+	/* Market Section */
+	.trend-stat {
+		margin-top: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1rem;
+		background-color: rgba(46, 196, 182, 0.1);
+		border-radius: var(--radius-md);
+	}
+	
+	.stat-number {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--color-secondary);
+	}
+	
+	.expansion-map {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+	
+	.expansion-phase {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+	}
+	
+	.phase-number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		background-color: var(--color-primary);
+		color: white;
+		border-radius: 50%;
+		font-size: 1.5rem;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+	
+	/* Process Section */
+	.process-step {
+		position: relative;
+		height: 100%;
+	}
+	
+	.step-number {
+		display: inline-block;
+		width: 2.5rem;
+		height: 2.5rem;
+		background-color: var(--color-primary);
+		color: white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+	}
+	
+	/* Team Section */
+	.team-member {
+		text-align: center;
+	}
+	
+	.member-photo {
+		width: 200px;
+		height: 200px;
+		margin: 0 auto 1.5rem;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+	
+	.member-photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	
+	.member-title {
+		color: var(--color-primary);
+		font-weight: 600;
+		margin-bottom: 1rem;
+	}
+	
+	/* Contact Section */
+	.contact-list {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 2rem;
+	}
+	
+	.contact-list li {
+		margin-bottom: 1.5rem;
+	}
+	
+	.contact-form {
+		background: white;
+		padding: 2rem;
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-md);
+	}
+	
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+	
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
+	
+	.form-group input,
+	.form-group textarea {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: var(--radius-md);
+		font-family: inherit;
+		font-size: 1rem;
+	}
+	
+	.form-group input:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+	}
+	
+	.mt-4 {
+		margin-top: 2rem;
+	}
+	
+	/* Responsive Styles */
+	@media (max-width: 768px) {
+		.hero-section {
+			text-align: center;
+			padding: 4rem 0;
+		}
+		
+		.hero-content {
+			margin: 0 auto 3rem;
+		}
+		
+		.hero-cta {
+			justify-content: center;
+		}
+		
+		.grid-3 {
+			grid-template-columns: 1fr;
+		}
+		
+		.solution-container {
+			grid-template-columns: 1fr;
+		}
+		
+		.solution-image {
+			margin-bottom: 2rem;
+			text-align: center;
+		}
+		
+		.solution-image img {
+			max-width: 300px;
+			margin: 0 auto;
+		}
+		
+		.contact-container {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+	}
+</style>
+
+<script>
+	// Fade-in animation for elements
+	document.addEventListener('DOMContentLoaded', () => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('visible');
+				}
+			});
+		}, { threshold: 0.1 });
+		
+		document.querySelectorAll('.card, .feature-item, .expansion-phase, .team-member').forEach(el => {
+			el.classList.add('fade-in');
+			observer.observe(el);
+		});
+	});
+</script>

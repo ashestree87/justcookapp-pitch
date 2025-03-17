@@ -1,0 +1,122 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span class="logo-text">JustCook<span class="accent">.app</span></span>
+        <p class="tagline">Where Cooking Meets Content</p>
+      </div>
+      
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#market">Market</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+          </ul>
+        </div>
+        
+        <div class="link-group">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:ashley@justcook.app">ashley@justcook.app</a></li>
+            <li><a href="tel:+97156653507">+971 56 653 5507</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; {new Date().getFullYear()} JustCook.app. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding: 4rem 0 2rem;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .footer-logo {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .accent {
+    color: var(--color-primary);
+  }
+  
+  .tagline {
+    margin-top: 0.5rem;
+    opacity: 0.8;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+  
+  .link-group h4 {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .link-group ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .link-group li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .link-group a {
+    color: var(--text-light);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s ease, color 0.3s ease;
+  }
+  
+  .link-group a:hover {
+    opacity: 1;
+    color: var(--color-primary);
+  }
+  
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: 3rem;
+    }
+    
+    .footer-links {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+</style> 
