@@ -4,7 +4,7 @@
   </div>
   <div class="container">
     <div class="header-content">
-      <a href="/" class="logo">
+      <a href="#" id="logoLink" class="logo">
         <span class="logo-text">JustCook<span class="accent">.app</span></span>
       </a>
       
@@ -159,6 +159,18 @@
   const scrollToTopBtn = document.getElementById('scrollToTopBtn');
   if (scrollToTopBtn) {
     scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  // Logo smooth scroll to top
+  const logoLink = document.getElementById('logoLink');
+  if (logoLink) {
+    logoLink.addEventListener('click', (e) => {
+      e.preventDefault();
       window.scrollTo({
         top: 0,
         behavior: 'smooth'

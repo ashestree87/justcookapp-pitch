@@ -1,0 +1,20 @@
+{
+  "name": "JustCook.app",
+  "short_name": "JustCook",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#FF6B35",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "start_url": "/"
+} 
