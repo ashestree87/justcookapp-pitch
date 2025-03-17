@@ -1,0 +1,209 @@
+<div class="chart-row grid grid-2">
+  <div class="chart-container card">
+    <h3>User Growth Projection</h3>
+    <div class="chart">
+      <canvas id="userGrowthCanvas"></canvas>
+    </div>
+  </div>
+  
+  <div class="chart-container card">
+    <h3>Revenue Streams</h3>
+    <div class="chart">
+      <canvas id="revenueCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="chart-row grid grid-2 mt-5">
+  <div class="chart-container card">
+    <h3>Market Penetration</h3>
+    <div class="chart">
+      <canvas id="marketCanvas"></canvas>
+    </div>
+  </div>
+  
+  <div class="chart-container card">
+    <h3>User Engagement</h3>
+    <div class="chart">
+      <canvas id="engagementCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // User Growth Chart
+    const userGrowthCtx = document.getElementById('userGrowthCanvas');
+    if (userGrowthCtx) {
+      // @ts-ignore
+      new Chart(userGrowthCtx, {
+        type: 'line',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8'],
+          datasets: [{
+            label: 'Active Users',
+            data: [500, 1200, 2800, 5000, 8500, 12000, 18000, 25000],
+            borderColor: '#FF6B35',
+            backgroundColor: 'rgba(255, 107, 53, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Users'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Quarter'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueCanvas');
+    if (revenueCtx) {
+      // @ts-ignore
+      new Chart(revenueCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Meal Kits', 'Creator Commissions', 'Premium Subscriptions', 'Advertising'],
+          datasets: [{
+            data: [65, 15, 12, 8],
+            backgroundColor: [
+              '#FF6B35',
+              '#2EC4B6',
+              '#FFBF69',
+              '#7B68EE'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+            }
+          }
+        }
+      });
+    }
+    
+    // Market Chart
+    const marketCtx = document.getElementById('marketCanvas');
+    if (marketCtx) {
+      // @ts-ignore
+      new Chart(marketCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Other UAE', 'Saudi Arabia', 'Qatar'],
+          datasets: [{
+            label: 'Current',
+            data: [35, 20, 15, 10, 0, 0],
+            backgroundColor: '#2EC4B6'
+          }, {
+            label: 'Year 1 Target',
+            data: [45, 30, 25, 20, 15, 10],
+            backgroundColor: '#FF6B35'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Market Share (%)'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Engagement Chart
+    const engagementCtx = document.getElementById('engagementCanvas');
+    if (engagementCtx) {
+      // @ts-ignore
+      new Chart(engagementCtx, {
+        type: 'radar',
+        data: {
+          labels: ['Video Views', 'Recipe Saves', 'Orders', 'Shares', 'Comments', 'Cooking Time'],
+          datasets: [{
+            label: 'JustCook.app',
+            data: [90, 85, 70, 80, 75, 65],
+            backgroundColor: 'rgba(255, 107, 53, 0.2)',
+            borderColor: '#FF6B35',
+            pointBackgroundColor: '#FF6B35'
+          }, {
+            label: 'Competitors',
+            data: [70, 60, 50, 65, 55, 80],
+            backgroundColor: 'rgba(46, 196, 182, 0.2)',
+            borderColor: '#2EC4B6',
+            pointBackgroundColor: '#2EC4B6'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: {
+                display: true
+              },
+              suggestedMin: 0,
+              suggestedMax: 100
+            }
+          }
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .chart-container {
+    height: 300px;
+    padding: 1.5rem;
+  }
+  
+  .chart {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .mt-5 {
+    margin-top: 3rem;
+  }
+</style> 
