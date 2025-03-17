@@ -117,6 +117,40 @@ import CTAButton from '../components/CTAButton.astro';
 		</div>
 	</PitchSlide>
 
+	<!-- App Demo -->
+	<PitchSlide 
+		id="app-demo" 
+		title="See It In Action" 
+		subtitle="Experience the JustCook.app interface"
+	>
+		<div class="app-demo-container">
+			<div class="app-screens">
+				<div class="phone-mockup">
+					<div class="phone-screen">
+						<div class="app-screen active" id="screen1">
+							<img src="https://placehold.co/320x690/FF6B35/FFF?text=Browse" alt="Browse Screen" />
+							<div class="screen-caption">Browse trending recipes</div>
+						</div>
+						<div class="app-screen" id="screen2">
+							<img src="https://placehold.co/320x690/2EC4B6/FFF?text=Recipe" alt="Recipe Screen" />
+							<div class="screen-caption">View detailed recipes</div>
+						</div>
+						<div class="app-screen" id="screen3">
+							<img src="https://placehold.co/320x690/FFBF69/333?text=Order" alt="Order Screen" />
+							<div class="screen-caption">Order ingredients with one tap</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="app-demo-controls">
+				<button class="demo-btn active" data-screen="screen1">Browse</button>
+				<button class="demo-btn" data-screen="screen2">Recipe</button>
+				<button class="demo-btn" data-screen="screen3">Order</button>
+			</div>
+		</div>
+	</PitchSlide>
+
 	<!-- Market Opportunity -->
 	<PitchSlide 
 		id="market" 
@@ -233,6 +267,240 @@ import CTAButton from '../components/CTAButton.astro';
 						<h4>Sharing</h4>
 						<p>Users can share their cooking results, creating a loop of organic content generation.</p>
 					</div>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Tech Stack -->
+	<PitchSlide 
+		id="tech-stack" 
+		title="Our Technology" 
+		subtitle="Built with modern, scalable technologies"
+		bgColor="var(--bg-secondary)"
+	>
+		<div class="tech-stack-container">
+			<h3 class="text-center mb-4">Powered by cutting-edge technologies</h3>
+			
+			<div class="tech-categories grid grid-3">
+				<div class="tech-category card">
+					<h4>Frontend</h4>
+					<div class="tech-icons">
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" />
+							<span>React Native</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" />
+							<span>TypeScript</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind CSS" />
+							<span>Tailwind CSS</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="tech-category card">
+					<h4>Backend</h4>
+					<div class="tech-icons">
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" />
+							<span>Node.js</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" alt="GraphQL" />
+							<span>GraphQL</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" />
+							<span>PostgreSQL</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="tech-category card">
+					<h4>Infrastructure</h4>
+					<div class="tech-icons">
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" alt="AWS" />
+							<span>AWS</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" />
+							<span>Docker</span>
+						</div>
+						<div class="tech-icon">
+							<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes" />
+							<span>Kubernetes</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Architecture -->
+	<PitchSlide 
+		id="architecture" 
+		title="Technical Architecture" 
+		subtitle="Scalable, secure, and efficient by design"
+	>
+		<div class="architecture-container">
+			<div class="architecture-diagram">
+				<div class="arch-layer" id="client-layer">
+					<h4 class="layer-title">Client Layer</h4>
+					<div class="arch-components">
+						<div class="arch-component">
+							<div class="component-icon">📱</div>
+							<div class="component-label">Mobile App</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">🌐</div>
+							<div class="component-label">Web App</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="arch-connector"></div>
+				
+				<div class="arch-layer" id="api-layer">
+					<h4 class="layer-title">API Layer</h4>
+					<div class="arch-components">
+						<div class="arch-component">
+							<div class="component-icon">🔄</div>
+							<div class="component-label">GraphQL API</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">🔐</div>
+							<div class="component-label">Auth Service</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="arch-connector"></div>
+				
+				<div class="arch-layer" id="service-layer">
+					<h4 class="layer-title">Service Layer</h4>
+					<div class="arch-components">
+						<div class="arch-component">
+							<div class="component-icon">🍽️</div>
+							<div class="component-label">Recipe Service</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">🛒</div>
+							<div class="component-label">Order Service</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">👤</div>
+							<div class="component-label">User Service</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="arch-connector"></div>
+				
+				<div class="arch-layer" id="data-layer">
+					<h4 class="layer-title">Data Layer</h4>
+					<div class="arch-components">
+						<div class="arch-component">
+							<div class="component-icon">💾</div>
+							<div class="component-label">PostgreSQL</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">📊</div>
+							<div class="component-label">Redis Cache</div>
+						</div>
+						<div class="arch-component">
+							<div class="component-icon">📁</div>
+							<div class="component-label">S3 Storage</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="architecture-features">
+				<div class="arch-feature">
+					<h4>Microservices Architecture</h4>
+					<p>Independently scalable services for better resilience and development velocity</p>
+				</div>
+				<div class="arch-feature">
+					<h4>Real-time Data Processing</h4>
+					<p>Event-driven architecture enables instant updates and notifications</p>
+				</div>
+				<div class="arch-feature">
+					<h4>Global CDN Distribution</h4>
+					<p>Content delivery network ensures fast loading times worldwide</p>
+				</div>
+			</div>
+		</div>
+	</PitchSlide>
+
+	<!-- Performance Metrics -->
+	<PitchSlide 
+		id="performance" 
+		title="Performance Metrics" 
+		subtitle="Built for speed and reliability"
+	>
+		<div class="performance-container">
+			<div class="performance-intro text-center mb-5">
+				<p>Our platform is optimized for speed and efficiency at every level. Here's how we measure up:</p>
+			</div>
+			
+			<div class="metrics-grid grid grid-3">
+				<div class="metric-card card">
+					<div class="metric-value">
+						<span class="counter" data-target="99.9">0</span>%
+					</div>
+					<h4>Uptime</h4>
+					<p>Enterprise-grade reliability with redundant systems and automatic failover</p>
+					<div class="metric-bar">
+						<div class="metric-progress" style="width: 99.9%"></div>
+					</div>
+				</div>
+				
+				<div class="metric-card card">
+					<div class="metric-value">
+						<span class="counter" data-target="0.8">0</span>s
+					</div>
+					<h4>API Response Time</h4>
+					<p>Lightning-fast backend processing with optimized database queries</p>
+					<div class="metric-bar">
+						<div class="metric-progress" style="width: 85%"></div>
+					</div>
+				</div>
+				
+				<div class="metric-card card">
+					<div class="metric-value">
+						<span class="counter" data-target="1.2">0</span>s
+					</div>
+					<h4>App Load Time</h4>
+					<p>Optimized assets and code splitting for rapid initial load</p>
+					<div class="metric-bar">
+						<div class="metric-progress" style="width: 80%"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="optimization-techniques grid grid-2 mt-5">
+				<div class="optimization-card card">
+					<h4>Frontend Optimizations</h4>
+					<ul class="optimization-list">
+						<li>Lazy loading of images and components</li>
+						<li>Efficient state management with Redux Toolkit</li>
+						<li>Memoized components to prevent unnecessary re-renders</li>
+						<li>Service worker for offline capabilities</li>
+					</ul>
+				</div>
+				
+				<div class="optimization-card card">
+					<h4>Backend Optimizations</h4>
+					<ul class="optimization-list">
+						<li>Distributed caching with Redis</li>
+						<li>Database query optimization and indexing</li>
+						<li>Horizontal scaling with containerized microservices</li>
+						<li>CDN integration for static assets</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -618,6 +886,283 @@ import CTAButton from '../components/CTAButton.astro';
 			gap: 3rem;
 		}
 	}
+	
+	/* Tech Stack Section */
+	.tech-category {
+		text-align: center;
+	}
+	
+	.tech-icons {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+	
+	.tech-icon {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
+	.tech-icon img {
+		width: 50px;
+		height: 50px;
+		transition: transform 0.3s ease;
+	}
+	
+	.tech-icon:hover img {
+		transform: scale(1.2);
+	}
+	
+	.tech-icon span {
+		font-size: 0.9rem;
+		font-weight: 500;
+	}
+	
+	/* App Demo Section */
+	.app-demo-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+	}
+	
+	.phone-mockup {
+		width: 340px;
+		height: 700px;
+		background-color: #111;
+		border-radius: 40px;
+		padding: 10px;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+		position: relative;
+	}
+	
+	.phone-screen {
+		width: 320px;
+		height: 680px;
+		background-color: white;
+		border-radius: 30px;
+		overflow: hidden;
+		position: relative;
+	}
+	
+	.app-screen {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.app-screen.active {
+		opacity: 1;
+		z-index: 1;
+	}
+	
+	.app-screen img {
+		width: 100%;
+		height: calc(100% - 40px);
+		object-fit: cover;
+	}
+	
+	.screen-caption {
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #f8f8f8;
+		font-weight: 500;
+	}
+	
+	.app-demo-controls {
+		display: flex;
+		gap: 1rem;
+	}
+	
+	.demo-btn {
+		padding: 0.75rem 1.5rem;
+		background-color: var(--bg-card);
+		border: 2px solid var(--color-primary);
+		border-radius: 8px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+	
+	.demo-btn.active {
+		background-color: var(--color-primary);
+		color: white;
+	}
+	
+	.demo-btn:hover:not(.active) {
+		background-color: rgba(255, 107, 53, 0.1);
+	}
+	
+	/* Architecture Section */
+	.architecture-container {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+	
+	.architecture-diagram {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+	
+	.arch-layer {
+		width: 100%;
+		background-color: var(--bg-card);
+		border-radius: 12px;
+		padding: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+	
+	.layer-title {
+		text-align: center;
+		margin-bottom: 1rem;
+		color: var(--color-primary);
+	}
+	
+	.arch-components {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 2rem;
+	}
+	
+	.arch-component {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		transition: transform 0.3s ease;
+	}
+	
+	.arch-component:hover {
+		transform: translateY(-5px);
+	}
+	
+	.component-icon {
+		font-size: 2rem;
+		background-color: rgba(255, 107, 53, 0.1);
+		width: 60px;
+		height: 60px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 12px;
+	}
+	
+	.component-label {
+		font-weight: 500;
+		font-size: 0.9rem;
+	}
+	
+	.arch-connector {
+		height: 30px;
+		width: 4px;
+		background-color: var(--color-primary);
+		position: relative;
+	}
+	
+	.arch-connector::before,
+	.arch-connector::after {
+		content: '';
+		position: absolute;
+		width: 12px;
+		height: 4px;
+		background-color: var(--color-primary);
+	}
+	
+	.arch-connector::before {
+		top: 0;
+		left: -4px;
+	}
+	
+	.arch-connector::after {
+		bottom: 0;
+		left: -4px;
+	}
+	
+	.architecture-features {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+	
+	.arch-feature {
+		background-color: var(--bg-card);
+		border-radius: 12px;
+		padding: 1.5rem;
+		box-shadow: var(--shadow-md);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.arch-feature:hover {
+		transform: translateY(-5px);
+		box-shadow: var(--shadow-lg);
+	}
+	
+	@media (max-width: 768px) {
+		.architecture-features {
+			grid-template-columns: 1fr;
+		}
+	}
+	
+	/* Performance Metrics Section */
+	.metric-card {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.metric-value {
+		font-size: 3rem;
+		font-weight: 700;
+		color: var(--color-primary);
+		margin-bottom: 0.5rem;
+	}
+	
+	.metric-bar {
+		width: 100%;
+		height: 8px;
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+		margin-top: 1rem;
+		overflow: hidden;
+	}
+	
+	.metric-progress {
+		height: 100%;
+		background-color: var(--color-primary);
+		border-radius: 4px;
+		width: 0;
+		transition: width 2s ease;
+	}
+	
+	.optimization-list {
+		padding-left: 1.5rem;
+		margin-top: 1rem;
+	}
+	
+	.optimization-list li {
+		margin-bottom: 0.75rem;
+	}
+	
+	.mt-5 {
+		margin-top: 3rem;
+	}
 </style>
 
 <script>
@@ -633,6 +1178,65 @@ import CTAButton from '../components/CTAButton.astro';
 		
 		document.querySelectorAll('.card, .feature-item, .expansion-phase, .team-member').forEach(el => {
 			el.classList.add('fade-in');
+			observer.observe(el);
+		});
+	});
+
+	// App Demo Screen Switcher
+	document.addEventListener('DOMContentLoaded', () => {
+		const demoBtns = document.querySelectorAll('.demo-btn');
+		
+		demoBtns.forEach(btn => {
+			btn.addEventListener('click', () => {
+				// Remove active class from all buttons and screens
+				document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('active'));
+				document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+				
+				// Add active class to clicked button and corresponding screen
+				btn.classList.add('active');
+				const screenId = btn.getAttribute('data-screen');
+				document.getElementById(screenId).classList.add('active');
+			});
+		});
+	});
+
+	// Counter Animation
+	document.addEventListener('DOMContentLoaded', () => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const counters = entry.target.querySelectorAll('.counter');
+					
+					counters.forEach(counter => {
+						const target = parseFloat(counter.getAttribute('data-target'));
+						const duration = 2000; // 2 seconds
+						const step = target / (duration / 16); // 60fps
+						
+						let current = 0;
+						const timer = setInterval(() => {
+							current += step;
+							counter.textContent = current.toFixed(1);
+							
+							if (current >= target) {
+								counter.textContent = target.toString();
+								clearInterval(timer);
+							}
+						}, 16);
+					});
+					
+					// Animate progress bars
+					entry.target.querySelectorAll('.metric-progress').forEach(bar => {
+						setTimeout(() => {
+							bar.style.width = bar.getAttribute('style').split('width: ')[1];
+						}, 300);
+					});
+					
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1 });
+		
+		document.querySelector('#performance').querySelectorAll('.metrics-grid').forEach(el => {
 			observer.observe(el);
 		});
 	});
