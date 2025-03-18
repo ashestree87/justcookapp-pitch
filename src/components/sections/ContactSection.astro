@@ -37,7 +37,7 @@ import PitchSlide from "../PitchSlide.astro";
 		</div>
 
 		<div class="contact-form-container">
-			<form class="contact-form">
+			<form class="contact-form" id="contact-form">
 				<div class="form-group">
 					<label for="name">Name</label>
 					<input type="text" id="name" name="name" required />
@@ -49,16 +49,39 @@ import PitchSlide from "../PitchSlide.astro";
 				</div>
 
 				<div class="form-group">
-					<label for="message">Message</label>
-					<textarea id="message" name="message" rows="5" required
-					></textarea>
+					<label for="phone">Phone Number</label>
+					<input type="tel" id="phone" name="phone" placeholder="+1 (123) 456-7890" />
 				</div>
 
-				<button type="submit" class="btn">Send Message</button>
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea id="message" name="message" rows="5" required></textarea>
+				</div>
+
+				<!-- Hidden field to store Turnstile token -->
+				<input type="hidden" id="contact-turnstile-token" name="cf-turnstile-response">
+
+				<!-- Cloudflare Turnstile widget -->
+				<div class="turnstile-container">
+					<div
+						id="contact-turnstile-widget"
+						class="cf-turnstile"
+						data-sitekey="0x4AAAAAAA_8oRbwx6WEQqqT"
+						data-callback="onContactTurnstileSuccess"
+					>
+					</div>
+				</div>
+
+				<div class="form-status" id="contact-form-status"></div>
+
+				<button type="submit" class="btn" id="contact-submit-button">Send Message</button>
 			</form>
 		</div>
 	</div>
 </PitchSlide>
+
+<!-- Add Cloudflare Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <style>
 	/* Contact Section */
@@ -136,10 +159,219 @@ import PitchSlide from "../PitchSlide.astro";
 		color: white;
 	}
 
+	/* Turnstile Container */
+	.turnstile-container {
+		margin-bottom: 1.5rem;
+	}
+
+	/* Form Status */
+	.form-status {
+		margin-bottom: 1.5rem;
+		font-size: 0.9rem;
+	}
+
+	.success-message {
+		color: #10b981;
+		padding: 0.5rem;
+		background-color: rgba(16, 185, 129, 0.1);
+		border-radius: var(--radius-md);
+	}
+
+	.error-message {
+		color: #ef4444;
+		padding: 0.5rem;
+		background-color: rgba(239, 68, 68, 0.1);
+		border-radius: var(--radius-md);
+	}
+
 	@media (max-width: 768px) {
 		.contact-container {
 			grid-template-columns: 1fr;
 			gap: 3rem;
 		}
 	}
-</style> 
+</style>
+
+<script is:inline>
+	// Contact Form Submission with Turnstile
+	document.addEventListener("DOMContentLoaded", () => {
+		// Form inputs animation
+		const formInputs = document.querySelectorAll(
+			".contact-form input, .contact-form textarea"
+		);
+
+		formInputs.forEach((input) => {
+			// Initial check for pre-filled inputs
+			if (input.value) {
+				input.parentElement.classList.add("active");
+			}
+
+			// Focus event
+			input.addEventListener("focus", () => {
+				input.parentElement.classList.add("active");
+			});
+
+			// Blur event
+			input.addEventListener("blur", () => {
+				if (!input.value) {
+					input.parentElement.classList.remove("active");
+				}
+			});
+		});
+
+		// Contact Form Turnstile callback
+		window.onContactTurnstileSuccess = function (token) {
+			// Store the token in both dataset and hidden field
+			const contactForm = document.getElementById("contact-form");
+			const hiddenInput = document.getElementById("contact-turnstile-token");
+			
+			if (contactForm) {
+				contactForm.dataset.turnstileToken = token;
+			}
+			
+			if (hiddenInput) {
+				hiddenInput.value = token;
+			}
+			
+			console.log("Contact form Turnstile success, token received:", token);
+		};
+
+		// Contact Form submission
+		const contactForm = document.getElementById("contact-form");
+		const formStatus = document.getElementById("contact-form-status");
+		const submitBtn = document.getElementById("contact-submit-button");
+
+		if (contactForm) {
+			contactForm.addEventListener("submit", async (e) => {
+				e.preventDefault();
+
+				// Try multiple ways to get the token
+				const hiddenInput = document.getElementById("contact-turnstile-token");
+				let turnstileToken = hiddenInput?.value;
+				
+				// If not in hidden field, try dataset
+				if (!turnstileToken) {
+					turnstileToken = contactForm.dataset.turnstileToken;
+				}
+				
+				// Log the state to debug
+				console.log("Form submission - Token from hidden field:", hiddenInput?.value);
+				console.log("Form submission - Token from dataset:", contactForm.dataset.turnstileToken);
+				
+				// Try to get token directly from turnstile if still not found
+				if (!turnstileToken && window.turnstile) {
+					try {
+						// Try to find the widget ID
+						const widgets = document.querySelectorAll(".cf-turnstile");
+						for (let i = 0; i < widgets.length; i++) {
+							const widgetId = widgets[i].getAttribute("data-widget-id");
+							if (widgetId) {
+								turnstileToken = window.turnstile.getResponse(widgetId);
+								if (turnstileToken) {
+									console.log("Got token from widget:", turnstileToken);
+									break;
+								}
+							}
+						}
+					} catch (error) {
+						console.error("Failed to get token from widget:", error);
+					}
+				}
+
+				if (!turnstileToken) {
+					formStatus.innerHTML =
+						'<div class="error-message">Please complete the security check</div>';
+					return;
+				}
+
+				// Disable button and show loading state
+				submitBtn.disabled = true;
+				submitBtn.innerHTML = "Sending...";
+				formStatus.innerHTML = "";
+
+				// Collect form data
+				const formData = new FormData(contactForm);
+				
+				// Ensure turnstile token is included (it might already be in the form via the hidden input)
+				if (!formData.get("cf-turnstile-response") && turnstileToken) {
+					formData.append("cf-turnstile-response", turnstileToken);
+				}
+				
+				formData.append("notification_email", "ash@livefreshr.com");
+
+				try {
+					// Send data to Cloudflare Worker with proper CORS handling
+					const response = await fetch(
+						"https://form-handler.gpt-chat.workers.dev/",
+						{
+							method: "POST",
+							body: formData,
+							mode: "cors", // Explicitly set CORS mode
+							headers: {
+								Origin: window.location.origin,
+							},
+						}
+					);
+
+					const result = await response.json();
+					console.log("Server response:", result);
+
+					if (response.ok) {
+						// Success
+						formStatus.innerHTML =
+							'<div class="success-message">Message sent successfully!</div>';
+						contactForm.reset();
+						formInputs.forEach((input) => {
+							input.parentElement.classList.remove("active");
+						});
+
+						// Reset Turnstile - use correct method to reset
+						try {
+							if (window.turnstile) {
+								window.turnstile.reset();
+							}
+						} catch (resetError) {
+							console.log("Turnstile reset error:", resetError);
+						}
+
+						// Reset button after delay
+						setTimeout(() => {
+							submitBtn.disabled = false;
+							submitBtn.innerHTML = "Send Message";
+						}, 2000);
+					} else {
+						// Error
+						formStatus.innerHTML = `<div class="error-message">${result.message || "Something went wrong. Please try again."}</div>`;
+						submitBtn.disabled = false;
+						submitBtn.innerHTML = "Send Message";
+
+						// Reset Turnstile - use correct method to reset
+						try {
+							if (window.turnstile) {
+								window.turnstile.reset();
+							}
+						} catch (resetError) {
+							console.log("Turnstile reset error:", resetError);
+						}
+					}
+				} catch (error) {
+					console.error("Form submission error:", error);
+					// Network or other error
+					formStatus.innerHTML =
+						'<div class="error-message">Network error. Please try again later.</div>';
+					submitBtn.disabled = false;
+					submitBtn.innerHTML = "Send Message";
+
+					// Reset Turnstile - use correct method to reset
+					try {
+						if (window.turnstile) {
+							window.turnstile.reset();
+						}
+					} catch (resetError) {
+						console.log("Turnstile reset error:", resetError);
+					}
+				}
+			});
+		}
+	});
+</script> 
