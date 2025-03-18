@@ -26,12 +26,16 @@ import CTAButton from "../CTAButton.astro";
 				</div>
 			</div>
 			<div class="hero-image">
-				<img
-					src="/images/cook.png"
-					alt="JustCook app interface showing engaging food videos"
+				<video
+					src="/videos/cook.mp4"
+					autoplay
+					loop
+					muted
+					playsinline
 					width="600"
 					height="800"
-				/>
+					style="border-radius: 20px; box-shadow: var(--shadow-lg); max-height: 70vh; width: auto; object-fit: contain;"
+				></video>
 			</div>
 		</div>
 	</div>
@@ -100,7 +104,8 @@ import CTAButton from "../CTAButton.astro";
 		justify-content: center;
 	}
 
-	.hero-image img {
+	.hero-image img, 
+	.hero-image video {
 		border-radius: 20px;
 		box-shadow: var(--shadow-lg);
 		max-height: 70vh;
@@ -169,7 +174,8 @@ import CTAButton from "../CTAButton.astro";
 			justify-content: center;
 		}
 
-		.hero-image img {
+		.hero-image img,
+		.hero-image video {
 			max-height: 60vh;
 		}
 
