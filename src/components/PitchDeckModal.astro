@@ -1,0 +1,220 @@
+---
+// Empty frontmatter section is needed for Astro components
+---
+
+<!-- Pitch Deck Request Modal -->
+<div id="pitchDeckModal" class="modal">
+	<div class="modal-content">
+		<span class="close-modal" id="closePitchDeckModal">&times;</span>
+		<h2>Request Pitch Deck</h2>
+		<p>Please fill in your details to download our pitch deck.</p>
+		
+		<form id="pitchDeckForm" class="pitch-deck-form">
+			<div class="form-group">
+				<label for="pitchDeckName">Name</label>
+				<input type="text" id="pitchDeckName" name="name" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="pitchDeckEmail">Email</label>
+				<input type="email" id="pitchDeckEmail" name="email" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="pitchDeckCompany">Company</label>
+				<input type="text" id="pitchDeckCompany" name="company" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="pitchDeckRole">Role</label>
+				<input type="text" id="pitchDeckRole" name="role" required>
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Download Pitch Deck</button>
+		</form>
+	</div>
+</div>
+
+<style>
+	/* Modal Styles */
+	.modal {
+		display: none;
+		position: fixed;
+		z-index: 1100;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.6);
+		backdrop-filter: blur(5px);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+	
+	.modal.show {
+		display: block;
+		opacity: 1;
+	}
+	
+	.modal-content {
+		background-color: var(--bg-card);
+		margin: 10% auto;
+		padding: 2rem;
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-lg);
+		max-width: 500px;
+		width: 90%;
+		transform: translateY(-50px);
+		transition: transform 0.3s ease;
+		position: relative;
+	}
+	
+	.modal.show .modal-content {
+		transform: translateY(0);
+	}
+	
+	.close-modal {
+		position: absolute;
+		top: 1rem;
+		right: 1.5rem;
+		font-size: 1.5rem;
+		font-weight: bold;
+		cursor: pointer;
+		color: var(--text-secondary);
+		transition: color 0.3s ease;
+	}
+	
+	.close-modal:hover {
+		color: var(--color-primary);
+	}
+	
+	.pitch-deck-form {
+		margin-top: 1.5rem;
+	}
+	
+	/* Form Styles */
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
+
+	.form-group input {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: var(--radius-md);
+		font-family: inherit;
+		font-size: 1rem;
+	}
+
+	.form-group input:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+	}
+	
+	/* Button Styles */
+	.btn {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background-color: var(--color-primary);
+		color: white;
+		border: none;
+		border-radius: var(--radius-md);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		text-align: center;
+		text-decoration: none;
+	}
+	
+	.btn:hover {
+		background-color: var(--color-primary-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+	
+	.btn-primary {
+		background-color: var(--color-primary);
+		color: white;
+	}
+</style>
+
+<script>
+	// Pitch Deck Modal
+	document.addEventListener("DOMContentLoaded", () => {
+		const requestBtn = document.getElementById("requestPitchDeckBtn");
+		const modal = document.getElementById("pitchDeckModal");
+		const closeBtn = document.getElementById("closePitchDeckModal");
+		const pitchDeckForm = document.getElementById("pitchDeckForm");
+		
+		// Open modal when request button is clicked
+		if (requestBtn && modal) {
+			requestBtn.addEventListener("click", () => {
+				modal.classList.add("show");
+				document.body.style.overflow = "hidden"; // Prevent background scrolling
+			});
+		}
+		
+		// Close modal when X is clicked
+		if (closeBtn && modal) {
+			closeBtn.addEventListener("click", () => {
+				modal.classList.remove("show");
+				document.body.style.overflow = ""; // Re-enable scrolling
+			});
+		}
+		
+		// Close modal when clicking outside
+		if (modal) {
+			modal.addEventListener("click", (e) => {
+				if (e.target === modal) {
+					modal.classList.remove("show");
+					document.body.style.overflow = ""; // Re-enable scrolling
+				}
+			});
+		}
+		
+		// Handle form submission
+		if (pitchDeckForm) {
+			pitchDeckForm.addEventListener("submit", (e) => {
+				e.preventDefault();
+				
+				// Get form data
+				const name = document.getElementById("pitchDeckName")?.value || "";
+				const email = document.getElementById("pitchDeckEmail")?.value || "";
+				const company = document.getElementById("pitchDeckCompany")?.value || "";
+				const role = document.getElementById("pitchDeckRole")?.value || "";
+				
+				// In a real implementation, you would send this data to your server
+				console.log("Form submitted:", { name, email, company, role });
+				
+				// Simulate saving form data (in a real app, send to your backend)
+				// Then trigger download
+				setTimeout(() => {
+					// Create a download link for the pitch deck PDF
+					const downloadLink = document.createElement("a");
+					downloadLink.href = "/JustCook_Pitch_Deck.pdf"; // Path to your pitch deck PDF
+					downloadLink.download = "JustCook_Pitch_Deck.pdf";
+					document.body.appendChild(downloadLink);
+					downloadLink.click();
+					document.body.removeChild(downloadLink);
+					
+					// Close the modal after download starts
+					if (modal) {
+						modal.classList.remove("show");
+						document.body.style.overflow = ""; // Re-enable scrolling
+					}
+					
+					// Reset form
+					pitchDeckForm.reset();
+				}, 500);
+			});
+		}
+	});
+</script> 

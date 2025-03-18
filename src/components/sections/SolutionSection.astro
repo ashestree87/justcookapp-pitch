@@ -1,0 +1,109 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="solution"
+	title="The Solution"
+	subtitle="Bridging the gap between food content and cooking"
+>
+	<div class="solution-container grid grid-2">
+		<div class="solution-image">
+			<img
+				src="/images/filter.png"
+				alt="JustCook app interface"
+				width="400"
+				height="800"
+			/>
+		</div>
+		<div class="solution-content">
+			<h3>JustCook.app Concept</h3>
+			<p>
+				A hybrid platform where users can browse dynamic,
+				portrait-oriented food content and seamlessly order meal
+				kits to recreate the recipes at home.
+			</p>
+
+			<div class="features-list">
+				<div class="feature-item">
+					<div class="feature-icon">🛒</div>
+					<div class="feature-text">
+						<h4>Integrated Ordering</h4>
+						<p>
+							Direct linkage from engaging food videos to
+							purchasing fully prepared meal kits.
+						</p>
+					</div>
+				</div>
+
+				<div class="feature-item">
+					<div class="feature-icon">💰</div>
+					<div class="feature-text">
+						<h4>Creator Monetization</h4>
+						<p>
+							A new revenue stream for food content creators
+							via affiliate sales and commissions.
+						</p>
+					</div>
+				</div>
+
+				<div class="feature-item">
+					<div class="feature-icon">🌟</div>
+					<div class="feature-text">
+						<h4>Enhanced User Experience</h4>
+						<p>
+							Combines the visual appeal of social media with
+							the practicality of home-cooked meals.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Solution Section */
+	.solution-container {
+		align-items: center;
+	}
+
+	.solution-image img {
+		border-radius: 20px;
+		box-shadow: var(--shadow-lg);
+	}
+
+	.features-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+
+	.feature-item {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-start;
+	}
+
+	.feature-icon {
+		font-size: 2rem;
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 768px) {
+		.solution-container {
+			grid-template-columns: 1fr;
+		}
+
+		.solution-image {
+			margin-bottom: 2rem;
+			text-align: center;
+		}
+
+		.solution-image img {
+			max-width: 300px;
+			margin: 0 auto;
+		}
+	}
+</style> 

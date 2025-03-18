@@ -1,0 +1,225 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="architecture"
+	title="Technical Architecture"
+	subtitle="Scalable, secure, and efficient by design"
+>
+	<div class="architecture-container">
+		<div class="architecture-diagram">
+			<div class="arch-layer" id="client-layer">
+				<h4 class="layer-title">Client Layer</h4>
+				<div class="arch-components">
+					<div class="arch-component">
+						<div class="component-icon">📱</div>
+						<div class="component-label">Mobile App</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">🌐</div>
+						<div class="component-label">Web App</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="arch-connector"></div>
+
+			<div class="arch-layer" id="api-layer">
+				<h4 class="layer-title">API Layer</h4>
+				<div class="arch-components">
+					<div class="arch-component">
+						<div class="component-icon">🔄</div>
+						<div class="component-label">GraphQL API</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">🔐</div>
+						<div class="component-label">Auth Service</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="arch-connector"></div>
+
+			<div class="arch-layer" id="service-layer">
+				<h4 class="layer-title">Service Layer</h4>
+				<div class="arch-components">
+					<div class="arch-component">
+						<div class="component-icon">🍽️</div>
+						<div class="component-label">Recipe Service</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">🛒</div>
+						<div class="component-label">Order Service</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">👤</div>
+						<div class="component-label">User Service</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="arch-connector"></div>
+
+			<div class="arch-layer" id="data-layer">
+				<h4 class="layer-title">Data Layer</h4>
+				<div class="arch-components">
+					<div class="arch-component">
+						<div class="component-icon">💾</div>
+						<div class="component-label">PostgreSQL</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">📊</div>
+						<div class="component-label">Redis Cache</div>
+					</div>
+					<div class="arch-component">
+						<div class="component-icon">📁</div>
+						<div class="component-label">S3 Storage</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="architecture-features">
+			<div class="arch-feature">
+				<h4>Microservices Architecture</h4>
+				<p>
+					Independently scalable services for better resilience
+					and development velocity
+				</p>
+			</div>
+			<div class="arch-feature">
+				<h4>Real-time Data Processing</h4>
+				<p>
+					Event-driven architecture enables instant updates and
+					notifications
+				</p>
+			</div>
+			<div class="arch-feature">
+				<h4>Global CDN Distribution</h4>
+				<p>
+					Content delivery network ensures fast loading times
+					worldwide
+				</p>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Architecture Section */
+	.architecture-container {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.architecture-diagram {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.arch-layer {
+		width: 100%;
+		background-color: var(--bg-card);
+		border-radius: 12px;
+		padding: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	.layer-title {
+		text-align: center;
+		margin-bottom: 1rem;
+		color: var(--color-primary);
+	}
+
+	.arch-components {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 2rem;
+	}
+
+	.arch-component {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		transition: transform 0.3s ease;
+	}
+
+	.arch-component:hover {
+		transform: translateY(-5px);
+	}
+
+	.component-icon {
+		font-size: 2rem;
+		background-color: rgba(255, 107, 53, 0.1);
+		width: 60px;
+		height: 60px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 12px;
+	}
+
+	.component-label {
+		font-weight: 500;
+		font-size: 0.9rem;
+	}
+
+	.arch-connector {
+		height: 30px;
+		width: 4px;
+		background-color: var(--color-primary);
+		position: relative;
+	}
+
+	.arch-connector::before,
+	.arch-connector::after {
+		content: "";
+		position: absolute;
+		width: 12px;
+		height: 4px;
+		background-color: var(--color-primary);
+	}
+
+	.arch-connector::before {
+		top: 0;
+		left: -4px;
+	}
+
+	.arch-connector::after {
+		bottom: 0;
+		left: -4px;
+	}
+
+	.architecture-features {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+
+	.arch-feature {
+		background-color: var(--bg-card);
+		border-radius: 12px;
+		padding: 1.5rem;
+		box-shadow: var(--shadow-md);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.arch-feature:hover {
+		transform: translateY(-5px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	@media (max-width: 768px) {
+		.architecture-features {
+			grid-template-columns: 1fr;
+		}
+	}
+</style> 

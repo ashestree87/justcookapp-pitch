@@ -1,0 +1,108 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="how-it-works"
+	title="How It Works"
+	subtitle="A seamless journey from inspiration to plate"
+>
+	<div class="process-flow">
+		<div class="process-steps grid grid-3">
+			<div class="process-step card">
+				<div class="step-number">1</div>
+				<div class="step-content">
+					<h4>Browsing</h4>
+					<p>
+						Users scroll through a feed of engaging food videos
+						in portrait mode.
+					</p>
+				</div>
+			</div>
+
+			<div class="process-step card">
+				<div class="step-number">2</div>
+				<div class="step-content">
+					<h4>Exploration</h4>
+					<p>
+						Tapping a video reveals detailed recipes and meal
+						kit information.
+					</p>
+				</div>
+			</div>
+
+			<div class="process-step card">
+				<div class="step-number">3</div>
+				<div class="step-content">
+					<h4>Ordering</h4>
+					<p>
+						A seamless process to order the meal kit featuring
+						all necessary ingredients.
+					</p>
+				</div>
+			</div>
+
+			<div class="process-step card">
+				<div class="step-number">4</div>
+				<div class="step-content">
+					<h4>Delivery</h4>
+					<p>
+						Integrated with third-party last-mile providers
+						ensuring efficient delivery.
+					</p>
+				</div>
+			</div>
+
+			<div class="process-step card">
+				<div class="step-number">5</div>
+				<div class="step-content">
+					<h4>Cooking</h4>
+					<p>
+						Step-by-step recipes guide users through the cooking
+						process.
+					</p>
+				</div>
+			</div>
+
+			<div class="process-step card">
+				<div class="step-number">6</div>
+				<div class="step-content">
+					<h4>Sharing</h4>
+					<p>
+						Users can share their cooking results, creating a
+						loop of organic content generation.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Process Section */
+	.process-step {
+		position: relative;
+		height: 100%;
+	}
+
+	.step-number {
+		display: inline-block;
+		width: 2.5rem;
+		height: 2.5rem;
+		background-color: var(--color-primary);
+		color: white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.grid-3 {
+			grid-template-columns: 1fr;
+		}
+	}
+</style> 

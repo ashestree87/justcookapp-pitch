@@ -1,0 +1,133 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="market"
+	title="Market Opportunity"
+	subtitle="Tapping into growing trends"
+	bgColor="var(--bg-secondary)"
+>
+	<div class="market-content">
+		<div class="market-trends mb-5">
+			<h3>Industry Trends</h3>
+			<div class="trends-grid grid grid-2">
+				<div class="trend-card card">
+					<h4>Rising Demand for Meal Kits</h4>
+					<p>
+						Consumers are increasingly seeking convenient,
+						at-home cooking solutions that provide quality
+						ingredients and recipes.
+					</p>
+					<div class="trend-stat">
+						<span class="stat-number">35%</span>
+						<span class="stat-label">YoY Growth</span>
+					</div>
+				</div>
+
+				<div class="trend-card card">
+					<h4>Content-Driven Engagement</h4>
+					<p>
+						Social media continues to influence food trends and
+						purchasing behavior, especially among millennials
+						and Gen Z.
+					</p>
+					<div class="trend-stat">
+						<span class="stat-number">68%</span>
+						<span class="stat-label"
+							>of users discover recipes on social media</span
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="market-expansion">
+			<h3>Regional Focus & Expansion</h3>
+			<div class="expansion-map">
+				<div class="expansion-phase">
+					<span class="phase-number">1</span>
+					<div class="phase-content">
+						<h4>Dubai & UAE</h4>
+						<p>
+							Initial launch market with strong digital
+							adoption and food culture
+						</p>
+					</div>
+				</div>
+
+				<div class="expansion-phase">
+					<span class="phase-number">2</span>
+					<div class="phase-content">
+						<h4>GCC Region</h4>
+						<p>
+							Expansion to neighboring countries with similar
+							demographics
+						</p>
+					</div>
+				</div>
+
+				<div class="expansion-phase">
+					<span class="phase-number">3</span>
+					<div class="phase-content">
+						<h4>Global Markets</h4>
+						<p>
+							Strategic expansion to key international markets
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Market Section */
+	.trend-stat {
+		margin-top: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1rem;
+		background-color: rgba(46, 196, 182, 0.1);
+		border-radius: var(--radius-md);
+	}
+
+	.stat-number {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--color-secondary);
+	}
+
+	.expansion-map {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+
+	.expansion-phase {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.phase-number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		background-color: var(--color-primary);
+		color: white;
+		border-radius: 50%;
+		font-size: 1.5rem;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+
+	.mb-5 {
+		margin-bottom: 3rem;
+	}
+</style> 

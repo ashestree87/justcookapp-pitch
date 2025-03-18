@@ -1,0 +1,145 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="contact"
+	title="Get In Touch"
+	subtitle="Join us in revolutionizing home cooking"
+>
+	<div class="contact-container grid grid-2">
+		<div class="contact-info">
+			<h3>Contact Details</h3>
+			<ul class="contact-list">
+				<li>
+					<strong>Ashley Lane, CEO</strong><br />
+					<a href="mailto:ash@livefreshr.com">ash@livefreshr.com</a><br />
+					<a href="tel:+971551887924">+971 55 188 7924</a>
+				</li>
+			</ul>
+
+			<div class="funding-info mt-4">
+				<h3>Funding Opportunity</h3>
+				<p>
+					We are raising $250,000 to fuel the next 18 months of
+					development and growth. This seed investment will
+					stabilize our current operations and fund the rollout of
+					JustCook.app.
+				</p>
+				<button 
+					id="requestPitchDeckBtn" 
+					class="btn btn-primary"
+					aria-label="Request Pitch Deck"
+				>
+					Request Pitch Deck
+				</button>
+			</div>
+		</div>
+
+		<div class="contact-form-container">
+			<form class="contact-form">
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" required />
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" required />
+				</div>
+
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea id="message" name="message" rows="5" required
+					></textarea>
+				</div>
+
+				<button type="submit" class="btn">Send Message</button>
+			</form>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Contact Section */
+	.contact-list {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 2rem;
+	}
+
+	.contact-list li {
+		margin-bottom: 1.5rem;
+	}
+
+	.contact-form {
+		background: white;
+		padding: 2rem;
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-md);
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
+
+	.form-group input,
+	.form-group textarea {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: var(--radius-md);
+		font-family: inherit;
+		font-size: 1rem;
+	}
+
+	.form-group input:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+	}
+
+	.mt-4 {
+		margin-top: 2rem;
+	}
+
+	/* Button Styles */
+	.btn {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background-color: var(--color-primary);
+		color: white;
+		border: none;
+		border-radius: var(--radius-md);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		text-align: center;
+		text-decoration: none;
+	}
+	
+	.btn:hover {
+		background-color: var(--color-primary-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+	
+	.btn-primary {
+		background-color: var(--color-primary);
+		color: white;
+	}
+
+	@media (max-width: 768px) {
+		.contact-container {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+	}
+</style> 

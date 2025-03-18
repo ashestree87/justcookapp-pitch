@@ -1,0 +1,210 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="performance"
+	title="Performance Metrics"
+	subtitle="Built for speed and reliability"
+>
+	<div class="performance-container">
+		<div class="performance-intro text-center mb-5">
+			<p>
+				Our platform is optimized for speed and efficiency at every
+				level. Here's how we measure up:
+			</p>
+		</div>
+
+		<div class="metrics-grid grid grid-3">
+			<div class="metric-card card">
+				<div class="metric-value">
+					<span class="counter" data-target="99.9">0</span>%
+				</div>
+				<h4>Uptime</h4>
+				<p>
+					Enterprise-grade reliability with redundant systems and
+					automatic failover
+				</p>
+				<div class="metric-bar">
+					<div class="metric-progress" style="width: 99.9%"></div>
+				</div>
+			</div>
+
+			<div class="metric-card card">
+				<div class="metric-value">
+					<span class="counter" data-target="0.8">0</span>s
+				</div>
+				<h4>API Response Time</h4>
+				<p>
+					Lightning-fast backend processing with optimized
+					database queries
+				</p>
+				<div class="metric-bar">
+					<div class="metric-progress" style="width: 85%"></div>
+				</div>
+			</div>
+
+			<div class="metric-card card">
+				<div class="metric-value">
+					<span class="counter" data-target="1.2">0</span>s
+				</div>
+				<h4>App Load Time</h4>
+				<p>
+					Optimized assets and code splitting for rapid initial
+					load
+				</p>
+				<div class="metric-bar">
+					<div class="metric-progress" style="width: 80%"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="optimization-techniques grid grid-2 mt-5">
+			<div class="optimization-card card">
+				<h4>Frontend Optimizations</h4>
+				<ul class="optimization-list">
+					<li>Lazy loading of images and components</li>
+					<li>Efficient state management with Redux Toolkit</li>
+					<li>
+						Memoized components to prevent unnecessary
+						re-renders
+					</li>
+					<li>Service worker for offline capabilities</li>
+				</ul>
+			</div>
+
+			<div class="optimization-card card">
+				<h4>Backend Optimizations</h4>
+				<ul class="optimization-list">
+					<li>Distributed caching with Redis</li>
+					<li>Database query optimization and indexing</li>
+					<li>
+						Horizontal scaling with containerized microservices
+					</li>
+					<li>CDN integration for static assets</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Performance Metrics Section */
+	.text-center {
+		text-align: center;
+	}
+
+	.metric-card {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.metric-value {
+		font-size: 3rem;
+		font-weight: 700;
+		color: var(--color-primary);
+		margin-bottom: 0.5rem;
+	}
+
+	.metric-bar {
+		width: 100%;
+		height: 8px;
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+		margin-top: 1rem;
+		overflow: hidden;
+	}
+
+	.metric-progress {
+		height: 100%;
+		background-color: var(--color-primary);
+		border-radius: 4px;
+		width: 0;
+		transition: width 2s ease;
+	}
+
+	.optimization-list {
+		padding-left: 1.5rem;
+		margin-top: 1rem;
+	}
+
+	.optimization-list li {
+		margin-bottom: 0.75rem;
+	}
+
+	.mb-5 {
+		margin-bottom: 3rem;
+	}
+
+	.mt-5 {
+		margin-top: 3rem;
+	}
+</style>
+
+<script>
+	// Counter Animation
+	document.addEventListener("DOMContentLoaded", () => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const counters =
+							entry.target.querySelectorAll(".counter");
+
+						counters.forEach((counter) => {
+							const target = parseFloat(
+								counter.getAttribute("data-target") || "0",
+							);
+							const duration = 2000; // 2 seconds
+							const step = target / (duration / 16); // 60fps
+
+							let current = 0;
+							const timer = setInterval(() => {
+								current += step;
+								counter.textContent = current.toFixed(1);
+
+								if (current >= target) {
+									counter.textContent = target.toString();
+									clearInterval(timer);
+								}
+							}, 16);
+						});
+
+						// Animate progress bars
+						entry.target
+							.querySelectorAll(".metric-progress")
+							.forEach((bar) => {
+								setTimeout(() => {
+									if (bar instanceof HTMLElement) {
+										const styleAttr =
+											bar.getAttribute("style");
+										if (
+											styleAttr &&
+											styleAttr.includes("width:")
+										) {
+											bar.style.width =
+												styleAttr.split("width: ")[1];
+										}
+									}
+								}, 300);
+							});
+
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1 },
+		);
+
+		const performanceSection = document.querySelector("#performance");
+		if (performanceSection) {
+			const metricsGrids =
+				performanceSection.querySelectorAll(".metrics-grid");
+			metricsGrids.forEach((el) => {
+				observer.observe(el);
+			});
+		}
+	});
+</script> 

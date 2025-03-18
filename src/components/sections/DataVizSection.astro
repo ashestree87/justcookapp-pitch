@@ -1,0 +1,30 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+import DataCharts from "../DataCharts.astro";
+---
+
+<PitchSlide
+	id="data-viz"
+	title="Market Insights"
+	subtitle="Data-driven decision making"
+>
+	<div class="data-viz-container">
+		<DataCharts />
+	</div>
+</PitchSlide>
+
+<style>
+	/* Data Visualization Section */
+	.data-viz-container {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	@media (max-width: 768px) {
+		.data-viz-container :global(.chart-row) {
+			grid-template-columns: 1fr !important;
+			gap: 2rem;
+		}
+	}
+</style> 

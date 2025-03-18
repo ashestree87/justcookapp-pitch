@@ -1,0 +1,77 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="team"
+	title="Our Team"
+	subtitle="Experienced professionals with a passion for food and technology"
+	bgColor="var(--bg-secondary)"
+>
+	<div class="team-grid grid grid-3">
+		<div class="team-member card">
+			<div class="member-photo">
+				<img src="/images/ash.jfif" alt="Ashley Lane" />
+			</div>
+			<div class="member-info">
+				<h3>Ashley Lane</h3>
+				<p class="member-title">Co-Founder & CEO</p>
+				<p>
+					A veteran food entrepreneur and technologist Ashley
+					founded JustCook in 2014, pioneering the meal kit
+					concept in the Middle East.
+				</p>
+			</div>
+		</div>
+
+		<div class="team-member card">
+			<div class="member-photo">
+				<img
+					src="https://placehold.co/300x300/2EC4B6/FFF?text=CTO"
+					alt="CTO"
+				/>
+			</div>
+			<div class="member-info">
+				<h3>Jordan Lane</h3>
+				<p class="member-title">Co-Founder & CTO</p>
+				<p>
+					With 15+ years in software development, our CTO
+					specializes in building scalable consumer applications.
+				</p>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* Team Section */
+	.team-member {
+		text-align: center;
+	}
+
+	.member-photo {
+		width: 200px;
+		height: 200px;
+		margin: 0 auto 1.5rem;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+
+	.member-photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.member-title {
+		color: var(--color-primary);
+		font-weight: 600;
+		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.grid-3 {
+			grid-template-columns: 1fr;
+		}
+	}
+</style> 
