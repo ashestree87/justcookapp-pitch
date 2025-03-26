@@ -20,19 +20,28 @@ import PitchSlide from "../PitchSlide.astro";
 			</ul>
 
 			<div class="funding-info mt-4">
-				<h3>Funding Opportunity</h3>
+				<h3>Investment Opportunity</h3>
 				<p>
-					We are raising $250,000 to fuel the next 18 months of
-					development and growth. This seed investment will stabilize
-					our current operations and fund the rollout of JustCook.app.
+					We are raising $250,000 in seed funding to fuel the next 18
+					months of development and growth. This investment will:
 				</p>
-				<button
+				<ul class="investment-benefits">
+					<li>Stabilize our current operations</li>
+					<li>Fund the full market rollout of JustCook.app</li>
+					<li>Expand our user acquisition channels</li>
+					<li>Secure strategic partnerships with food suppliers</li>
+				</ul>
+				<p class="investor-return mt-2">
+					<strong>Investor Benefits:</strong> Early-stage equity stake
+					with projected 5-7x ROI within 3 years..
+				</p>
+				<!-- <button
 					id="requestPitchDeckBtn"
-					class="btn btn-primary"
+					class="btn btn-primary mt-2"
 					aria-label="Request Pitch Deck"
 				>
-					Request Pitch Deck
-				</button>
+					Request Detailed Pitch Deck
+				</button> -->
 			</div>
 		</div>
 
@@ -54,7 +63,7 @@ import PitchSlide from "../PitchSlide.astro";
 						type="tel"
 						id="phone"
 						name="phone"
-						placeholder="+1 (123) 456-7890"
+						placeholder="+971 (12) 345-6789"
 					/>
 				</div>
 
@@ -70,11 +79,7 @@ import PitchSlide from "../PitchSlide.astro";
 					id="contact-turnstile-token"
 					name="cf-turnstile-response"
 				/>
-				<input
-					type="hidden"
-					name="form-name"
-					value="contact_form"
-				/>
+				<input type="hidden" name="form-name" value="contact_form" />
 
 				<!-- Cloudflare Turnstile widget -->
 				<div class="turnstile-container">
@@ -216,6 +221,36 @@ import PitchSlide from "../PitchSlide.astro";
 			grid-template-columns: 1fr;
 			gap: 3rem;
 		}
+	}
+
+	.mt-2 {
+		margin-top: 1rem;
+	}
+
+	.investment-benefits {
+		padding-left: 1.5rem;
+		margin: 1rem 0;
+		list-style: none;
+	}
+
+	.investment-benefits li {
+		margin-bottom: 0.5rem;
+		position: relative;
+	}
+
+	.investment-benefits li::before {
+		content: "✓";
+		color: var(--color-primary);
+		position: absolute;
+		left: -1.5rem;
+		font-weight: bold;
+	}
+
+	.investor-return {
+		background-color: rgba(255, 107, 53, 0.1);
+		padding: 0.75rem;
+		border-radius: var(--radius-md);
+		border-left: 3px solid var(--color-primary);
 	}
 </style>
 

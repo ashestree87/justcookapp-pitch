@@ -1,0 +1,183 @@
+---
+import PitchSlide from "../PitchSlide.astro";
+---
+
+<PitchSlide
+	id="de-risking"
+	title="De-Risking Your Investment"
+	subtitle="11 years of proven business success"
+	bgColor="var(--bg-secondary)"
+>
+	<div class="de-risking-content">
+		<div class="risk-grid grid grid-3">
+			<div class="risk-card card">
+				<h3>Business History</h3>
+				<p>
+					Est. 2014 with over 250,000 meals delivered and
+					hundreds of catering events for long-term corporate clients.
+				</p>
+				<div class="risk-stat">
+					<span class="stat-number">250k+</span>
+					<span class="stat-label">Meals Delivered</span>
+				</div>
+				<div class="risk-stat mt-3">
+					<span class="stat-number">100s</span>
+					<span class="stat-label">Catering Events</span>
+				</div>
+			</div>
+
+			<div class="risk-card card">
+				<h3>Physical Assets</h3>
+				<p>
+					Leased 6,500 sqft warehouse in Dubai Investment Park 2 with fully fitted
+					commercial kitchen and professional media studio.
+				</p>
+				<div class="risk-stat">
+					<span class="stat-number">6,500</span>
+					<span class="stat-label">sqft Facility</span>
+				</div>
+				<div class="risk-stat mt-3">
+					<span class="stat-number">135k</span>
+					<span class="stat-label">AED Annual Rent</span>
+				</div>
+			</div>
+
+			<div class="risk-card card">
+				<h3>Financial Position</h3>
+				<p>
+					Current operation is slightly below break-even with monthly revenues of 
+					~55,000 AED against operational costs of ~60,000 AED plus rent.
+				</p>
+				<div class="risk-stat">
+					<span class="stat-number">~55k</span>
+					<span class="stat-label">AED Monthly Revenue</span>
+				</div>
+				<div class="risk-stat mt-3">
+					<span class="stat-number">~60k</span>
+					<span class="stat-label">AED Burn Rate</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="expansion-section mt-12">
+			<h3>Growth & Expansion Potential</h3>
+			<div class="expansion-grid grid grid-3">
+				<div class="expansion-card card">
+					<div class="card-header">
+						<span class="phase-icon">🚀</span>
+						<h4>Franchise Model</h4>
+					</div>
+					<p>Ready-to-scale business model with proven operations and established client base across the UAE.</p>
+					<div class="status-tag ready">Ready to Launch</div>
+				</div>
+
+				<div class="expansion-card card">
+					<div class="card-header">
+						<span class="phase-icon">💻</span>
+						<h4>Proprietary SaaS Platform</h4>
+					</div>
+					<p>Fully developed and operational software system for meal planning and delivery businesses.</p>
+					<div class="status-tag built">Already Built</div>
+				</div>
+
+				<div class="expansion-card card">
+					<div class="card-header">
+						<span class="phase-icon">🌐</span>
+						<h4>Market Expansion</h4>
+					</div>
+					<p>Established UAE presence with infrastructure in place for regional growth across the GCC.</p>
+					<div class="status-tag ready">Positioned for Growth</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</PitchSlide>
+
+<style>
+	/* De-Risking Section */
+	.risk-stat {
+		margin-top: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1rem;
+		background-color: rgba(46, 196, 182, 0.1);
+		border-radius: var(--radius-md);
+	}
+
+	.stat-number {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--color-secondary);
+	}
+
+	.risk-card {
+		height: 100%;
+	}
+
+	.expansion-card {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.card-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.card-header h4 {
+		margin: 0;
+	}
+
+	.status-tag {
+		margin-top: auto;
+		padding: 0.5rem 1rem;
+		border-radius: var(--radius-sm);
+		font-weight: 600;
+		font-size: 0.9rem;
+		text-align: center;
+		margin-top: 1.5rem;
+	}
+
+	.status-tag.built {
+		background-color: rgba(16, 185, 129, 0.15);
+		color: rgb(6, 95, 70);
+	}
+
+	.status-tag.ready {
+		background-color: rgba(79, 70, 229, 0.15);
+		color: rgb(55, 48, 163);
+	}
+
+	.expansion-phase {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.phase-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		background-color: var(--color-primary);
+		color: white;
+		border-radius: 50%;
+		font-size: 1.25rem;
+		flex-shrink: 0;
+	}
+
+	.mt-12 {
+		margin-top: 3rem;
+	}
+	
+	.mt-3 {
+		margin-top: 0.75rem;
+	}
+</style> 
