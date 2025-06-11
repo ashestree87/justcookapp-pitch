@@ -1,0 +1,327 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import FinancialModel from "../components/FinancialModel";
+---
+
+<MainLayout title="JustCook - Financial Model & Projections">
+	<main class="financials-page">
+		<section class="intro-section">
+			<div class="container">
+				<nav class="breadcrumb">
+					<a href="/">&larr; Back to Home</a>
+				</nav>
+				<h1>Financial Model & Projections</h1>
+				<p class="intro-text">
+					Explore JustCook's unit economics and financial projections through interactive models. 
+					Adjust key assumptions to see how different scenarios impact our path to profitability.
+				</p>
+				
+				<div class="key-assumptions">
+					<h2>Key Business Assumptions</h2>
+					<div class="assumptions-grid">
+						<div class="assumption-card">
+							<h3>Customer Acquisition</h3>
+							<ul>
+								<li><strong>CAC Range:</strong> AED 60-90 (Bull to Bear)</li>
+								<li><strong>Payback Period:</strong> 2.5-3.5 months target</li>
+								<li><strong>Order Volume:</strong> 60-150 daily orders (Bear to Bull)</li>
+							</ul>
+						</div>
+						
+						<div class="assumption-card">
+							<h3>Revenue Model</h3>
+							<ul>
+								<li><strong>AOV Range:</strong> AED 80-110 (Bear to Bull)</li>
+								<li><strong>Contribution Margin:</strong> 32-42%</li>
+								<li><strong>Order Frequency:</strong> 2.5 orders/customer/month</li>
+							</ul>
+						</div>
+						
+						<div class="assumption-card">
+							<h3>Operational Efficiency</h3>
+							<ul>
+								<li><strong>Fixed Costs:</strong> AED 65K-110K monthly (lean to scaled)</li>
+								<li><strong>Target LTV:CAC:</strong> > 3.5 ratio</li>
+								<li><strong>Churn Rate:</strong> 7-12% monthly (excellent to conservative)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="model-section">
+			<div class="container">
+				<FinancialModel client:load />
+			</div>
+		</section>
+
+		<section class="analysis-section">
+			<div class="container">
+				<h2>Financial Analysis & Insights</h2>
+				
+				<div class="insights-grid">
+					<div class="insight-card">
+						<h3>Unit Economics</h3>
+						<p>
+							Our base case model targets a 4.6 LTV:CAC ratio with AED 95 AOV and AED 75 CAC. 
+							This provides strong unit economics with 2.8-month payback period, enabling rapid sustainable growth.
+						</p>
+						<div class="insight-metric">
+							<span class="metric-number">4.6x</span>
+							<span class="metric-label">LTV:CAC Ratio (Base Case)</span>
+						</div>
+					</div>
+
+					<div class="insight-card">
+						<h3>Scale Economics</h3>
+						<p>
+							Fixed costs of AED 180K/month become increasingly efficient as we scale. 
+							Breakeven occurs around 50 orders/day, with strong margin expansion beyond 80 orders/day.
+						</p>
+						<div class="insight-metric">
+							<span class="metric-number">50</span>
+							<span class="metric-label">Daily orders breakeven target</span>
+						</div>
+					</div>
+
+					<div class="insight-card">
+						<h3>Cash Flow Profile</h3>
+						<p>
+							With AED 500K initial investment, base case projections show positive cumulative cash flow 
+							by month 18-24, with strong acceleration thereafter as customer base compounds.
+						</p>
+						<div class="insight-metric">
+							<span class="metric-number">18-24</span>
+							<span class="metric-label">Months to cash flow positive</span>
+						</div>
+					</div>
+
+					<div class="insight-card">
+						<h3>Scenario Sensitivity</h3>
+						<p>
+							The model shows resilience across scenarios. Even in bear case (higher CAC, lower AOV), 
+							profitability is achievable with disciplined execution and optimized customer acquisition.
+						</p>
+						<div class="insight-metric">
+							<span class="metric-number">3</span>
+							<span class="metric-label">Viable scenarios tested</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="caveats">
+					<h3>Model Assumptions & Limitations</h3>
+					<ul>
+						<li>Linear growth assumptions may not reflect actual S-curve adoption patterns</li>
+						<li>CAC assumes blended digital acquisition cost across social media and performance channels</li>
+						<li>Churn rates based on industry averages; actual retention may vary with product-market fit</li>
+						<li>Fixed costs may scale with growth requirements (fulfillment centers, staff)</li>
+						<li>Model doesn't include potential revenue from advertising or marketplace commissions</li>
+						<li>Seasonality and competitive dynamics not factored into projections</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</main>
+</MainLayout>
+
+<style>
+	.financials-page {
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+		min-height: 100vh;
+		transition: background 0.3s ease;
+	}
+
+	/* Dark mode for financials page */
+	.dark-mode .financials-page {
+		background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+
+	.breadcrumb {
+		margin-bottom: 2rem;
+		text-align: left;
+	}
+
+	.breadcrumb a {
+		color: var(--color-secondary);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.3s ease;
+	}
+
+	.breadcrumb a:hover {
+		color: var(--color-primary);
+	}
+
+	.intro-section {
+		padding: 4rem 0 2rem;
+		text-align: center;
+	}
+
+	.intro-section h1 {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+		color: #1a202c;
+	}
+
+	.intro-text {
+		font-size: 1.2rem;
+		color: #4a5568;
+		max-width: 600px;
+		margin: 0 auto 3rem;
+		line-height: 1.6;
+	}
+
+	.key-assumptions {
+		text-align: left;
+		margin-top: 3rem;
+	}
+
+	.key-assumptions h2 {
+		text-align: center;
+		margin-bottom: 2rem;
+		color: #2d3748;
+	}
+
+	.assumptions-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin-bottom: 3rem;
+	}
+
+	.assumption-card {
+		background: var(--bg-card);
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: var(--shadow-md);
+	}
+
+	.assumption-card h3 {
+		margin: 0 0 1rem 0;
+		color: #2ec4b6;
+		font-size: 1.2rem;
+	}
+
+	.assumption-card ul {
+		margin: 0;
+		padding-left: 1.5rem;
+		color: #4a5568;
+		line-height: 1.6;
+	}
+
+	.assumption-card li {
+		margin-bottom: 0.5rem;
+	}
+
+	.model-section {
+		padding: 2rem 0;
+		background: var(--bg-primary);
+		border-radius: 24px 24px 0 0;
+		margin-top: 2rem;
+		box-shadow: var(--shadow-lg);
+	}
+
+	.analysis-section {
+		padding: 3rem 0;
+		background: var(--bg-primary);
+	}
+
+	.analysis-section h2 {
+		text-align: center;
+		margin-bottom: 3rem;
+		color: #2d3748;
+	}
+
+	.insights-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		margin-bottom: 3rem;
+	}
+
+	.insight-card {
+		background: var(--bg-secondary);
+		padding: 2rem;
+		border-radius: 12px;
+		border-left: 4px solid var(--color-secondary);
+	}
+
+	.insight-card h3 {
+		margin: 0 0 1rem 0;
+		color: #2d3748;
+		font-size: 1.1rem;
+	}
+
+	.insight-card p {
+		color: #4a5568;
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+	}
+
+	.insight-metric {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1rem;
+		background: rgba(46, 196, 182, 0.1);
+		border-radius: 8px;
+	}
+
+	.metric-number {
+		font-size: 2rem;
+		font-weight: 700;
+		color: #2ec4b6;
+		margin-bottom: 0.25rem;
+	}
+
+	.metric-label {
+		font-size: 0.9rem;
+		color: #4a5568;
+	}
+
+	.caveats {
+		background: #fff5f5;
+		padding: 2rem;
+		border-radius: 12px;
+		border-left: 4px solid #fed7d7;
+	}
+
+	.caveats h3 {
+		margin: 0 0 1rem 0;
+		color: #c53030;
+	}
+
+	.caveats ul {
+		margin: 0;
+		padding-left: 1.5rem;
+		color: #4a5568;
+		line-height: 1.6;
+	}
+
+	.caveats li {
+		margin-bottom: 0.5rem;
+	}
+
+	@media (max-width: 768px) {
+		.intro-section h1 {
+			font-size: 2rem;
+		}
+
+		.assumptions-grid, .insights-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.container {
+			padding: 0 1rem;
+		}
+	}
+</style> 

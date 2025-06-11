@@ -4,7 +4,7 @@
   </div>
   <div class="container">
     <div class="header-content">
-      <a href="#" id="logoLink" class="logo">
+      <a href="/" class="logo">
         <span class="logo-text">JustCook<span class="accent">.app</span></span>
       </a>
       
@@ -35,12 +35,13 @@
         </div>
         
         <ul class="nav-list">
-          <li><a href="#problem">Problem</a></li>
-          <li><a href="#solution">Solution</a></li>
-          <li><a href="#market">Market</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+          <li><a href="/#problem" class="nav-link">Problem</a></li>
+          <li><a href="/#solution" class="nav-link">Solution</a></li>
+          <li><a href="/#market" class="nav-link">Market</a></li>
+          <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="/#team" class="nav-link">Team</a></li>
+          <li><a href="/financials" class="nav-link">Financial Model</a></li>
+          <li><a href="/#contact" class="nav-cta">Contact Us</a></li>
         </ul>
       </nav>
     </div>
@@ -65,16 +66,36 @@
     });
   }
   
-  // Close menu when clicking on links
+  // Handle navigation links
   const navLinks = document.querySelectorAll('.nav-list a');
   navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      
+      // Close mobile menu
       const navList = document.querySelector('.nav-list');
       const menuToggle = document.querySelector('.mobile-menu-toggle');
       
       if (navList && menuToggle) {
         navList.classList.remove('active');
         menuToggle.classList.remove('active');
+      }
+      
+      // Handle same-page anchor links
+      if (href && href.startsWith('/#')) {
+        const currentPath = window.location.pathname;
+        if (currentPath === '/' || currentPath === '/index.html') {
+          e.preventDefault();
+          const targetId = href.substring(2); // Remove /#
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+        // For cross-page navigation, let the browser handle it normally
       }
     });
   });
@@ -167,15 +188,19 @@
     });
   }
 
-  // Logo smooth scroll to top
-  const logoLink = document.getElementById('logoLink');
+  // Handle logo clicks based on current page
+  const logoLink = document.querySelector('.logo');
   if (logoLink) {
     logoLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      // If we're on the home page, scroll to top
+      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+      // Otherwise, let the normal navigation happen (go to home page)
     });
   }
 </script>
@@ -197,6 +222,12 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 0.75rem 0;
+  }
+
+  /* Dark mode styles */
+  .dark-mode .header.scrolled {
+    background-color: rgba(18, 18, 18, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
   
   .header-content {

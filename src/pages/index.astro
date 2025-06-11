@@ -39,6 +39,55 @@ import DeRiskingSection from "../components/sections/DeRiskingSection.astro";
 
 <PitchDeckModal />
 
+<!-- Floating Financial Model Button -->
+<div class="financial-model-fab">
+	<a href="/financials" title="View Financial Model">
+		📊 Financial Model
+	</a>
+</div>
+
+<style>
+	.financial-model-fab {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		z-index: 1000;
+	}
+
+	.financial-model-fab a {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: #2ec4b6;
+		color: white;
+		padding: 1rem 1.5rem;
+		border-radius: 50px;
+		text-decoration: none;
+		font-weight: 600;
+		box-shadow: 0 4px 12px rgba(46, 196, 182, 0.3);
+		transition: all 0.3s ease;
+		white-space: nowrap;
+	}
+
+	.financial-model-fab a:hover {
+		background: #26a69a;
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(46, 196, 182, 0.4);
+	}
+
+	@media (max-width: 768px) {
+		.financial-model-fab {
+			bottom: 1rem;
+			right: 1rem;
+		}
+		
+		.financial-model-fab a {
+			padding: 0.75rem 1rem;
+			font-size: 0.9rem;
+		}
+	}
+</style>
+
 <script>
 	// Fade-in animation for elements
 	document.addEventListener("DOMContentLoaded", () => {

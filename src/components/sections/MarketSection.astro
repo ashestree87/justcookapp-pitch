@@ -5,53 +5,78 @@ import PitchSlide from "../PitchSlide.astro";
 <PitchSlide
 	id="market"
 	title="Market Opportunity"
-	subtitle="Tapping into growing trends"
+	subtitle="Tapping into massive, growing trends"
 	bgColor="var(--bg-secondary)"
 >
 	<div class="market-content">
 		<div class="market-trends mb-5">
-			<h3>Industry Trends</h3>
+			<h3>Global Market Size & Growth</h3>
 			<div class="trends-grid grid grid-2">
 				<div class="trend-card card">
-					<h4>Rising Demand for Meal Kits</h4>
+					<h4>Global Meal Kit Market</h4>
 					<p>
-						Consumers are increasingly seeking convenient,
-						at-home cooking solutions that provide quality
-						ingredients and recipes.
+						The global meal kit delivery market was valued at USD 20.54 billion in 2022 
+						and is projected to grow at 15.3% CAGR through 2030, reaching USD 64.27 billion<sup>1</sup>.
 					</p>
 					<div class="trend-stat">
-						<span class="stat-number">35%</span>
-						<span class="stat-label">YoY Growth</span>
+						<span class="stat-number">15.3%</span>
+						<span class="stat-label">Global CAGR 2023-2030</span>
 					</div>
 				</div>
 
 				<div class="trend-card card">
-					<h4>Content-Driven Engagement</h4>
+					<h4>MENA Market Opportunity</h4>
 					<p>
-						Social media continues to influence food trends and
-						purchasing behavior, especially among millennials
-						and Gen Z.
+						The Middle East meal kit market is USD 432M (2024) growing at 15.7% CAGR<sup>2</sup>, 
+						while GCC food e-commerce represents USD 4.2B with 19% CAGR<sup>3</sup>.
+					</p>
+					<div class="trend-stat">
+						<span class="stat-number">19%</span>
+						<span class="stat-label">GCC Food E-commerce CAGR</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="market-trends mb-5">
+			<h3>Content-Driven Food Discovery</h3>
+			<div class="trends-grid grid grid-2">
+				<div class="trend-card card">
+					<h4>Social Media Recipe Discovery</h4>
+					<p>
+						68% of consumers discover new recipes through social media platforms<sup>4</sup>, 
+						with Middle East Instagram penetration at 74% of internet users<sup>5</sup>.
 					</p>
 					<div class="trend-stat">
 						<span class="stat-number">68%</span>
-						<span class="stat-label"
-							>of users discover recipes on social media</span
-						>
+						<span class="stat-label">discover recipes via social media</span>
+					</div>
+				</div>
+
+				<div class="trend-card card">
+					<h4>Growing Home Cooking Trend</h4>
+					<p>
+						54% of consumers cook more at home than before<sup>6</sup>, with 22% ordering 
+						meal kits more frequently as they seek convenience without sacrificing quality.
+					</p>
+					<div class="trend-stat">
+						<span class="stat-number">22%</span>
+						<span class="stat-label">increased meal kit ordering</span>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="market-expansion">
-			<h3>Regional Focus & Expansion</h3>
+			<h3>Our Regional Strategy</h3>
 			<div class="expansion-map">
 				<div class="expansion-phase">
 					<span class="phase-number">1</span>
 					<div class="phase-content">
-						<h4>Dubai & UAE</h4>
+						<h4>Dubai & UAE Launch</h4>
 						<p>
-							Initial launch market with strong digital
-							adoption and food culture
+							Target market with avg. delivery basket of AED 95 ($26)<sup>7</sup> 
+							and strong digital food adoption
 						</p>
 					</div>
 				</div>
@@ -59,10 +84,10 @@ import PitchSlide from "../PitchSlide.astro";
 				<div class="expansion-phase">
 					<span class="phase-number">2</span>
 					<div class="phase-content">
-						<h4>GCC Region</h4>
+						<h4>GCC Region Expansion</h4>
 						<p>
-							Expansion to neighboring countries with similar
-							demographics
+							Scale to Saudi Arabia, Qatar, Kuwait leveraging similar 
+							demographics and food culture preferences
 						</p>
 					</div>
 				</div>
@@ -70,13 +95,27 @@ import PitchSlide from "../PitchSlide.astro";
 				<div class="expansion-phase">
 					<span class="phase-number">3</span>
 					<div class="phase-content">
-						<h4>Global Markets</h4>
-						<p>
-							Strategic expansion to key international markets
-						</p>
+						<h4>MENA Hub Development</h4>
+					<p>
+						Expand content-commerce model to Egypt, Jordan, Lebanon 
+						with localized cuisine and creator partnerships
+					</p>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="references">
+			<h4>Sources</h4>
+			<ol class="text-sm">
+				<li>Grand View Research, "Meal Kit Delivery Services Market Report" (2023)</li>
+				<li>Grand View Research, Middle East Market Analysis (2024)</li>
+				<li>Statista Digital Market Insights, GCC Food E-commerce (2023)</li>
+				<li>Hootsuite "Digital 2024" Global Overview Report</li>
+				<li>DataReportal "Digital 2024" Middle East Report (Jan 2024)</li>
+				<li>HUNTER Consumer Survey (2020), cited in Grand View Research</li>
+				<li>Talabat Annual Report (2023)</li>
+			</ol>
 		</div>
 	</div>
 </PitchSlide>
@@ -129,5 +168,28 @@ import PitchSlide from "../PitchSlide.astro";
 
 	.mb-5 {
 		margin-bottom: 3rem;
+	}
+
+	.references {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid rgba(46, 196, 182, 0.2);
+	}
+
+	.references ol {
+		margin-top: 1rem;
+		padding-left: 1.5rem;
+		line-height: 1.6;
+		color: #666;
+	}
+
+	.references li {
+		margin-bottom: 0.5rem;
+	}
+
+	sup {
+		font-size: 0.7em;
+		color: var(--color-secondary);
+		font-weight: 600;
 	}
 </style> 

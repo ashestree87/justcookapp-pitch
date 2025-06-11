@@ -1,0 +1,7 @@
+name = "justcookapp-pitch"
+compatibility_date = "2024-01-01"
+
+[pages]
+upload_dir = "dist"
+build_command = "npm run build"
+build_output_dir = "dist" 
