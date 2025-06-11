@@ -886,24 +886,71 @@ export default function FinancialModel() {
           .financial-left-panel {
             position: static !important;
             top: auto !important;
+            max-height: none !important;
+            overflow-y: visible !important;
           }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
+          .financial-container {
+            padding: 1rem !important;
+          }
+          .financial-header {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            gap: 1rem !important;
+          }
+          .financial-header > div:first-child {
+            order: 2;
+          }
+          .financial-header > div:last-child {
+            order: 1;
+            align-items: center !important;
+          }
           .financial-scenario-tabs {
             flex-direction: column !important;
             padding: 8px !important;
+            max-width: 100% !important;
+            margin: 0 0 2rem 0 !important;
           }
-          .financial-metrics-grid {
+          .financial-story-metrics {
             grid-template-columns: 1fr !important;
+          }
+          .financial-chart-container {
+            height: 250px !important;
+          }
+          .financial-story-section {
+            padding: 1.5rem !important;
+            margin-bottom: 2rem !important;
+          }
+          .financial-story-title {
+            font-size: 1.25rem !important;
+          }
+          .financial-title {
+            font-size: 2rem !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .financial-container {
+            padding: 0.5rem !important;
+          }
+          .financial-left-panel {
+            padding: 1rem !important;
+          }
+          .financial-story-section {
+            padding: 1rem !important;
+          }
+          .financial-chart-container {
+            height: 200px !important;
           }
         }
       `}</style>
-      <div style={styles.container}>
+      <div className="financial-container" style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div className="financial-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <div>
-            <h1 style={styles.title}>Financial Model</h1>
+            <h1 className="financial-title" style={styles.title}>Financial Model</h1>
             <p style={styles.subtitle}>Interactive scenario analysis with real-time projections</p>
           </div>
           <div style={{
@@ -1071,14 +1118,14 @@ export default function FinancialModel() {
         <div style={styles.rightPanel}>
           
           {/* Story Section 1: Strong Unit Economics */}
-          <div style={styles.storySection}>
-            <h3 style={styles.storyTitle}>1. Proven Unit Economics</h3>
+          <div className="financial-story-section" style={styles.storySection}>
+            <h3 className="financial-story-title" style={styles.storyTitle}>1. Proven Unit Economics</h3>
             <p style={styles.storyText}>
               JustCook demonstrates strong unit economics with healthy LTV:CAC ratios and sustainable profit margins. 
               Our model shows a clear path to profitability with industry-leading efficiency metrics.
             </p>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
               <div style={styles.metricCard}>
                 <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>LTV / CAC Ratio</h4>
                 <div style={{ 
@@ -1116,8 +1163,8 @@ export default function FinancialModel() {
           </div>
 
           {/* Story Section 2: Scalable Growth Trajectory */}
-          <div style={styles.storySection}>
-            <h3 style={styles.storyTitle}>2. Scalable Growth Trajectory</h3>
+          <div className="financial-story-section" style={styles.storySection}>
+            <h3 className="financial-story-title" style={styles.storyTitle}>2. Scalable Growth Trajectory</h3>
             <p style={styles.storyText}>
               Our revenue model shows accelerating growth with improving operational leverage. 
               As we scale, fixed costs become more efficient and profit margins expand significantly.
@@ -1125,7 +1172,7 @@ export default function FinancialModel() {
             
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Revenue Growth & Operational Leverage</h4>
-              <div style={{ height: '350px', width: '100%' }}>
+              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
                 <Line data={revenueChartData} options={chartOptions} />
               </div>
               <div style={styles.chartInsight}>
@@ -1136,8 +1183,8 @@ export default function FinancialModel() {
           </div>
 
           {/* Story Section 3: Clear Path to Profitability */}
-          <div style={styles.storySection}>
-            <h3 style={styles.storyTitle}>3. Clear Path to Profitability</h3>
+          <div className="financial-story-section" style={styles.storySection}>
+            <h3 className="financial-story-title" style={styles.storyTitle}>3. Clear Path to Profitability</h3>
             <p style={styles.storyText}>
               Our P&L projections show a definitive timeline to profitability with strong margin expansion. 
               Operating leverage kicks in as revenue growth outpaces cost increases.
@@ -1145,7 +1192,7 @@ export default function FinancialModel() {
             
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Profit & Loss Progression</h4>
-              <div style={{ height: '350px', width: '100%' }}>
+              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
                 <Line data={plChartData} options={plChartOptions} />
               </div>
               <div style={styles.chartInsight}>
@@ -1157,14 +1204,14 @@ export default function FinancialModel() {
           </div>
 
           {/* Story Section 4: Market Opportunity & Capture */}
-          <div style={styles.storySection}>
-            <h3 style={styles.storyTitle}>4. Massive Market with Clear Capture Strategy</h3>
+          <div className="financial-story-section" style={styles.storySection}>
+            <h3 className="financial-story-title" style={styles.storyTitle}>4. Massive Market with Clear Capture Strategy</h3>
             <p style={styles.storyText}>
               Operating in the $4.2B GCC food e-commerce market, our customer acquisition and retention 
               metrics show sustainable market capture with room for significant expansion.
             </p>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
               <div style={styles.metricCard}>
                 <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Market Penetration</h4>
                 <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
@@ -1192,7 +1239,7 @@ export default function FinancialModel() {
 
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Customer Growth & Business Metrics</h4>
-              <div style={{ height: '350px', width: '100%' }}>
+              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
                 <Line data={businessMetricsData} options={businessMetricsOptions} />
               </div>
               <div style={styles.chartInsight}>
@@ -1203,14 +1250,14 @@ export default function FinancialModel() {
           </div>
 
           {/* Story Section 5: Smart Capital Efficiency */}
-          <div style={styles.storySection}>
-            <h3 style={styles.storyTitle}>5. Capital Efficient Growth</h3>
+          <div className="financial-story-section" style={styles.storySection}>
+            <h3 className="financial-story-title" style={styles.storyTitle}>5. Capital Efficient Growth</h3>
             <p style={styles.storyText}>
               Our funding requirements are optimized for maximum runway and growth. 
               Cash flow projections show when we achieve self-sustaining growth.
             </p>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
               <div style={styles.metricCard}>
                 <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Monthly Burn</h4>
                 <div style={{ 
@@ -1253,7 +1300,7 @@ export default function FinancialModel() {
 
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Cash Flow & Path to Self-Sustainability</h4>
-              <div style={{ height: '350px', width: '100%' }}>
+              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
                 <Line data={cashFlowData} options={cashFlowOptions} />
               </div>
               <div style={styles.chartInsight}>
@@ -1269,4 +1316,4 @@ export default function FinancialModel() {
     </div>
     </>
   );
-} 
+}
