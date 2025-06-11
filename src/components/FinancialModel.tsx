@@ -434,7 +434,7 @@ export default function FinancialModel() {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            return 'AED ' + Number(value).toLocaleString();
+            return 'AED ' + Math.round(Number(value)).toLocaleString();
           },
           maxTicksLimit: 8,
         },
@@ -488,7 +488,7 @@ export default function FinancialModel() {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            return 'AED ' + Number(value).toLocaleString();
+            return 'AED ' + Math.round(Number(value)).toLocaleString();
           },
           maxTicksLimit: 8,
         },
@@ -680,7 +680,7 @@ export default function FinancialModel() {
             <div style={styles.metricCard}>
               <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Monthly Revenue (Year 1)</h4>
               <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                AED {currentMetrics.revenue.toLocaleString()}
+                AED {Math.round(currentMetrics.revenue).toLocaleString()}
               </div>
               <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Month 12 projection</p>
             </div>
@@ -701,7 +701,7 @@ export default function FinancialModel() {
                 margin: '0.5rem 0',
                 color: (metrics[59]?.cumulativeCash || 0) > 0 ? '#059669' : '#dc2626'
               }}>
-                AED {metrics[59]?.cumulativeCash.toLocaleString() || '0'}
+                AED {Math.round(metrics[59]?.cumulativeCash || 0).toLocaleString()}
               </div>
               <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Cumulative cash flow</p>
             </div>
