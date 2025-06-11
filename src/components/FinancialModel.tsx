@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -311,6 +311,7 @@ const styles = {
 
 export default function FinancialModel() {
   const [inputs, setInputs] = useState<ModelInputs>(investmentScenarios.balanced);
+  const [debouncedInputs, setDebouncedInputs] = useState<ModelInputs>(investmentScenarios.balanced);
   const [activeScenario, setActiveScenario] = useState<'conservative' | 'balanced' | 'aggressive'>('balanced');
 
   // Load from localStorage on mount
@@ -318,65 +319,191 @@ export default function FinancialModel() {
     const saved = localStorage.getItem('justcook-financial-inputs');
     if (saved) {
       try {
-        setInputs(JSON.parse(saved));
+        const savedInputs = JSON.parse(saved);
+        setInputs(savedInputs);
+        setDebouncedInputs(savedInputs);
       } catch (e) {
         console.warn('Failed to load saved inputs');
       }
     }
   }, []);
 
-  // Save to localStorage when inputs change
+  // Debounce inputs to reduce chart re-renders and smooth animations
   useEffect(() => {
-    localStorage.setItem('justcook-financial-inputs', JSON.stringify(inputs));
+    const timer = setTimeout(() => {
+      setDebouncedInputs(inputs);
+      localStorage.setItem('justcook-financial-inputs', JSON.stringify(inputs));
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, [inputs]);
 
-  const metrics = useMemo(() => calculateMetrics(inputs), [inputs]);
+  const metrics = useMemo(() => calculateMetrics(debouncedInputs), [debouncedInputs]);
 
-  const handleInputChange = (field: keyof ModelInputs, value: number) => {
+  const handleInputChange = useCallback((field: keyof ModelInputs, value: number) => {
     setInputs(prev => ({ ...prev, [field]: value }));
-    setActiveScenario('balanced'); // Reset scenario when manually changing
-  };
+    setActiveScenario('balanced');
+  }, []);
 
-  const loadScenario = (scenario: 'conservative' | 'balanced' | 'aggressive') => {
-    setInputs(investmentScenarios[scenario]);
+  const loadScenario = useCallback((scenario: 'conservative' | 'balanced' | 'aggressive') => {
+    const scenarioInputs = investmentScenarios[scenario];
+    setInputs(scenarioInputs);
+    setDebouncedInputs(scenarioInputs); // Immediate update for scenario changes
     setActiveScenario(scenario);
-  };
+  }, []);
 
-  const currentMetrics = metrics[11] || metrics[metrics.length - 1]; // Month 12 or last available
+  const currentMetrics = metrics[11] || metrics[metrics.length - 1];
 
-  // Chart data
-  const revenueChartData = {
-    labels: metrics.filter((_, i) => i % 6 === 0).map(m => `Month ${m.month}`),
+  // Stable chart data with fixed labels and smooth animations
+  const chartLabels = ['Month 1', 'Month 6', 'Month 12', 'Month 18', 'Month 24', 'Month 30', 'Month 36', 'Month 42', 'Month 48', 'Month 54', 'Month 60'];
+  
+  const revenueChartData = useMemo(() => ({
+    labels: chartLabels,
     datasets: [
       {
         label: 'Monthly Revenue (AED)',
         data: metrics.filter((_, i) => i % 6 === 0).map(m => m.revenue),
         borderColor: 'rgb(46, 196, 182)',
         backgroundColor: 'rgba(46, 196, 182, 0.1)',
-        tension: 0.3,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 6,
       },
       {
         label: 'EBITDA (AED)',
         data: metrics.filter((_, i) => i % 6 === 0).map(m => m.ebitda),
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        tension: 0.3,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 6,
       }
     ]
-  };
+  }), [metrics]);
 
-  const cashFlowData = {
-    labels: metrics.filter((_, i) => i % 6 === 0).map(m => `Month ${m.month}`),
+  const cashFlowData = useMemo(() => ({
+    labels: chartLabels,
     datasets: [
       {
         label: 'Cumulative Cash Flow (AED)',
         data: metrics.filter((_, i) => i % 6 === 0).map(m => m.cumulativeCash),
         borderColor: currentMetrics.ltvCacRatio > 3 ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)',
         backgroundColor: currentMetrics.ltvCacRatio > 3 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-        tension: 0.3,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 6,
       }
     ]
-  };
+  }), [metrics, currentMetrics.ltvCacRatio]);
+
+  // Stable chart options to prevent axis jumping
+  const chartOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 750,
+      easing: 'easeInOutQuart' as const,
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'var(--text-primary)',
+          usePointStyle: true,
+          padding: 20,
+        }
+      },
+      tooltip: {
+        mode: 'index' as const,
+        intersect: false,
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'var(--text-secondary)',
+          maxTicksLimit: 6,
+        },
+        grid: {
+          color: 'rgba(128, 128, 128, 0.1)',
+          drawBorder: false,
+        }
+      },
+      y: {
+        min: -600000, // Fixed minimum to prevent axis jumping
+        max: 2000000, // Fixed maximum for stability
+        ticks: {
+          color: 'var(--text-secondary)',
+          callback: function(value: any) {
+            return 'AED ' + Number(value).toLocaleString();
+          },
+          maxTicksLimit: 8,
+        },
+        grid: {
+          color: 'rgba(128, 128, 128, 0.1)',
+          drawBorder: false,
+        }
+      }
+    },
+    interaction: {
+      mode: 'nearest' as const,
+      axis: 'x' as const,
+      intersect: false,
+    }
+  }), []);
+
+  const cashFlowOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 750,
+      easing: 'easeInOutQuart' as const,
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'var(--text-primary)',
+          usePointStyle: true,
+          padding: 20,
+        }
+      },
+      tooltip: {
+        mode: 'index' as const,
+        intersect: false,
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'var(--text-secondary)',
+          maxTicksLimit: 6,
+        },
+        grid: {
+          color: 'rgba(128, 128, 128, 0.1)',
+          drawBorder: false,
+        }
+      },
+      y: {
+        min: -800000, // Fixed minimum for cash flow
+        max: 3000000, // Fixed maximum for cash flow
+        ticks: {
+          color: 'var(--text-secondary)',
+          callback: function(value: any) {
+            return 'AED ' + Number(value).toLocaleString();
+          },
+          maxTicksLimit: 8,
+        },
+        grid: {
+          color: 'rgba(128, 128, 128, 0.1)',
+          drawBorder: false,
+        }
+      }
+    },
+    interaction: {
+      mode: 'nearest' as const,
+      axis: 'x' as const,
+      intersect: false,
+    }
+  }), []);
 
   return (
     <>
@@ -584,73 +711,16 @@ export default function FinancialModel() {
           <div style={styles.chartsContainer}>
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Revenue & EBITDA Projection</h4>
-              <Line data={revenueChartData} options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    labels: {
-                      color: 'var(--text-primary)'
-                    }
-                  }
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: 'var(--text-secondary)'
-                    },
-                    grid: {
-                      color: 'rgba(128, 128, 128, 0.2)'
-                    }
-                  },
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      color: 'var(--text-secondary)',
-                      callback: function(value) {
-                        return 'AED ' + Number(value).toLocaleString();
-                      }
-                    },
-                    grid: {
-                      color: 'rgba(128, 128, 128, 0.2)'
-                    }
-                  }
-                }
-              }} />
+              <div style={{ height: '350px', width: '100%' }}>
+                <Line data={revenueChartData} options={chartOptions} />
+              </div>
             </div>
 
             <div style={styles.chartCard}>
               <h4 style={styles.chartTitle}>Cumulative Cash Flow</h4>
-              <Line data={cashFlowData} options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    labels: {
-                      color: 'var(--text-primary)'
-                    }
-                  }
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: 'var(--text-secondary)'
-                    },
-                    grid: {
-                      color: 'rgba(128, 128, 128, 0.2)'
-                    }
-                  },
-                  y: {
-                    ticks: {
-                      color: 'var(--text-secondary)',
-                      callback: function(value) {
-                        return 'AED ' + Number(value).toLocaleString();
-                      }
-                    },
-                    grid: {
-                      color: 'rgba(128, 128, 128, 0.2)'
-                    }
-                  }
-                }
-              }} />
+              <div style={{ height: '350px', width: '100%' }}>
+                <Line data={cashFlowData} options={cashFlowOptions} />
+              </div>
             </div>
           </div>
         </div>
