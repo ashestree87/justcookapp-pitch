@@ -181,340 +181,87 @@ function calculateMetrics(inputs: ModelInputs): MonthlyMetrics[] {
   return results;
 }
 
-const styles = {
-  container: {
-    maxWidth: '1400px',
-    margin: '0 auto',
-    padding: '2rem',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    lineHeight: 1.5
-  },
-  header: {
-    textAlign: 'center' as const,
-    marginBottom: '3rem'
-  },
-  title: {
-    fontSize: '2.5rem',
-    fontWeight: 700,
-    background: 'linear-gradient(135deg, #2ec4b6, #0077be)',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    marginBottom: '0.5rem'
-  },
-  subtitle: {
-    fontSize: '1.1rem',
-    color: 'var(--text-secondary)',
-    fontWeight: 400
-  },
-  scenarioTabs: {
-    display: 'flex',
-    background: 'var(--bg-card)',
-    border: '1px solid #e5e7eb',
-    borderRadius: '16px',
-    padding: '4px',
-    marginBottom: '3rem',
-    justifyContent: 'center',
-    maxWidth: '500px',
-    margin: '0 auto 3rem auto',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-  },
-  scenarioTab: {
-    flex: 1,
-    padding: '12px 24px',
-    border: 'none',
-    background: 'transparent',
-    color: 'var(--text-secondary)',
-    borderRadius: '12px',
-    cursor: 'pointer',
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    position: 'relative' as const,
-    textAlign: 'center' as const
-  },
-  scenarioTabActive: {
-    background: 'linear-gradient(135deg, #2ec4b6, #0077be)',
-    color: 'white',
-    transform: 'translateY(-1px)',
-    boxShadow: '0 4px 12px rgba(46, 196, 182, 0.4)'
-  },
-  mainLayout: {
-    display: 'grid',
-    gridTemplateColumns: '380px 1fr',
-    gap: '2rem',
-    alignItems: 'start',
-    '@media (max-width: 1024px)': {
-      gridTemplateColumns: '1fr',
-      gap: '1.5rem'
-    }
-  },
-  leftPanel: {
-    position: 'sticky' as const,
-    top: '2rem',
-    background: 'var(--bg-card)',
-    borderRadius: '20px',
-    padding: '2rem',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-    border: '1px solid #f3f4f6',
-    maxHeight: 'calc(100vh - 4rem)',
-    overflowY: 'auto' as const,
-    scrollbarWidth: 'thin' as const,
-    '@media (max-width: 1024px)': {
-      position: 'static',
-      top: 'auto',
-      maxHeight: 'none',
-      overflowY: 'visible'
-    }
-  },
-  rightPanel: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '2rem'
-  },
-  sectionTitle: {
-    fontSize: '1.2rem',
-    fontWeight: 600,
-    color: 'var(--text-heading)',
-    marginBottom: '1.5rem',
-    textAlign: 'center' as const
-  },
-  controlGroup: {
-    marginBottom: '1.5rem'
-  },
-  controlLabel: {
-    fontSize: '0.9rem',
-    fontWeight: 600,
-    color: 'var(--text-heading)',
-    marginBottom: '0.75rem',
-    display: 'block'
-  },
-  slider: {
-    width: '100%',
-    height: '6px',
-    borderRadius: '3px',
-    background: '#e5e7eb',
-    outline: 'none',
-    appearance: 'none' as const,
-    WebkitAppearance: 'none' as const,
-    cursor: 'pointer',
-    marginBottom: '0.5rem'
-  },
-  sliderValue: {
-    fontSize: '1rem',
-    fontWeight: 600,
-    color: '#2ec4b6',
-    textAlign: 'center' as const
-  },
-  metricsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '1rem',
-    marginBottom: '2rem'
-  },
-  metricCard: {
-    background: 'var(--bg-card)',
-    padding: '1.5rem',
-    borderRadius: '16px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-    border: '1px solid #f3f4f6',
-    textAlign: 'center' as const,
-    transition: 'transform 0.2s ease'
-  },
-  chartsContainer: {
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    gap: '2rem'
-  },
-  chartCard: {
-    background: 'var(--bg-card)',
-    borderRadius: '20px',
-    padding: '2rem',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-    border: '1px solid #f3f4f6'
-  },
-  chartTitle: {
-    fontSize: '1.1rem',
-    fontWeight: 600,
-    color: 'var(--text-heading)',
-    marginBottom: '1.5rem',
-    textAlign: 'center' as const
-  },
-  storySection: {
-    marginBottom: '3rem',
-    padding: '2rem',
-    background: 'rgba(255, 255, 255, 0.02)',
-    borderRadius: '16px',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    backdropFilter: 'blur(20px)'
-  },
-  storyTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 700,
-    color: 'var(--text-heading)',
-    marginBottom: '1rem',
-    background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
-  },
-  storyText: {
-    fontSize: '1rem',
-    lineHeight: '1.6',
-    color: 'var(--text-body)',
-    marginBottom: '2rem',
-    opacity: 0.9
-  },
-  chartInsight: {
-    marginTop: '1rem',
-    padding: '1rem',
-    background: 'rgba(59, 130, 246, 0.1)',
-    border: '1px solid rgba(59, 130, 246, 0.2)',
-    borderRadius: '8px',
-    fontSize: '0.9rem',
-    color: 'var(--text-body)',
-    lineHeight: '1.5'
-  },
-  responsiveLayout: {
-    '@media (max-width: 1024px)': {
-      gridTemplateColumns: '1fr',
-      gap: '1.5rem'
-    }
-  }
-};
-
-// Currency conversion rates (base: AED)
+// Exchange rates
 const exchangeRates = {
   AED: 1,
-  USD: 0.272, // 1 AED = 0.272 USD
-  EUR: 0.249  // 1 AED = 0.249 EUR
-};
-
-const currencySymbols = {
-  AED: 'AED',
-  USD: '$',
-  EUR: '€'
+  USD: 0.272,
+  EUR: 0.249
 };
 
 type Currency = keyof typeof exchangeRates;
 
 export default function FinancialModel() {
+  const [selectedScenario, setSelectedScenario] = useState<keyof typeof investmentScenarios>('balanced');
   const [inputs, setInputs] = useState<ModelInputs>(investmentScenarios.balanced);
-  const [debouncedInputs, setDebouncedInputs] = useState<ModelInputs>(investmentScenarios.balanced);
-  const [activeScenario, setActiveScenario] = useState<'conservative' | 'balanced' | 'aggressive'>('balanced');
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>('AED');
+  const [metrics, setMetrics] = useState<MonthlyMetrics[]>([]);
 
-  // Load from localStorage on mount
+  // Calculate metrics when inputs change
   useEffect(() => {
-    const saved = localStorage.getItem('justcook-financial-inputs');
-    if (saved) {
-      try {
-        const savedInputs = JSON.parse(saved);
-        setInputs(savedInputs);
-        setDebouncedInputs(savedInputs);
-      } catch (e) {
-        console.warn('Failed to load saved inputs');
-      }
-    }
-  }, []);
-
-  // Debounce inputs to reduce chart re-renders and smooth animations
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedInputs(inputs);
-      localStorage.setItem('justcook-financial-inputs', JSON.stringify(inputs));
-    }, 200);
-
-    return () => clearTimeout(timer);
+    const calculatedMetrics = calculateMetrics(inputs);
+    setMetrics(calculatedMetrics);
   }, [inputs]);
 
-  const metrics = useMemo(() => calculateMetrics(debouncedInputs), [debouncedInputs]);
-
-  const handleInputChange = useCallback((field: keyof ModelInputs, value: number) => {
-    setInputs(prev => ({ ...prev, [field]: value }));
-    setActiveScenario('balanced');
-  }, []);
-
-  const loadScenario = useCallback((scenario: 'conservative' | 'balanced' | 'aggressive') => {
-    const scenarioInputs = investmentScenarios[scenario];
-    setInputs(scenarioInputs);
-    setDebouncedInputs(scenarioInputs); // Immediate update for scenario changes
-    setActiveScenario(scenario);
-  }, []);
-
   // Currency conversion function
-  const convertCurrency = useCallback((amountInAED: number, targetCurrency: Currency = selectedCurrency): number => {
-    return amountInAED * exchangeRates[targetCurrency];
+  const convertCurrency = useCallback((amount: number, fromCurrency: Currency = 'AED') => {
+    if (fromCurrency === selectedCurrency) return amount;
+    
+    // Convert to AED first if not already
+    const aedAmount = fromCurrency === 'AED' ? amount : amount / exchangeRates[fromCurrency];
+    
+    // Convert from AED to target currency
+    return aedAmount * exchangeRates[selectedCurrency];
   }, [selectedCurrency]);
 
-  // Format currency with proper symbol
-  const formatCurrency = useCallback((amountInAED: number, targetCurrency: Currency = selectedCurrency): string => {
-    const convertedAmount = convertCurrency(amountInAED, targetCurrency);
-    const symbol = currencySymbols[targetCurrency];
-    return symbol === 'AED' ? 
-      `AED ${Math.round(convertedAmount).toLocaleString()}` : 
-      `${symbol}${Math.round(convertedAmount).toLocaleString()}`;
+  // Format currency helper
+  const formatCurrency = useCallback((amount: number, fromCurrency: Currency = 'AED') => {
+    const convertedAmount = convertCurrency(amount, fromCurrency);
+    const roundedAmount = Math.round(convertedAmount);
+    
+    const symbols = { AED: '', USD: '$', EUR: '€' };
+    const suffix = selectedCurrency === 'AED' ? ' AED' : '';
+    
+    return `${symbols[selectedCurrency]}${roundedAmount.toLocaleString()}${suffix}`;
   }, [convertCurrency, selectedCurrency]);
+
+  const updateInputs = (newInputs: Partial<ModelInputs>) => {
+    setInputs(prev => ({ ...prev, ...newInputs }));
+  };
+
+  const loadScenario = (scenario: keyof typeof investmentScenarios) => {
+    setSelectedScenario(scenario);
+    setInputs(investmentScenarios[scenario]);
+  };
 
   const currentMetrics = metrics[11] || metrics[metrics.length - 1];
 
-  // Calculate dynamic axis ranges with padding
-  const revenueAxisRange = useMemo(() => {
-    const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
-    const revenues = filteredMetrics.map(m => convertCurrency(m.revenue));
-    const ebitdas = filteredMetrics.map(m => convertCurrency(m.ebitda));
-    const allValues = [...revenues, ...ebitdas];
-    
-    const min = Math.min(...allValues);
-    const max = Math.max(...allValues);
-    const padding = Math.abs(max - min) * 0.1; // 10% padding
-    
-    const roundingFactor = selectedCurrency === 'AED' ? 100000 : 50000; // Different rounding for different currencies
-    return {
-      min: Math.floor((min - padding) / roundingFactor) * roundingFactor,
-      max: Math.ceil((max + padding) / roundingFactor) * roundingFactor
-    };
-  }, [metrics, convertCurrency, selectedCurrency]);
-
-  const cashFlowAxisRange = useMemo(() => {
-    const cashFlows = metrics.filter((_, i) => i % 6 === 0).map(m => convertCurrency(m.cumulativeCash));
-    const min = Math.min(...cashFlows);
-    const max = Math.max(...cashFlows);
-    const padding = Math.abs(max - min) * 0.1; // 10% padding
-    
-    const roundingFactor = selectedCurrency === 'AED' ? 100000 : 50000; // Different rounding for different currencies
-    return {
-      min: Math.floor((min - padding) / roundingFactor) * roundingFactor,
-      max: Math.ceil((max + padding) / roundingFactor) * roundingFactor
-    };
-  }, [metrics, convertCurrency, selectedCurrency]);
-
-  // Stable chart data with fixed labels and smooth animations
+  // Chart data
   const chartLabels = ['Month 1', 'Month 6', 'Month 12', 'Month 18', 'Month 24', 'Month 30', 'Month 36', 'Month 42', 'Month 48', 'Month 54', 'Month 60'];
   
   const revenueChartData = useMemo(() => {
     const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
     return {
       labels: chartLabels,
-              datasets: [
-          {
-            label: `Monthly Revenue (${selectedCurrency})`,
-            data: filteredMetrics.map(m => convertCurrency(m.revenue)),
-            borderColor: 'rgb(46, 196, 182)',
-            backgroundColor: 'rgba(46, 196, 182, 0.1)',
-            tension: 0.4,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-          },
-          {
-            label: `EBITDA (${selectedCurrency})`,
-            data: filteredMetrics.map(m => convertCurrency(m.ebitda)),
-            borderColor: 'rgb(59, 130, 246)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            tension: 0.4,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-          }
-        ]
+      datasets: [
+        {
+          label: `Monthly Revenue (${selectedCurrency})`,
+          data: filteredMetrics.map(m => convertCurrency(m.revenue)),
+          borderColor: 'rgb(46, 196, 182)',
+          backgroundColor: 'rgba(46, 196, 182, 0.1)',
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        },
+        {
+          label: `EBITDA (${selectedCurrency})`,
+          data: filteredMetrics.map(m => convertCurrency(m.ebitda)),
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        }
+      ]
     };
   }, [metrics, selectedCurrency, convertCurrency]);
 
@@ -524,16 +271,15 @@ export default function FinancialModel() {
       {
         label: `Cumulative Cash Flow (${selectedCurrency})`,
         data: metrics.filter((_, i) => i % 6 === 0).map(m => convertCurrency(m.cumulativeCash)),
-        borderColor: currentMetrics.ltvCacRatio > 3 ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)',
-        backgroundColor: currentMetrics.ltvCacRatio > 3 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+        borderColor: (metrics[11]?.ltvCacRatio || 0) > 3 ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)',
+        backgroundColor: (metrics[11]?.ltvCacRatio || 0) > 3 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
         tension: 0.4,
         pointRadius: 0,
         pointHoverRadius: 6,
       }
     ]
-  }), [metrics, currentMetrics.ltvCacRatio, selectedCurrency, convertCurrency]);
+  }), [metrics, currentMetrics?.ltvCacRatio, selectedCurrency, convertCurrency]);
 
-  // P&L Chart Data
   const plChartData = useMemo(() => {
     const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
     return {
@@ -570,7 +316,6 @@ export default function FinancialModel() {
     };
   }, [metrics, selectedCurrency, convertCurrency, inputs.fixedCostsPerMonth]);
 
-  // Business Metrics Chart Data
   const businessMetricsData = useMemo(() => {
     const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
     return {
@@ -610,7 +355,6 @@ export default function FinancialModel() {
     };
   }, [metrics, selectedCurrency, convertCurrency]);
 
-  // Stable chart options to prevent axis jumping
   const chartOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
@@ -639,135 +383,21 @@ export default function FinancialModel() {
         },
         grid: {
           color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
-        }
-      },
-      y: {
-        min: revenueAxisRange.min,
-        max: revenueAxisRange.max,
-        ticks: {
-          color: 'var(--text-secondary)',
-          callback: function(value: any) {
-            const symbol = currencySymbols[selectedCurrency];
-            const formatted = Math.round(Number(value)).toLocaleString();
-            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
-          },
-          maxTicksLimit: 8,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
-        }
-      }
-    },
-    interaction: {
-      mode: 'nearest' as const,
-      axis: 'x' as const,
-      intersect: false,
-    }
-  }), [revenueAxisRange, selectedCurrency]);
-
-  const cashFlowOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 750,
-      easing: 'easeInOutQuart' as const,
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: 'var(--text-primary)',
-          usePointStyle: true,
-          padding: 20,
-        }
-      },
-      tooltip: {
-        mode: 'index' as const,
-        intersect: false,
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'var(--text-secondary)',
-          maxTicksLimit: 6,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
-        }
-      },
-      y: {
-        min: cashFlowAxisRange.min,
-        max: cashFlowAxisRange.max,
-        ticks: {
-          color: 'var(--text-secondary)',
-          callback: function(value: any) {
-            const symbol = currencySymbols[selectedCurrency];
-            const formatted = Math.round(Number(value)).toLocaleString();
-            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
-          },
-          maxTicksLimit: 8,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
-        }
-      }
-    },
-    interaction: {
-      mode: 'nearest' as const,
-      axis: 'x' as const,
-      intersect: false,
-    }
-  }), [cashFlowAxisRange, selectedCurrency]);
-
-  // P&L Chart Options
-  const plChartOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 750,
-      easing: 'easeInOutQuart' as const,
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: 'var(--text-primary)',
-          usePointStyle: true,
-          padding: 20,
-        }
-      },
-      tooltip: {
-        mode: 'index' as const,
-        intersect: false,
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'var(--text-secondary)',
-          maxTicksLimit: 6,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
         }
       },
       y: {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            const symbol = currencySymbols[selectedCurrency];
+            const symbols = { AED: '', USD: '$', EUR: '€' };
+            const suffix = selectedCurrency === 'AED' ? ' AED' : '';
             const formatted = Math.round(Number(value)).toLocaleString();
-            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
+            return `${symbols[selectedCurrency]}${formatted}${suffix}`;
           },
           maxTicksLimit: 8,
         },
         grid: {
           color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
         }
       }
     },
@@ -778,7 +408,6 @@ export default function FinancialModel() {
     }
   }), [selectedCurrency]);
 
-  // Business Metrics Chart Options (multi-axis)
   const businessMetricsOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
@@ -807,7 +436,6 @@ export default function FinancialModel() {
         },
         grid: {
           color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
         }
       },
       y: {
@@ -820,7 +448,6 @@ export default function FinancialModel() {
         },
         grid: {
           color: 'rgba(128, 128, 128, 0.1)',
-          drawBorder: false,
         }
       },
       y1: {
@@ -830,9 +457,10 @@ export default function FinancialModel() {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            const symbol = currencySymbols[selectedCurrency];
+            const symbols = { AED: '', USD: '$', EUR: '€' };
+            const suffix = selectedCurrency === 'AED' ? ' AED' : '';
             const formatted = Math.round(Number(value)).toLocaleString();
-            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
+            return `${symbols[selectedCurrency]}${formatted}${suffix}`;
           },
           maxTicksLimit: 6,
         },
@@ -860,460 +488,587 @@ export default function FinancialModel() {
   return (
     <>
       <style>{`
-        .financial-left-panel::-webkit-scrollbar {
-          width: 6px;
+        .financial-model h1 {
+          font-family: 'Poppins', sans-serif;
         }
         
-        .financial-left-panel::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.05);
-          border-radius: 3px;
+        .financial-model h3 {
+          font-family: 'Poppins', sans-serif;
+          color: var(--text-heading);
         }
         
-        .financial-left-panel::-webkit-scrollbar-thumb {
-          background: rgba(46, 196, 182, 0.3);
-          border-radius: 3px;
+        .chart-insight {
+          margin-top: 1rem;
+          padding: 1rem;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          line-height: 1.5;
+          color: var(--text-body);
         }
         
-        .financial-left-panel::-webkit-scrollbar-thumb:hover {
-          background: rgba(46, 196, 182, 0.5);
+        .metric-value {
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        .story-section {
+          margin-bottom: 3rem;
+          padding: 2rem;
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+        }
+        
+        .story-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--text-heading);
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        
+        .story-text {
+          font-size: 1rem;
+          line-height: 1.6;
+          color: var(--text-body);
+          margin-bottom: 2rem;
+          opacity: 0.9;
         }
 
         @media (max-width: 1024px) {
-          .financial-main-layout {
+          .financial-model .grid {
             grid-template-columns: 1fr !important;
             gap: 1.5rem !important;
           }
-          .financial-left-panel {
+          
+          .financial-model .card[style*="position: sticky"] {
             position: static !important;
-            top: auto !important;
-            max-height: none !important;
-            overflow-y: visible !important;
           }
         }
+        
+        .investment-scenarios {
+          display: flex;
+          gap: 0.5rem;
+          padding: 0.5rem;
+        }
+        
+        .investment-button {
+          flex: 1;
+          padding: 1rem;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+          text-align: center;
+          min-width: 0;
+        }
+        
+        .investment-button-title {
+          font-size: 1.1rem;
+          margin-bottom: 0.25rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        
+        .investment-button-amount {
+          font-size: 0.9rem;
+          opacity: 0.9;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         @media (max-width: 768px) {
-          .financial-container {
-            padding: 1rem !important;
+          .financial-model {
+            padding-top: 1rem;
           }
-          .financial-header {
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            gap: 1rem !important;
+          
+          .financial-model h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
           }
-          .financial-header > div:first-child {
-            order: 2;
+          
+          .financial-model h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
           }
-          .financial-header > div:last-child {
-            order: 1;
-            align-items: center !important;
+          
+          .chart-insight {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
           }
-          .financial-scenario-tabs {
-            flex-direction: column !important;
-            padding: 8px !important;
-            max-width: 100% !important;
-            margin: 0 0 2rem 0 !important;
+          
+          .grid-2 {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
           }
-          .financial-story-metrics {
-            grid-template-columns: 1fr !important;
+          
+          .metric-value {
+            font-size: 1.4rem;
           }
-          .financial-chart-container {
-            height: 250px !important;
+          
+          .card {
+            padding: 1rem;
+            margin-bottom: 1rem;
           }
-          .financial-story-section {
-            padding: 1.5rem !important;
-            margin-bottom: 2rem !important;
+          
+          .story-section {
+            padding: 1rem;
+            margin-bottom: 2rem;
           }
-          .financial-story-title {
-            font-size: 1.25rem !important;
+          
+          .story-title {
+            font-size: 1.25rem;
           }
-          .financial-title {
-            font-size: 2rem !important;
+          
+          .investment-scenarios {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.25rem;
+          }
+          
+          .investment-button {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+          }
+          
+          .investment-button-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.1rem;
+            white-space: normal;
+          }
+          
+          .investment-button-amount {
+            font-size: 0.8rem;
+            white-space: normal;
           }
         }
+        
         @media (max-width: 480px) {
-          .financial-container {
-            padding: 0.5rem !important;
+          .financial-model {
+            padding-top: 0.5rem;
           }
-          .financial-left-panel {
-            padding: 1rem !important;
+          
+          .financial-model h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
           }
-          .financial-story-section {
-            padding: 1rem !important;
+          
+          .financial-model h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
           }
-          .financial-chart-container {
-            height: 200px !important;
+          
+          .chart-insight {
+            padding: 0.5rem;
+            font-size: 0.8rem;
+          }
+          
+          .metric-value {
+            font-size: 1.2rem;
+          }
+          
+          .card {
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+          }
+          
+          .story-section {
+            padding: 0.75rem;
+          }
+          
+          .story-title {
+            font-size: 1.1rem;
+          }
+          
+          .investment-scenarios {
+            gap: 0.4rem;
+            padding: 0.2rem;
+          }
+          
+          .investment-button {
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+          }
+          
+          .investment-button-title {
+            font-size: 0.85rem;
+            margin-bottom: 0.05rem;
+          }
+          
+          .investment-button-amount {
+            font-size: 0.75rem;
           }
         }
       `}</style>
-      <div className="financial-container" style={styles.container}>
-      {/* Header */}
-      <div style={styles.header}>
-        <div className="financial-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <h1 className="financial-title" style={styles.title}>Financial Model</h1>
-            <p style={styles.subtitle}>Interactive scenario analysis with real-time projections</p>
+      <div className="financial-model">
+        {/* Header */}
+        <div className="text-center mb-5">
+          <h1 style={{
+            fontSize: 'clamp(2rem, 5vw, 3rem)',
+            fontWeight: 700,
+            background: 'linear-gradient(135deg, #2ec4b6, #0077be)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            marginBottom: '0.5rem'
+          }}>Financial Model</h1>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>
+            Interactive scenario analysis with real-time projections
+          </p>
+        </div>
+
+        {/* Currency Selector */}
+        <div className="text-center mb-4">
+          <label style={{ 
+            fontSize: '0.9rem', 
+            color: 'var(--text-secondary)',
+            fontWeight: 600,
+            display: 'block',
+            marginBottom: '0.5rem'
+          }}>Currency</label>
+          <select
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value as Currency)}
+            style={{
+              padding: '8px 12px',
+              borderRadius: '8px',
+              border: '1px solid #e5e7eb',
+              background: 'var(--bg-card)',
+              color: 'var(--text-primary)',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              outline: 'none'
+            }}
+          >
+            <option value="AED">AED (درهم)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+          </select>
+        </div>
+
+        {/* Investment Scenarios */}
+        <div className="card mb-4">
+          <div className="investment-scenarios">
+            {(Object.keys(investmentScenarios) as Array<keyof typeof investmentScenarios>).map(scenario => (
+              <button
+                key={scenario}
+                onClick={() => loadScenario(scenario)}
+                className="investment-button"
+                style={{
+                  background: selectedScenario === scenario 
+                    ? 'linear-gradient(135deg, #2ec4b6, #0077be)' 
+                    : 'transparent',
+                  color: selectedScenario === scenario ? 'white' : 'var(--text-secondary)',
+                }}
+              >
+                <div className="investment-button-title">
+                  {scenario.charAt(0).toUpperCase() + scenario.slice(1)}
+                </div>
+                <div className="investment-button-amount">
+                  {formatCurrency(investmentScenarios[scenario].investment, 'USD')}
+                </div>
+              </button>
+            ))}
           </div>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            gap: '0.5rem'
+        </div>
+
+        {/* Main Layout */}
+        <div className="grid" style={{ 
+          gridTemplateColumns: '380px 1fr', 
+          gap: '2rem',
+          alignItems: 'start'
+        }}>
+          
+          {/* Controls Panel */}
+          <div className="card" style={{
+            position: 'sticky',
+            top: '2rem'
           }}>
-            <label style={{ 
-              fontSize: '0.9rem', 
-              color: 'var(--text-secondary)',
-              fontWeight: 600 
-            }}>Currency</label>
-            <select
-              value={selectedCurrency}
-              onChange={(e) => setSelectedCurrency(e.target.value as Currency)}
-              style={{
-                padding: '8px 12px',
-                borderRadius: '8px',
-                border: '1px solid #e5e7eb',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                outline: 'none'
-              }}
-            >
-              <option value="AED">AED (درهم)</option>
-              <option value="USD">USD ($)</option>
-              <option value="EUR">EUR (€)</option>
-            </select>
+            <h3 className="text-center mb-3">Business Parameters</h3>
+            
+            {/* Investment Amount */}
+            <div className="mb-3">
+              <label style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'block' }}>
+                Investment Amount
+              </label>
+              <div className="text-center" style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: 600, 
+                color: '#2ec4b6',
+                padding: '1rem',
+                background: 'rgba(46, 196, 182, 0.1)',
+                borderRadius: '8px'
+              }}>
+                {formatCurrency(inputs.investment, 'USD')}
+              </div>
+            </div>
+
+            {/* Sliders */}
+            {[
+              { key: 'ordersPerDay' as keyof ModelInputs, label: 'Daily Orders (Year 1)', min: 5, max: 500, suffix: ' orders/day' },
+              { key: 'aov' as keyof ModelInputs, label: 'Average Order Value', min: 30, max: 400, suffix: selectedCurrency === 'AED' ? ' AED' : '' },
+              { key: 'cac' as keyof ModelInputs, label: 'Customer Acquisition Cost', min: 20, max: 300, suffix: selectedCurrency === 'AED' ? ' AED' : '' },
+              { key: 'monthlyChurn' as keyof ModelInputs, label: 'Monthly Churn Rate', min: 2, max: 30, suffix: '%' },
+              { key: 'contributionMargin' as keyof ModelInputs, label: 'Contribution Margin', min: 10, max: 60, suffix: '%' },
+              { key: 'fixedCostsPerMonth' as keyof ModelInputs, label: 'Fixed Costs (Monthly)', min: 30000, max: 500000, suffix: selectedCurrency === 'AED' ? ' AED' : '' }
+            ].map(({ key, label, min, max, suffix }) => (
+              <div key={key} className="mb-3">
+                <label style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'block', fontSize: '0.9rem' }}>
+                  {label}
+                </label>
+                <input
+                  type="range"
+                  min={min}
+                  max={max}
+                  value={inputs[key]}
+                  onChange={(e) => updateInputs({ [key]: Number(e.target.value) })}
+                  style={{
+                    width: '100%',
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: '#e5e7eb',
+                    outline: 'none',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    cursor: 'pointer',
+                    marginBottom: '0.5rem'
+                  }}
+                />
+                <div style={{
+                  textAlign: 'center',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: '#2ec4b6'
+                }}>
+                  {['aov', 'cac', 'fixedCostsPerMonth'].includes(key) 
+                    ? formatCurrency(inputs[key])
+                    : `${inputs[key]}${suffix}`
+                  }
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Panel - Investment Story */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            
+            {/* Story Section 1: Proven Unit Economics */}
+            <div className="story-section">
+              <h3 className="story-title">1. Proven Unit Economics</h3>
+              <p className="story-text">
+                JustCook demonstrates strong unit economics with healthy LTV:CAC ratios and sustainable profit margins. 
+                Our model shows a clear path to profitability with industry-leading efficiency metrics.
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>LTV / CAC Ratio</h4>
+                  <div className="metric-value" style={{
+                    fontSize: '1.8rem', 
+                    fontWeight: 700, 
+                    margin: '0.5rem 0',
+                    color: currentMetrics?.ltvCacRatio > 3 ? '#059669' : '#dc2626'
+                  }}>
+                    {currentMetrics?.ltvCacRatio.toFixed(1) || '0'}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Target: &gt; 3.0 ✓</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Gross Margin</h4>
+                  <div className="metric-value" style={{ 
+                    fontSize: '1.8rem', 
+                    fontWeight: 700, 
+                    margin: '0.5rem 0',
+                    color: currentMetrics?.grossMargin > 30 ? '#059669' : currentMetrics?.grossMargin > 20 ? '#d97706' : '#dc2626'
+                  }}>
+                    {currentMetrics?.grossMargin.toFixed(1) || '0'}%
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Above industry standard</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>ARPU Growth</h4>
+                  <div className="metric-value" style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
+                    {formatCurrency(currentMetrics?.arpu || 0)}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Increasing customer value</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Story Section 2: Scalable Growth Trajectory */}
+            <div className="story-section">
+              <h3 className="story-title">2. Scalable Growth Trajectory</h3>
+              <p className="story-text">
+                Our revenue model shows accelerating growth with improving operational leverage. 
+                As we scale, fixed costs become more efficient and profit margins expand significantly.
+              </p>
+              
+              <div className="card">
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-heading)', marginBottom: '1.5rem', textAlign: 'center' }}>Revenue Growth & Operational Leverage</h4>
+                <div style={{ height: '350px', width: '100%' }}>
+                  <Line data={revenueChartData} options={chartOptions} />
+                </div>
+                <div className="chart-insight" style={{
+                  background: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.2)'
+                }}>
+                  <strong>Key Insight:</strong> Revenue scales exponentially while fixed costs remain stable, 
+                  creating expanding profit margins as we reach scale.
+                </div>
+              </div>
+            </div>
+
+            {/* Story Section 3: Clear Path to Profitability */}
+            <div className="story-section">
+              <h3 className="story-title">3. Clear Path to Profitability</h3>
+              <p className="story-text">
+                Our P&L projections show a definitive timeline to profitability with strong margin expansion. 
+                Operating leverage kicks in as revenue growth outpaces cost increases.
+              </p>
+              
+              <div className="card">
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-heading)', marginBottom: '1.5rem', textAlign: 'center' }}>Profit & Loss Progression</h4>
+                <div style={{ height: '350px', width: '100%' }}>
+                  <Line data={plChartData} options={chartOptions} />
+                </div>
+                <div className="chart-insight" style={{
+                  background: 'rgba(34, 197, 94, 0.1)',
+                  border: '1px solid rgba(34, 197, 94, 0.2)'
+                }}>
+                  <strong>Key Insight:</strong> Net income turns positive by month {
+                    metrics.findIndex(m => m.netIncome > 0) + 1 || 'N/A'
+                  }, with accelerating profitability thereafter.
+                </div>
+              </div>
+            </div>
+
+            {/* Story Section 4: Market Opportunity & Capture */}
+            <div className="story-section">
+              <h3 className="story-title">4. Massive Market with Clear Capture Strategy</h3>
+              <p className="story-text">
+                Operating in the $4.2B GCC food e-commerce market, our customer acquisition and retention 
+                metrics show sustainable market capture with room for significant expansion.
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Market Penetration</h4>
+                  <div className="metric-value" style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
+                    {currentMetrics?.marketPenetration.toFixed(3) || '0'}%
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Of $4.2B TAM - huge runway</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Customer Base</h4>
+                  <div className="metric-value" style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
+                    {currentMetrics?.activeCustomers.toLocaleString() || '0'}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Active users by month 12</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Revenue Rate</h4>
+                  <div className="metric-value" style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
+                    {formatCurrency(currentMetrics?.revenue || 0)}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Monthly run rate</p>
+                </div>
+              </div>
+
+              <div className="card">
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-heading)', marginBottom: '1.5rem', textAlign: 'center' }}>Customer Growth & Business Metrics</h4>
+                <div style={{ height: '350px', width: '100%' }}>
+                  <Line data={businessMetricsData} options={businessMetricsOptions} />
+                </div>
+                <div className="chart-insight" style={{
+                  background: 'rgba(168, 85, 247, 0.1)',
+                  border: '1px solid rgba(168, 85, 247, 0.2)'
+                }}>
+                  <strong>Key Insight:</strong> Customer acquisition accelerates while ARPU increases, 
+                  demonstrating strong product-market fit and expansion opportunities.
+                </div>
+              </div>
+            </div>
+
+            {/* Story Section 5: Smart Capital Efficiency */}
+            <div className="story-section">
+              <h3 className="story-title">5. Capital Efficient Growth</h3>
+              <p className="story-text">
+                Our funding requirements are optimized for maximum runway and growth. 
+                Cash flow projections show when we achieve self-sustaining growth.
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Monthly Burn</h4>
+                  <div className="metric-value" style={{ 
+                    fontSize: '1.8rem', 
+                    fontWeight: 700, 
+                    margin: '0.5rem 0',
+                    color: currentMetrics?.burnRate === 0 ? '#059669' : '#dc2626'
+                  }}>
+                    {currentMetrics?.burnRate > 0 ? formatCurrency(currentMetrics?.burnRate) : 'Profitable'}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Decreasing over time</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Runway</h4>
+                  <div className="metric-value" style={{ 
+                    fontSize: '1.8rem', 
+                    fontWeight: 700, 
+                    margin: '0.5rem 0',
+                    color: currentMetrics?.runway > 24 ? '#059669' : currentMetrics?.runway > 12 ? '#d97706' : '#dc2626'
+                  }}>
+                    {currentMetrics?.runway === 999 ? '∞' : Math.round(currentMetrics?.runway || 0)}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Months to profitability</p>
+                </div>
+
+                <div className="card">
+                  <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Operating Leverage</h4>
+                  <div className="metric-value" style={{ 
+                    fontSize: '1.8rem', 
+                    fontWeight: 700, 
+                    margin: '0.5rem 0',
+                    color: currentMetrics?.operatingLeverage > 2 ? '#059669' : '#d97706'
+                  }}>
+                    {currentMetrics?.operatingLeverage.toFixed(1) || '0'}x
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Efficient cost scaling</p>
+                </div>
+              </div>
+
+              <div className="card">
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-heading)', marginBottom: '1.5rem', textAlign: 'center' }}>Cash Flow & Path to Self-Sustainability</h4>
+                <div style={{ height: '350px', width: '100%' }}>
+                  <Line data={cashFlowData} options={chartOptions} />
+                </div>
+                <div className="chart-insight" style={{
+                  background: 'rgba(34, 197, 94, 0.1)',
+                  border: '1px solid rgba(34, 197, 94, 0.2)'
+                }}>
+                  <strong>Key Insight:</strong> Positive cumulative cash flow achieved by month {
+                    metrics.findIndex(m => m.cumulativeCash > 0) + 1 || 'N/A'
+                  }, ensuring investor capital protection and growth sustainability.
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-
-      {/* Investment Scenario Tabs */}
-      <div className="financial-scenario-tabs" style={styles.scenarioTabs}>
-        <button 
-          style={{
-            ...styles.scenarioTab,
-            ...(activeScenario === 'conservative' ? styles.scenarioTabActive : {})
-          }}
-          onClick={() => loadScenario('conservative')}
-        >
-          Conservative
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$300K</div>
-        </button>
-        <button 
-          style={{
-            ...styles.scenarioTab,
-            ...(activeScenario === 'balanced' ? styles.scenarioTabActive : {})
-          }}
-          onClick={() => loadScenario('balanced')}
-        >
-          Balanced
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$400K</div>
-        </button>
-        <button 
-          style={{
-            ...styles.scenarioTab,
-            ...(activeScenario === 'aggressive' ? styles.scenarioTabActive : {})
-          }}
-          onClick={() => loadScenario('aggressive')}
-        >
-          Aggressive
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$500K</div>
-        </button>
-      </div>
-
-      {/* Main Layout */}
-      <div className="financial-main-layout" style={styles.mainLayout}>
-        {/* Left Panel - Controls */}
-        <div className="financial-left-panel" style={styles.leftPanel}>
-          <h3 style={styles.sectionTitle}>Business Parameters</h3>
-          
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Investment Amount</label>
-            <div style={styles.sliderValue}>${inputs.investment.toLocaleString()}</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Daily Orders (Year 1)</label>
-            <input
-              type="range"
-              min="5"
-              max="500"
-              value={inputs.ordersPerDay}
-              onChange={e => handleInputChange('ordersPerDay', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{inputs.ordersPerDay} orders/day</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Average Order Value</label>
-            <input
-              type="range"
-              min="30"
-              max="400"
-              step="5"
-              value={inputs.aov}
-              onChange={e => handleInputChange('aov', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{formatCurrency(inputs.aov)}</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Customer Acquisition Cost</label>
-            <input
-              type="range"
-              min="20"
-              max="300"
-              step="5"
-              value={inputs.cac}
-              onChange={e => handleInputChange('cac', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{formatCurrency(inputs.cac)}</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Monthly Churn Rate</label>
-            <input
-              type="range"
-              min="2"
-              max="30"
-              value={inputs.monthlyChurn}
-              onChange={e => handleInputChange('monthlyChurn', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{inputs.monthlyChurn}%</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Contribution Margin</label>
-            <input
-              type="range"
-              min="10"
-              max="60"
-              value={inputs.contributionMargin}
-              onChange={e => handleInputChange('contributionMargin', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{inputs.contributionMargin}%</div>
-          </div>
-
-          <div style={styles.controlGroup}>
-            <label style={styles.controlLabel}>Monthly Fixed Costs</label>
-            <input
-              type="range"
-              min="30000"
-              max="500000"
-              step="10000"
-              value={inputs.fixedCostsPerMonth}
-              onChange={e => handleInputChange('fixedCostsPerMonth', Number(e.target.value))}
-              style={styles.slider}
-            />
-            <div style={styles.sliderValue}>{formatCurrency(inputs.fixedCostsPerMonth)}</div>
-          </div>
-        </div>
-
-        {/* Right Panel - Investment Story */}
-        <div style={styles.rightPanel}>
-          
-          {/* Story Section 1: Strong Unit Economics */}
-          <div className="financial-story-section" style={styles.storySection}>
-            <h3 className="financial-story-title" style={styles.storyTitle}>1. Proven Unit Economics</h3>
-            <p style={styles.storyText}>
-              JustCook demonstrates strong unit economics with healthy LTV:CAC ratios and sustainable profit margins. 
-              Our model shows a clear path to profitability with industry-leading efficiency metrics.
-            </p>
-            
-            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>LTV / CAC Ratio</h4>
-                <div style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 700, 
-                  margin: '0.5rem 0',
-                  color: currentMetrics.ltvCacRatio > 3 ? '#059669' : '#dc2626'
-                }}>
-                  {currentMetrics.ltvCacRatio.toFixed(1)}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Target: &gt; 3.0 ✓</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Gross Margin</h4>
-                <div style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 700, 
-                  margin: '0.5rem 0',
-                  color: currentMetrics.grossMargin > 30 ? '#059669' : currentMetrics.grossMargin > 20 ? '#d97706' : '#dc2626'
-                }}>
-                  {currentMetrics.grossMargin.toFixed(1)}%
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Above industry standard</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>ARPU Growth</h4>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                  {formatCurrency(currentMetrics.arpu)}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Increasing customer value</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Story Section 2: Scalable Growth Trajectory */}
-          <div className="financial-story-section" style={styles.storySection}>
-            <h3 className="financial-story-title" style={styles.storyTitle}>2. Scalable Growth Trajectory</h3>
-            <p style={styles.storyText}>
-              Our revenue model shows accelerating growth with improving operational leverage. 
-              As we scale, fixed costs become more efficient and profit margins expand significantly.
-            </p>
-            
-            <div style={styles.chartCard}>
-              <h4 style={styles.chartTitle}>Revenue Growth & Operational Leverage</h4>
-              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
-                <Line data={revenueChartData} options={chartOptions} />
-              </div>
-              <div style={styles.chartInsight}>
-                <strong>Key Insight:</strong> Revenue scales exponentially while fixed costs remain stable, 
-                creating expanding profit margins as we reach scale.
-              </div>
-            </div>
-          </div>
-
-          {/* Story Section 3: Clear Path to Profitability */}
-          <div className="financial-story-section" style={styles.storySection}>
-            <h3 className="financial-story-title" style={styles.storyTitle}>3. Clear Path to Profitability</h3>
-            <p style={styles.storyText}>
-              Our P&L projections show a definitive timeline to profitability with strong margin expansion. 
-              Operating leverage kicks in as revenue growth outpaces cost increases.
-            </p>
-            
-            <div style={styles.chartCard}>
-              <h4 style={styles.chartTitle}>Profit & Loss Progression</h4>
-              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
-                <Line data={plChartData} options={plChartOptions} />
-              </div>
-              <div style={styles.chartInsight}>
-                <strong>Key Insight:</strong> Net income turns positive by month {
-                  metrics.findIndex(m => m.netIncome > 0) + 1 || 'N/A'
-                }, with accelerating profitability thereafter.
-              </div>
-            </div>
-          </div>
-
-          {/* Story Section 4: Market Opportunity & Capture */}
-          <div className="financial-story-section" style={styles.storySection}>
-            <h3 className="financial-story-title" style={styles.storyTitle}>4. Massive Market with Clear Capture Strategy</h3>
-            <p style={styles.storyText}>
-              Operating in the $4.2B GCC food e-commerce market, our customer acquisition and retention 
-              metrics show sustainable market capture with room for significant expansion.
-            </p>
-            
-            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Market Penetration</h4>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                  {currentMetrics.marketPenetration.toFixed(3)}%
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Of $4.2B TAM - huge runway</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Customer Base</h4>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                  {currentMetrics.activeCustomers.toLocaleString()}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Active users by month 12</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Revenue Rate</h4>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                  {formatCurrency(currentMetrics.revenue)}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Monthly run rate</p>
-              </div>
-            </div>
-
-            <div style={styles.chartCard}>
-              <h4 style={styles.chartTitle}>Customer Growth & Business Metrics</h4>
-              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
-                <Line data={businessMetricsData} options={businessMetricsOptions} />
-              </div>
-              <div style={styles.chartInsight}>
-                <strong>Key Insight:</strong> Customer acquisition accelerates while ARPU increases, 
-                demonstrating strong product-market fit and expansion opportunities.
-              </div>
-            </div>
-          </div>
-
-          {/* Story Section 5: Smart Capital Efficiency */}
-          <div className="financial-story-section" style={styles.storySection}>
-            <h3 className="financial-story-title" style={styles.storyTitle}>5. Capital Efficient Growth</h3>
-            <p style={styles.storyText}>
-              Our funding requirements are optimized for maximum runway and growth. 
-              Cash flow projections show when we achieve self-sustaining growth.
-            </p>
-            
-            <div className="financial-story-metrics" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Monthly Burn</h4>
-                <div style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 700, 
-                  margin: '0.5rem 0',
-                  color: currentMetrics.burnRate === 0 ? '#059669' : '#dc2626'
-                }}>
-                  {currentMetrics.burnRate > 0 ? formatCurrency(currentMetrics.burnRate) : 'Profitable'}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Decreasing over time</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Runway</h4>
-                <div style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 700, 
-                  margin: '0.5rem 0',
-                  color: currentMetrics.runway > 24 ? '#059669' : currentMetrics.runway > 12 ? '#d97706' : '#dc2626'
-                }}>
-                  {currentMetrics.runway === 999 ? '∞' : Math.round(currentMetrics.runway)}
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Months to profitability</p>
-              </div>
-
-              <div style={styles.metricCard}>
-                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Operating Leverage</h4>
-                <div style={{ 
-                  fontSize: '1.8rem', 
-                  fontWeight: 700, 
-                  margin: '0.5rem 0',
-                  color: currentMetrics.operatingLeverage > 2 ? '#059669' : '#d97706'
-                }}>
-                  {currentMetrics.operatingLeverage.toFixed(1)}x
-                </div>
-                <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Efficient cost scaling</p>
-              </div>
-            </div>
-
-            <div style={styles.chartCard}>
-              <h4 style={styles.chartTitle}>Cash Flow & Path to Self-Sustainability</h4>
-              <div className="financial-chart-container" style={{ height: '350px', width: '100%' }}>
-                <Line data={cashFlowData} options={cashFlowOptions} />
-              </div>
-              <div style={styles.chartInsight}>
-                <strong>Key Insight:</strong> Positive cumulative cash flow achieved by month {
-                  metrics.findIndex(m => m.cumulativeCash > 0) + 1 || 'N/A'
-                }, ensuring investor capital protection and growth sustainability.
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
     </>
   );
 }
