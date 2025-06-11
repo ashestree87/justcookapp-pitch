@@ -190,11 +190,35 @@ const exchangeRates = {
 
 type Currency = keyof typeof exchangeRates;
 
+// Percentile-based parameter ranges for auto-adjustment
+const parameterRanges = {
+  ordersPerDay: { p10: 20, p50: 100, p90: 200 },
+  aov: { p10: 50, p50: 95, p90: 150 },
+  cac: { p10: 40, p50: 75, p90: 120 },
+  monthlyChurn: { p10: 5, p50: 10, p90: 20 },
+  contributionMargin: { p10: 25, p50: 36, p90: 50 },
+  fixedCostsPerMonth: { p10: 50000, p50: 85000, p90: 150000 }
+};
+
+function calculateParameterFromPercentile(percentile: number, range: {p10: number, p50: number, p90: number}): number {
+  // Convert percentile (10-90) to interpolated value
+  if (percentile <= 50) {
+    // Interpolate between p10 and p50
+    const ratio = (percentile - 10) / 40; // 0 to 1
+    return Math.round(range.p10 + (range.p50 - range.p10) * ratio);
+  } else {
+    // Interpolate between p50 and p90
+    const ratio = (percentile - 50) / 40; // 0 to 1
+    return Math.round(range.p50 + (range.p90 - range.p50) * ratio);
+  }
+}
+
 export default function FinancialModel() {
   const [selectedScenario, setSelectedScenario] = useState<keyof typeof investmentScenarios>('balanced');
   const [inputs, setInputs] = useState<ModelInputs>(investmentScenarios.balanced);
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>('AED');
   const [metrics, setMetrics] = useState<MonthlyMetrics[]>([]);
+  const [percentile, setPercentile] = useState<number>(50);
 
   // Calculate metrics when inputs change
   useEffect(() => {
@@ -231,6 +255,23 @@ export default function FinancialModel() {
   const loadScenario = (scenario: keyof typeof investmentScenarios) => {
     setSelectedScenario(scenario);
     setInputs(investmentScenarios[scenario]);
+    setPercentile(50); // Reset percentile when loading scenario
+  };
+
+  const updatePercentile = (newPercentile: number) => {
+    setPercentile(newPercentile);
+    
+    // Auto-adjust all parameters based on percentile
+    const newInputs: Partial<ModelInputs> = {
+      ordersPerDay: calculateParameterFromPercentile(newPercentile, parameterRanges.ordersPerDay),
+      aov: calculateParameterFromPercentile(newPercentile, parameterRanges.aov),
+      cac: calculateParameterFromPercentile(newPercentile, parameterRanges.cac),
+      monthlyChurn: calculateParameterFromPercentile(newPercentile, parameterRanges.monthlyChurn),
+      contributionMargin: calculateParameterFromPercentile(newPercentile, parameterRanges.contributionMargin),
+      fixedCostsPerMonth: calculateParameterFromPercentile(newPercentile, parameterRanges.fixedCostsPerMonth),
+    };
+    
+    setInputs(prev => ({ ...prev, ...newInputs }));
   };
 
   const currentMetrics = metrics[11] || metrics[metrics.length - 1];
@@ -808,6 +849,66 @@ export default function FinancialModel() {
                 borderRadius: '8px'
               }}>
                 {formatCurrency(inputs.investment, 'USD')}
+              </div>
+            </div>
+
+            {/* Auto-Adjust Percentile */}
+            <div className="mb-4" style={{
+              padding: '1rem',
+              background: 'rgba(59, 130, 246, 0.1)',
+              borderRadius: '8px',
+              border: '1px solid rgba(59, 130, 246, 0.2)'
+            }}>
+              <label style={{ fontWeight: 600, marginBottom: '0.75rem', display: 'block', fontSize: '0.9rem' }}>
+                📊 Auto-Adjust Parameters by Percentile
+              </label>
+              <input
+                type="range"
+                min={10}
+                max={90}
+                value={percentile}
+                onChange={(e) => updatePercentile(Number(e.target.value))}
+                style={{
+                  width: '100%',
+                  height: '8px',
+                  borderRadius: '4px',
+                  background: 'linear-gradient(90deg, #ef4444 0%, #f59e0b 25%, #22c55e 50%, #3b82f6 75%, #8b5cf6 100%)',
+                  outline: 'none',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '0.75rem'
+                }}
+              />
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: '0.8rem',
+                color: 'var(--text-secondary)',
+                marginBottom: '0.5rem'
+              }}>
+                <span>Conservative (10th)</span>
+                <span>Median (50th)</span>
+                <span>Aggressive (90th)</span>
+              </div>
+              <div style={{
+                textAlign: 'center',
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                color: '#3b82f6'
+              }}>
+                {percentile}th Percentile
+                {percentile <= 25 ? ' - Conservative' : 
+                 percentile <= 75 ? ' - Balanced' : ' - Aggressive'}
+              </div>
+              <div style={{
+                fontSize: '0.8rem',
+                color: 'var(--text-secondary)',
+                textAlign: 'center',
+                marginTop: '0.5rem',
+                fontStyle: 'italic'
+              }}>
+                Automatically adjusts all business parameters below
               </div>
             </div>
 
