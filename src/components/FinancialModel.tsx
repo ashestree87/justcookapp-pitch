@@ -26,7 +26,7 @@ ChartJS.register(
 // Investment scenarios with calibrated business parameters
 const investmentScenarios = {
   conservative: {
-    investment: 300000,        // AED 300K - lean launch
+    investment: 300000,        // $300K USD - lean launch
     ordersPerDay: 60,
     aov: 80,
     cac: 90,
@@ -35,7 +35,7 @@ const investmentScenarios = {
     fixedCostsPerMonth: 65000,
   },
   balanced: {
-    investment: 400000,        // AED 400K - balanced approach  
+    investment: 400000,        // $400K USD - balanced approach  
     ordersPerDay: 100,
     aov: 95,
     cac: 75,
@@ -44,7 +44,7 @@ const investmentScenarios = {
     fixedCostsPerMonth: 85000,
   },
   aggressive: {
-    investment: 500000,        // AED 500K - rapid scale
+    investment: 500000,        // $500K USD - rapid scale
     ordersPerDay: 150,
     aov: 110,
     cac: 60,
@@ -354,32 +354,64 @@ export default function FinancialModel() {
 
   const currentMetrics = metrics[11] || metrics[metrics.length - 1];
 
+  // Calculate dynamic axis ranges with padding
+  const revenueAxisRange = useMemo(() => {
+    const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
+    const revenues = filteredMetrics.map(m => m.revenue);
+    const ebitdas = filteredMetrics.map(m => m.ebitda);
+    const allValues = [...revenues, ...ebitdas];
+    
+    const min = Math.min(...allValues);
+    const max = Math.max(...allValues);
+    const padding = Math.abs(max - min) * 0.1; // 10% padding
+    
+    return {
+      min: Math.floor((min - padding) / 100000) * 100000, // Round to nearest 100K
+      max: Math.ceil((max + padding) / 100000) * 100000
+    };
+  }, [metrics]);
+
+  const cashFlowAxisRange = useMemo(() => {
+    const cashFlows = metrics.filter((_, i) => i % 6 === 0).map(m => m.cumulativeCash);
+    const min = Math.min(...cashFlows);
+    const max = Math.max(...cashFlows);
+    const padding = Math.abs(max - min) * 0.1; // 10% padding
+    
+    return {
+      min: Math.floor((min - padding) / 100000) * 100000, // Round to nearest 100K
+      max: Math.ceil((max + padding) / 100000) * 100000
+    };
+  }, [metrics]);
+
   // Stable chart data with fixed labels and smooth animations
   const chartLabels = ['Month 1', 'Month 6', 'Month 12', 'Month 18', 'Month 24', 'Month 30', 'Month 36', 'Month 42', 'Month 48', 'Month 54', 'Month 60'];
   
-  const revenueChartData = useMemo(() => ({
-    labels: chartLabels,
-    datasets: [
-      {
-        label: 'Monthly Revenue (AED)',
-        data: metrics.filter((_, i) => i % 6 === 0).map(m => m.revenue),
-        borderColor: 'rgb(46, 196, 182)',
-        backgroundColor: 'rgba(46, 196, 182, 0.1)',
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
-      },
-      {
-        label: 'EBITDA (AED)',
-        data: metrics.filter((_, i) => i % 6 === 0).map(m => m.ebitda),
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
-      }
-    ]
-  }), [metrics]);
+  const revenueChartData = useMemo(() => {
+    const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
+    return {
+      labels: chartLabels,
+      datasets: [
+        {
+          label: 'Monthly Revenue (AED)',
+          data: filteredMetrics.map(m => m.revenue),
+          borderColor: 'rgb(46, 196, 182)',
+          backgroundColor: 'rgba(46, 196, 182, 0.1)',
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'EBITDA (AED)',
+          data: filteredMetrics.map(m => m.ebitda),
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        }
+      ]
+    };
+  }, [metrics]);
 
   const cashFlowData = useMemo(() => ({
     labels: chartLabels,
@@ -429,8 +461,8 @@ export default function FinancialModel() {
         }
       },
       y: {
-        min: -600000, // Fixed minimum to prevent axis jumping
-        max: 2000000, // Fixed maximum for stability
+        min: revenueAxisRange.min,
+        max: revenueAxisRange.max,
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
@@ -449,7 +481,7 @@ export default function FinancialModel() {
       axis: 'x' as const,
       intersect: false,
     }
-  }), []);
+  }), [revenueAxisRange]);
 
   const cashFlowOptions = useMemo(() => ({
     responsive: true,
@@ -483,8 +515,8 @@ export default function FinancialModel() {
         }
       },
       y: {
-        min: -800000, // Fixed minimum for cash flow
-        max: 3000000, // Fixed maximum for cash flow
+        min: cashFlowAxisRange.min,
+        max: cashFlowAxisRange.max,
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
@@ -503,7 +535,7 @@ export default function FinancialModel() {
       axis: 'x' as const,
       intersect: false,
     }
-  }), []);
+  }), [cashFlowAxisRange]);
 
   return (
     <>
@@ -545,7 +577,7 @@ export default function FinancialModel() {
           onClick={() => loadScenario('conservative')}
         >
           Conservative
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>AED 300K</div>
+          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$300K</div>
         </button>
         <button 
           style={{
@@ -555,7 +587,7 @@ export default function FinancialModel() {
           onClick={() => loadScenario('balanced')}
         >
           Balanced
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>AED 400K</div>
+          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$400K</div>
         </button>
         <button 
           style={{
@@ -565,7 +597,7 @@ export default function FinancialModel() {
           onClick={() => loadScenario('aggressive')}
         >
           Aggressive
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>AED 500K</div>
+          <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '2px' }}>$500K</div>
         </button>
       </div>
 
@@ -577,7 +609,7 @@ export default function FinancialModel() {
           
           <div style={styles.controlGroup}>
             <label style={styles.controlLabel}>Investment Amount</label>
-            <div style={styles.sliderValue}>AED {inputs.investment.toLocaleString()}</div>
+            <div style={styles.sliderValue}>${inputs.investment.toLocaleString()}</div>
           </div>
 
           <div style={styles.controlGroup}>
