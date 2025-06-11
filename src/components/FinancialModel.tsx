@@ -148,7 +148,7 @@ function calculateMetrics(inputs: ModelInputs): MonthlyMetrics[] {
     // New impactful metrics
     const mrr = revenue; // In food delivery, this is effectively MRR
     const arpu = activeCustomers > 0 ? revenue / activeCustomers : 0;
-    const grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
+    const grossMargin = inputs.contributionMargin; // Gross margin is always the contribution margin
     const burnRate = ebitda < 0 ? Math.abs(ebitda) : 0; // Monthly cash burn
     const runway = burnRate > 0 ? Math.max(0, cumulativeCash / burnRate) : 999; // Months left
     const marketPenetration = (revenue * 12) / tamSize * 100; // Annualized revenue as % of TAM
@@ -989,7 +989,7 @@ export default function FinancialModel() {
             <label style={styles.controlLabel}>Daily Orders (Year 1)</label>
             <input
               type="range"
-              min="20"
+              min="5"
               max="500"
               value={inputs.ordersPerDay}
               onChange={e => handleInputChange('ordersPerDay', Number(e.target.value))}
