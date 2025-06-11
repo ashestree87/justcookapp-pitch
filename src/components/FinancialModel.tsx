@@ -309,10 +309,26 @@ const styles = {
   }
 };
 
+// Currency conversion rates (base: AED)
+const exchangeRates = {
+  AED: 1,
+  USD: 0.272, // 1 AED = 0.272 USD
+  EUR: 0.249  // 1 AED = 0.249 EUR
+};
+
+const currencySymbols = {
+  AED: 'AED',
+  USD: '$',
+  EUR: '€'
+};
+
+type Currency = keyof typeof exchangeRates;
+
 export default function FinancialModel() {
   const [inputs, setInputs] = useState<ModelInputs>(investmentScenarios.balanced);
   const [debouncedInputs, setDebouncedInputs] = useState<ModelInputs>(investmentScenarios.balanced);
   const [activeScenario, setActiveScenario] = useState<'conservative' | 'balanced' | 'aggressive'>('balanced');
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>('AED');
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -352,36 +368,52 @@ export default function FinancialModel() {
     setActiveScenario(scenario);
   }, []);
 
+  // Currency conversion function
+  const convertCurrency = useCallback((amountInAED: number, targetCurrency: Currency = selectedCurrency): number => {
+    return amountInAED * exchangeRates[targetCurrency];
+  }, [selectedCurrency]);
+
+  // Format currency with proper symbol
+  const formatCurrency = useCallback((amountInAED: number, targetCurrency: Currency = selectedCurrency): string => {
+    const convertedAmount = convertCurrency(amountInAED, targetCurrency);
+    const symbol = currencySymbols[targetCurrency];
+    return symbol === 'AED' ? 
+      `AED ${Math.round(convertedAmount).toLocaleString()}` : 
+      `${symbol}${Math.round(convertedAmount).toLocaleString()}`;
+  }, [convertCurrency, selectedCurrency]);
+
   const currentMetrics = metrics[11] || metrics[metrics.length - 1];
 
   // Calculate dynamic axis ranges with padding
   const revenueAxisRange = useMemo(() => {
     const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
-    const revenues = filteredMetrics.map(m => m.revenue);
-    const ebitdas = filteredMetrics.map(m => m.ebitda);
+    const revenues = filteredMetrics.map(m => convertCurrency(m.revenue));
+    const ebitdas = filteredMetrics.map(m => convertCurrency(m.ebitda));
     const allValues = [...revenues, ...ebitdas];
     
     const min = Math.min(...allValues);
     const max = Math.max(...allValues);
     const padding = Math.abs(max - min) * 0.1; // 10% padding
     
+    const roundingFactor = selectedCurrency === 'AED' ? 100000 : 50000; // Different rounding for different currencies
     return {
-      min: Math.floor((min - padding) / 100000) * 100000, // Round to nearest 100K
-      max: Math.ceil((max + padding) / 100000) * 100000
+      min: Math.floor((min - padding) / roundingFactor) * roundingFactor,
+      max: Math.ceil((max + padding) / roundingFactor) * roundingFactor
     };
-  }, [metrics]);
+  }, [metrics, convertCurrency, selectedCurrency]);
 
   const cashFlowAxisRange = useMemo(() => {
-    const cashFlows = metrics.filter((_, i) => i % 6 === 0).map(m => m.cumulativeCash);
+    const cashFlows = metrics.filter((_, i) => i % 6 === 0).map(m => convertCurrency(m.cumulativeCash));
     const min = Math.min(...cashFlows);
     const max = Math.max(...cashFlows);
     const padding = Math.abs(max - min) * 0.1; // 10% padding
     
+    const roundingFactor = selectedCurrency === 'AED' ? 100000 : 50000; // Different rounding for different currencies
     return {
-      min: Math.floor((min - padding) / 100000) * 100000, // Round to nearest 100K
-      max: Math.ceil((max + padding) / 100000) * 100000
+      min: Math.floor((min - padding) / roundingFactor) * roundingFactor,
+      max: Math.ceil((max + padding) / roundingFactor) * roundingFactor
     };
-  }, [metrics]);
+  }, [metrics, convertCurrency, selectedCurrency]);
 
   // Stable chart data with fixed labels and smooth animations
   const chartLabels = ['Month 1', 'Month 6', 'Month 12', 'Month 18', 'Month 24', 'Month 30', 'Month 36', 'Month 42', 'Month 48', 'Month 54', 'Month 60'];
@@ -390,35 +422,35 @@ export default function FinancialModel() {
     const filteredMetrics = metrics.filter((_, i) => i % 6 === 0);
     return {
       labels: chartLabels,
-      datasets: [
-        {
-          label: 'Monthly Revenue (AED)',
-          data: filteredMetrics.map(m => m.revenue),
-          borderColor: 'rgb(46, 196, 182)',
-          backgroundColor: 'rgba(46, 196, 182, 0.1)',
-          tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 6,
-        },
-        {
-          label: 'EBITDA (AED)',
-          data: filteredMetrics.map(m => m.ebitda),
-          borderColor: 'rgb(59, 130, 246)',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 6,
-        }
-      ]
+              datasets: [
+          {
+            label: `Monthly Revenue (${selectedCurrency})`,
+            data: filteredMetrics.map(m => convertCurrency(m.revenue)),
+            borderColor: 'rgb(46, 196, 182)',
+            backgroundColor: 'rgba(46, 196, 182, 0.1)',
+            tension: 0.4,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+          },
+          {
+            label: `EBITDA (${selectedCurrency})`,
+            data: filteredMetrics.map(m => convertCurrency(m.ebitda)),
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.4,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+          }
+        ]
     };
-  }, [metrics]);
+  }, [metrics, selectedCurrency, convertCurrency]);
 
   const cashFlowData = useMemo(() => ({
     labels: chartLabels,
     datasets: [
       {
-        label: 'Cumulative Cash Flow (AED)',
-        data: metrics.filter((_, i) => i % 6 === 0).map(m => m.cumulativeCash),
+        label: `Cumulative Cash Flow (${selectedCurrency})`,
+        data: metrics.filter((_, i) => i % 6 === 0).map(m => convertCurrency(m.cumulativeCash)),
         borderColor: currentMetrics.ltvCacRatio > 3 ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)',
         backgroundColor: currentMetrics.ltvCacRatio > 3 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
         tension: 0.4,
@@ -426,7 +458,7 @@ export default function FinancialModel() {
         pointHoverRadius: 6,
       }
     ]
-  }), [metrics, currentMetrics.ltvCacRatio]);
+  }), [metrics, currentMetrics.ltvCacRatio, selectedCurrency, convertCurrency]);
 
   // Stable chart options to prevent axis jumping
   const chartOptions = useMemo(() => ({
@@ -466,7 +498,9 @@ export default function FinancialModel() {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            return 'AED ' + Math.round(Number(value)).toLocaleString();
+            const symbol = currencySymbols[selectedCurrency];
+            const formatted = Math.round(Number(value)).toLocaleString();
+            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
           },
           maxTicksLimit: 8,
         },
@@ -481,7 +515,7 @@ export default function FinancialModel() {
       axis: 'x' as const,
       intersect: false,
     }
-  }), [revenueAxisRange]);
+  }), [revenueAxisRange, selectedCurrency]);
 
   const cashFlowOptions = useMemo(() => ({
     responsive: true,
@@ -520,7 +554,9 @@ export default function FinancialModel() {
         ticks: {
           color: 'var(--text-secondary)',
           callback: function(value: any) {
-            return 'AED ' + Math.round(Number(value)).toLocaleString();
+            const symbol = currencySymbols[selectedCurrency];
+            const formatted = Math.round(Number(value)).toLocaleString();
+            return symbol === 'AED' ? `AED ${formatted}` : `${symbol}${formatted}`;
           },
           maxTicksLimit: 8,
         },
@@ -535,7 +571,7 @@ export default function FinancialModel() {
       axis: 'x' as const,
       intersect: false,
     }
-  }), [cashFlowAxisRange]);
+  }), [cashFlowAxisRange, selectedCurrency]);
 
   return (
     <>
@@ -563,8 +599,43 @@ export default function FinancialModel() {
       <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
-        <h1 style={styles.title}>Financial Model</h1>
-        <p style={styles.subtitle}>Interactive scenario analysis with real-time projections</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <div>
+            <h1 style={styles.title}>Financial Model</h1>
+            <p style={styles.subtitle}>Interactive scenario analysis with real-time projections</p>
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '0.5rem'
+          }}>
+            <label style={{ 
+              fontSize: '0.9rem', 
+              color: 'var(--text-secondary)',
+              fontWeight: 600 
+            }}>Currency</label>
+            <select
+              value={selectedCurrency}
+              onChange={(e) => setSelectedCurrency(e.target.value as Currency)}
+              style={{
+                padding: '8px 12px',
+                borderRadius: '8px',
+                border: '1px solid #e5e7eb',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                outline: 'none'
+              }}
+            >
+              <option value="AED">AED (درهم)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Investment Scenario Tabs */}
@@ -635,7 +706,7 @@ export default function FinancialModel() {
               onChange={e => handleInputChange('aov', Number(e.target.value))}
               style={styles.slider}
             />
-            <div style={styles.sliderValue}>AED {inputs.aov}</div>
+            <div style={styles.sliderValue}>{formatCurrency(inputs.aov)}</div>
           </div>
 
           <div style={styles.controlGroup}>
@@ -648,7 +719,7 @@ export default function FinancialModel() {
               onChange={e => handleInputChange('cac', Number(e.target.value))}
               style={styles.slider}
             />
-            <div style={styles.sliderValue}>AED {inputs.cac}</div>
+            <div style={styles.sliderValue}>{formatCurrency(inputs.cac)}</div>
           </div>
 
           <div style={styles.controlGroup}>
@@ -688,7 +759,7 @@ export default function FinancialModel() {
               onChange={e => handleInputChange('fixedCostsPerMonth', Number(e.target.value))}
               style={styles.slider}
             />
-            <div style={styles.sliderValue}>AED {inputs.fixedCostsPerMonth.toLocaleString()}</div>
+            <div style={styles.sliderValue}>{formatCurrency(inputs.fixedCostsPerMonth)}</div>
           </div>
         </div>
 
@@ -712,7 +783,7 @@ export default function FinancialModel() {
             <div style={styles.metricCard}>
               <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-heading)', fontSize: '0.9rem' }}>Monthly Revenue (Year 1)</h4>
               <div style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0.5rem 0' }}>
-                AED {Math.round(currentMetrics.revenue).toLocaleString()}
+                {formatCurrency(currentMetrics.revenue)}
               </div>
               <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Month 12 projection</p>
             </div>
@@ -733,7 +804,7 @@ export default function FinancialModel() {
                 margin: '0.5rem 0',
                 color: (metrics[59]?.cumulativeCash || 0) > 0 ? '#059669' : '#dc2626'
               }}>
-                AED {Math.round(metrics[59]?.cumulativeCash || 0).toLocaleString()}
+                {formatCurrency(metrics[59]?.cumulativeCash || 0)}
               </div>
               <p style={{ fontSize: '0.8rem', color: '#6b7280', margin: 0 }}>Cumulative cash flow</p>
             </div>
