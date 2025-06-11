@@ -396,135 +396,164 @@ export default function FinancialModel() {
     };
   }, [metrics, selectedCurrency, convertCurrency]);
 
-  const chartOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 750,
-      easing: 'easeInOutQuart' as const,
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: 'var(--text-primary)',
-          usePointStyle: true,
-          padding: 20,
+  const chartOptions = useMemo(() => {
+    // Get computed colors for current theme (check if we're in browser)
+    const isDarkMode = typeof document !== 'undefined' ? 
+      document.documentElement.classList.contains('dark-mode') : false;
+    const textPrimary = isDarkMode ? '#ffffff' : '#1f2937';
+    const textSecondary = isDarkMode ? '#9ca3af' : '#6b7280';
+    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(128, 128, 128, 0.1)';
+    
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 750,
+        easing: 'easeInOutQuart' as const,
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: textPrimary,
+            usePointStyle: true,
+            padding: 20,
+          }
+        },
+        tooltip: {
+          mode: 'index' as const,
+          intersect: false,
+          backgroundColor: isDarkMode ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          titleColor: textPrimary,
+          bodyColor: textSecondary,
+          borderColor: isDarkMode ? 'rgba(75, 85, 99, 0.5)' : 'rgba(209, 213, 219, 0.5)',
+          borderWidth: 1,
         }
       },
-      tooltip: {
-        mode: 'index' as const,
+      scales: {
+        x: {
+          ticks: {
+            color: textSecondary,
+            maxTicksLimit: 6,
+          },
+          grid: {
+            color: gridColor,
+          }
+        },
+        y: {
+          ticks: {
+            color: textSecondary,
+            callback: function(value: any) {
+              const symbols = { AED: '', USD: '$', EUR: '€' };
+              const suffix = selectedCurrency === 'AED' ? ' AED' : '';
+              const formatted = Math.round(Number(value)).toLocaleString();
+              return `${symbols[selectedCurrency]}${formatted}${suffix}`;
+            },
+            maxTicksLimit: 8,
+          },
+          grid: {
+            color: gridColor,
+          }
+        }
+      },
+      interaction: {
+        mode: 'nearest' as const,
+        axis: 'x' as const,
         intersect: false,
       }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'var(--text-secondary)',
-          maxTicksLimit: 6,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-        }
-      },
-      y: {
-        ticks: {
-          color: 'var(--text-secondary)',
-          callback: function(value: any) {
-            const symbols = { AED: '', USD: '$', EUR: '€' };
-            const suffix = selectedCurrency === 'AED' ? ' AED' : '';
-            const formatted = Math.round(Number(value)).toLocaleString();
-            return `${symbols[selectedCurrency]}${formatted}${suffix}`;
-          },
-          maxTicksLimit: 8,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-        }
-      }
-    },
-    interaction: {
-      mode: 'nearest' as const,
-      axis: 'x' as const,
-      intersect: false,
-    }
-  }), [selectedCurrency]);
+    };
+  }, [selectedCurrency]);
 
-  const businessMetricsOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 750,
-      easing: 'easeInOutQuart' as const,
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: 'var(--text-primary)',
-          usePointStyle: true,
-          padding: 20,
+  const businessMetricsOptions = useMemo(() => {
+    // Get computed colors for current theme (check if we're in browser)
+    const isDarkMode = typeof document !== 'undefined' ? 
+      document.documentElement.classList.contains('dark-mode') : false;
+    const textPrimary = isDarkMode ? '#ffffff' : '#1f2937';
+    const textSecondary = isDarkMode ? '#9ca3af' : '#6b7280';
+    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(128, 128, 128, 0.1)';
+    
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 750,
+        easing: 'easeInOutQuart' as const,
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: textPrimary,
+            usePointStyle: true,
+            padding: 20,
+          }
+        },
+        tooltip: {
+          mode: 'index' as const,
+          intersect: false,
+          backgroundColor: isDarkMode ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          titleColor: textPrimary,
+          bodyColor: textSecondary,
+          borderColor: isDarkMode ? 'rgba(75, 85, 99, 0.5)' : 'rgba(209, 213, 219, 0.5)',
+          borderWidth: 1,
         }
       },
-      tooltip: {
-        mode: 'index' as const,
+      scales: {
+        x: {
+          ticks: {
+            color: textSecondary,
+            maxTicksLimit: 6,
+          },
+          grid: {
+            color: gridColor,
+          }
+        },
+        y: {
+          type: 'linear' as const,
+          display: true,
+          position: 'left' as const,
+          ticks: {
+            color: textSecondary,
+            maxTicksLimit: 8,
+          },
+          grid: {
+            color: gridColor,
+          }
+        },
+        y1: {
+          type: 'linear' as const,
+          display: true,
+          position: 'right' as const,
+          ticks: {
+            color: textSecondary,
+            callback: function(value: any) {
+              const symbols = { AED: '', USD: '$', EUR: '€' };
+              const suffix = selectedCurrency === 'AED' ? ' AED' : '';
+              const formatted = Math.round(Number(value)).toLocaleString();
+              return `${symbols[selectedCurrency]}${formatted}${suffix}`;
+            },
+            maxTicksLimit: 6,
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
+        },
+        y2: {
+          type: 'linear' as const,
+          display: false,
+          ticks: {
+            color: textSecondary,
+            callback: function(value: any) {
+              return value + '%';
+            },
+          }
+        }
+      },
+      interaction: {
+        mode: 'nearest' as const,
+        axis: 'x' as const,
         intersect: false,
       }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'var(--text-secondary)',
-          maxTicksLimit: 6,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-        }
-      },
-      y: {
-        type: 'linear' as const,
-        display: true,
-        position: 'left' as const,
-        ticks: {
-          color: 'var(--text-secondary)',
-          maxTicksLimit: 8,
-        },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.1)',
-        }
-      },
-      y1: {
-        type: 'linear' as const,
-        display: true,
-        position: 'right' as const,
-        ticks: {
-          color: 'var(--text-secondary)',
-          callback: function(value: any) {
-            const symbols = { AED: '', USD: '$', EUR: '€' };
-            const suffix = selectedCurrency === 'AED' ? ' AED' : '';
-            const formatted = Math.round(Number(value)).toLocaleString();
-            return `${symbols[selectedCurrency]}${formatted}${suffix}`;
-          },
-          maxTicksLimit: 6,
-        },
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
-      y2: {
-        type: 'linear' as const,
-        display: false,
-        ticks: {
-          callback: function(value: any) {
-            return value + '%';
-          },
-        }
-      }
-    },
-    interaction: {
-      mode: 'nearest' as const,
-      axis: 'x' as const,
-      intersect: false,
-    }
-  }), [selectedCurrency]);
+    };
+  }, [selectedCurrency]);
 
   return (
     <>
