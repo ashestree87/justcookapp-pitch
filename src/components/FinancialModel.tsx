@@ -555,6 +555,245 @@ export default function FinancialModel() {
     };
   }, [selectedCurrency]);
 
+  // CSV generation helpers
+  const first36Metrics = metrics.slice(0, 36);
+
+  const generatePnlCsv = () => {
+    const headers = [
+      'Month',
+      `Revenue (${selectedCurrency})`,
+      `Cost of Goods Sold (${selectedCurrency})`,
+      `Gross Profit (${selectedCurrency})`,
+      `Marketing & Sales (CAC) (${selectedCurrency})`,
+      `General & Admin (${selectedCurrency})`,
+      `Technology & R&D (${selectedCurrency})`,
+      `Total Operating Expenses (${selectedCurrency})`,
+      `EBITDA (${selectedCurrency})`,
+      `Depreciation & Amortization (${selectedCurrency})`,
+      `EBIT (${selectedCurrency})`,
+      `Interest Expense (${selectedCurrency})`,
+      `EBT (${selectedCurrency})`,
+      `Tax (${selectedCurrency})`,
+      `Net Income (${selectedCurrency})`
+    ];
+
+    const rows = first36Metrics.map(m => {
+      const revenue = convertCurrency(m.revenue);
+      const cogs = revenue - convertCurrency(m.grossProfit);
+      const marketing = convertCurrency(m.customerAcquisitionCost);
+      const gAndA = convertCurrency(inputs.fixedCostsPerMonth * 0.6);
+      const tech = convertCurrency(inputs.fixedCostsPerMonth * 0.4);
+      const operatingExpenses = marketing + gAndA + tech;
+      const depreciation = 0;
+      const interest = 0;
+      const ebit = convertCurrency(m.ebitda) - depreciation;
+      const ebt = ebit - interest;
+      const tax = 0; // Simplified – assume zero corporate tax for projection
+
+      return [
+        m.month,
+        Math.round(revenue),
+        Math.round(cogs),
+        Math.round(convertCurrency(m.grossProfit)),
+        Math.round(marketing),
+        Math.round(gAndA),
+        Math.round(tech),
+        Math.round(operatingExpenses),
+        Math.round(convertCurrency(m.ebitda)),
+        Math.round(depreciation),
+        Math.round(ebit),
+        Math.round(interest),
+        Math.round(ebt),
+        Math.round(tax),
+        Math.round(convertCurrency(m.netIncome))
+      ].join(',');
+    });
+
+    return [headers.join(','), ...rows].join('\n');
+  };
+
+  const generateBalanceSheetCsv = () => {
+    const headers = [
+      'Month',
+      `Cash & Equivalents (${selectedCurrency})`,
+      `Accounts Receivable (${selectedCurrency})`,
+      `Inventory (${selectedCurrency})`,
+      `Total Current Assets (${selectedCurrency})`,
+      `PP&E (${selectedCurrency})`,
+      `Intangibles (${selectedCurrency})`,
+      `Total Assets (${selectedCurrency})`,
+      `Accounts Payable (${selectedCurrency})`,
+      `Accrued Expenses (${selectedCurrency})`,
+      `Debt (${selectedCurrency})`,
+      `Total Liabilities (${selectedCurrency})`,
+      `Paid-in Capital (${selectedCurrency})`,
+      `Retained Earnings (${selectedCurrency})`,
+      `Total Equity (${selectedCurrency})`
+    ];
+
+    let cumulativeRetained = 0;
+    const paidInCapital = convertCurrency(inputs.investment, 'USD');
+
+    const rows = first36Metrics.map(m => {
+      cumulativeRetained += convertCurrency(m.netIncome);
+      const cash = -convertCurrency(m.cumulativeCash); // starting investment less cumulative burn
+
+      const totalCurrentAssets = cash; // No AR / inventory assumed
+      const totalAssets = totalCurrentAssets; // No long-term assets assumed
+
+      const accountsPayable = 0;
+      const accrued = 0;
+      const debt = 0;
+      const totalLiabilities = accountsPayable + accrued + debt;
+
+      const totalEquity = paidInCapital + cumulativeRetained;
+
+      return [
+        m.month,
+        Math.round(cash),
+        0,
+        0,
+        Math.round(totalCurrentAssets),
+        0,
+        0,
+        Math.round(totalAssets),
+        0,
+        0,
+        0,
+        Math.round(totalLiabilities),
+        Math.round(paidInCapital),
+        Math.round(cumulativeRetained),
+        Math.round(totalEquity)
+      ].join(',');
+    });
+
+    return [headers.join(','), ...rows].join('\n');
+  };
+
+  const downloadCsv = (filename: string, csvContent: string) => {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPnlCsv = () => {
+    downloadCsv(`JustCook_36m_PnL_${selectedCurrency}.csv`, generatePnlCsv());
+  };
+
+  const handleDownloadBalanceCsv = () => {
+    downloadCsv(`JustCook_36m_BalanceSheet_${selectedCurrency}.csv`, generateBalanceSheetCsv());
+  };
+
+  // NEW: XLSX generation with styling using ExcelJS
+  const generateAndDownloadXlsx = async () => {
+    const ExcelJS = (await import('exceljs')).default;
+    const { saveAs } = await import('file-saver');
+
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'JustCook Financial Model';
+    wb.created = new Date();
+
+    /* === P&L SHEET === */
+    const pnlSheet = wb.addWorksheet('P&L 36M', {
+      views: [{ state: 'frozen', ySplit: 1 }]
+    });
+    pnlSheet.columns = [
+      { header: 'Month', key: 'month', width: 10 },
+      { header: `Revenue (${selectedCurrency})`, key: 'revenue', width: 15, style: { numFmt: '#,##0' } },
+      { header: `COGS (${selectedCurrency})`, key: 'cogs', width: 15, style: { numFmt: '#,##0' } },
+      { header: `Gross Profit (${selectedCurrency})`, key: 'gross', width: 15, style: { numFmt: '#,##0' } },
+      { header: `Marketing & Sales (${selectedCurrency})`, key: 'marketing', width: 20, style: { numFmt: '#,##0' } },
+      { header: `G&A (${selectedCurrency})`, key: 'ga', width: 15, style: { numFmt: '#,##0' } },
+      { header: `Tech & R&D (${selectedCurrency})`, key: 'tech', width: 18, style: { numFmt: '#,##0' } },
+      { header: `Total OpEx (${selectedCurrency})`, key: 'opex', width: 18, style: { numFmt: '#,##0' } },
+      { header: `EBITDA (${selectedCurrency})`, key: 'ebitda', width: 15, style: { numFmt: '#,##0' } },
+      { header: `Net Income (${selectedCurrency})`, key: 'net', width: 15, style: { numFmt: '#,##0' } }
+    ];
+
+    first36Metrics.forEach((m) => {
+      const revenue = convertCurrency(m.revenue);
+      const cogs = revenue - convertCurrency(m.grossProfit);
+      const marketing = convertCurrency(m.customerAcquisitionCost);
+      const ga = convertCurrency(inputs.fixedCostsPerMonth * 0.6);
+      const tech = convertCurrency(inputs.fixedCostsPerMonth * 0.4);
+      const opex = marketing + ga + tech;
+      pnlSheet.addRow({
+        month: m.month,
+        revenue: revenue,
+        cogs: cogs,
+        gross: convertCurrency(m.grossProfit),
+        marketing,
+        ga,
+        tech,
+        opex,
+        ebitda: convertCurrency(m.ebitda),
+        net: convertCurrency(m.netIncome)
+      });
+    });
+
+    // Style header row
+    pnlSheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    pnlSheet.getRow(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF3B82F6' }
+    };
+
+    /* === BALANCE SHEET === */
+    const bsSheet = wb.addWorksheet('Balance Sheet 36M', {
+      views: [{ state: 'frozen', ySplit: 1 }]
+    });
+    bsSheet.columns = [
+      { header: 'Month', key: 'month', width: 10 },
+      { header: `Cash & Equivalents (${selectedCurrency})`, key: 'cash', width: 20, style: { numFmt: '#,##0' } },
+      { header: `Total Assets (${selectedCurrency})`, key: 'assets', width: 20, style: { numFmt: '#,##0' } },
+      { header: `Total Liabilities (${selectedCurrency})`, key: 'liab', width: 20, style: { numFmt: '#,##0' } },
+      { header: `Paid-in Capital (${selectedCurrency})`, key: 'pic', width: 20, style: { numFmt: '#,##0' } },
+      { header: `Retained Earnings (${selectedCurrency})`, key: 'ret', width: 20, style: { numFmt: '#,##0' } },
+      { header: `Total Equity (${selectedCurrency})`, key: 'equity', width: 20, style: { numFmt: '#,##0' } }
+    ];
+
+    let cumulativeRetained = 0;
+    const paidInCapital = convertCurrency(inputs.investment, 'USD');
+
+    first36Metrics.forEach((m) => {
+      cumulativeRetained += convertCurrency(m.netIncome);
+      const cash = -convertCurrency(m.cumulativeCash);
+      const totalAssets = cash; // simplified assumption
+      const totalLiab = 0;
+      const totalEquity = paidInCapital + cumulativeRetained;
+
+      bsSheet.addRow({
+        month: m.month,
+        cash,
+        assets: totalAssets,
+        liab: totalLiab,
+        pic: paidInCapital,
+        ret: cumulativeRetained,
+        equity: totalEquity
+      });
+    });
+
+    bsSheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    bsSheet.getRow(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF10B981' }
+    };
+
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    saveAs(blob, `JustCook_Financials_${selectedCurrency}.xlsx`);
+  };
+
   return (
     <>
       <style>{`
@@ -1194,6 +1433,26 @@ export default function FinancialModel() {
                   }, ensuring investor capital protection and growth sustainability.
                 </div>
               </div>
+            </div>
+
+            {/* Download Excel Button */}
+            <div className="mb-3" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+              <button
+                onClick={generateAndDownloadXlsx}
+                style={{
+                  background: '#2563eb',
+                  color: '#ffffff',
+                  padding: '0.6rem 1rem',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  width: '100%'
+                }}
+              >
+                Download Styled 36-Month Excel (.xlsx)
+              </button>
             </div>
 
           </div>
